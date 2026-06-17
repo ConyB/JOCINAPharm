@@ -1,0 +1,587 @@
+﻿/* ============================================================
+           LOGIN PAGE — Page-scoped styles
+           Relies on CSS variables from theme.css
+           ============================================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    color: var(--color-text-primary);
+    background: var(--color-page-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout shell ─────────────────────────────────────────── */
+.login-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+}
+
+/* ── Left decorative panel ────────────────────────────────── */
+.login-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 52px 56px;
+    background: var(--sidebar-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Radial green glow */
+    .login-panel::before {
+        content: '';
+        position: absolute;
+        top: -120px;
+        left: -120px;
+        width: 540px;
+        height: 540px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(46,125,50,0.22) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    /* Bottom accent glow */
+    .login-panel::after {
+        content: '';
+        position: absolute;
+        bottom: -80px;
+        right: -80px;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(46,125,50,0.14) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+.panel-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.panel-brand-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-bright) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 18px rgba(46,125,50,0.40);
+    flex-shrink: 0;
+}
+
+    .panel-brand-icon i {
+        font-size: 22px;
+        color: #fff;
+    }
+
+.panel-brand-name {
+    font-size: 22px;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-brand-name);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.panel-brand-tag {
+    font-size: 11px;
+    color: rgba(200,230,201,0.55);
+    letter-spacing: var(--letter-spacing-widest);
+    text-transform: uppercase;
+    margin-top: 1px;
+}
+
+/* Illustration area */
+.panel-illustration {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    padding: 32px 0;
+}
+
+.panel-headline {
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: var(--font-weight-bold);
+    color: #e8f5e9;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    max-width: 380px;
+}
+
+    .panel-headline span {
+        color: var(--color-primary-light);
+    }
+
+.panel-subtext {
+    font-size: 14px;
+    color: rgba(200,230,201,0.62);
+    line-height: 1.7;
+    max-width: 340px;
+}
+
+/* Feature pills */
+.panel-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 36px;
+}
+
+.panel-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.panel-feature-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-primary-bright);
+    flex-shrink: 0;
+}
+
+.panel-feature-text {
+    font-size: 13px;
+    color: rgba(200,230,201,0.72);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Panel footer */
+.panel-footer-text {
+    font-size: 12px;
+    color: rgba(200,230,201,0.38);
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Right form column ────────────────────────────────────── */
+.login-form-col {
+    width: 520px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 40px;
+    background: #eef2ee;  /* soft sage tint — gives the card something to float on */
+}
+
+.login-form-inner {
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 44px 40px 36px;
+    box-shadow:
+        0  2px  6px  rgba(0, 0, 0, 0.04),
+        0  8px  24px rgba(0, 0, 0, 0.08),
+        0 20px  48px rgba(46, 125, 50, 0.07);
+}
+
+/* Heading */
+.login-title {
+    font-size: 26px;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+}
+
+.login-subtitle {
+    font-size: 13.5px;
+    color: var(--color-text-muted);
+    margin-bottom: 36px;
+    line-height: 1.55;
+}
+
+/* ── Form field group ─────────────────────────────────────── */
+.lf-group {
+    margin-bottom: 20px;
+}
+
+.lf-label {
+    display: block;
+    font-size: 12px;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+}
+
+.lf-input-wrap {
+    position: relative;
+}
+
+.lf-input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: var(--color-gray-400);
+    pointer-events: none;
+    transition: color var(--transition-fast);
+}
+
+.lf-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 44px 0 42px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-base);
+    font-size: 13.5px;
+    color: var(--color-text-primary);
+    background: var(--color-gray-50);
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+    .lf-input:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary-glow);
+        background: #ffffff;
+    }
+
+        .lf-input:focus + .lf-input-icon,
+        .lf-input-wrap:focus-within .lf-input-icon {
+            color: var(--color-primary);
+        }
+
+    .lf-input.is-invalid {
+        border-color: var(--color-danger);
+        box-shadow: 0 0 0 3px rgba(198,40,40,0.12);
+    }
+
+    .lf-input::placeholder {
+        color: var(--color-text-disabled);
+    }
+
+/* Password toggle eye button */
+.lf-eye-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-400);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+    .lf-eye-btn:hover {
+        color: var(--color-primary);
+        background: var(--color-primary-pale);
+    }
+
+    .lf-eye-btn i {
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+/* Inline validation message */
+.lf-invalid-msg {
+    display: none;
+    font-size: 11.5px;
+    color: var(--color-danger);
+    margin-top: 5px;
+    font-weight: var(--font-weight-medium);
+}
+
+.lf-group.has-error .lf-invalid-msg {
+    display: block;
+}
+
+.lf-group.has-error .lf-input {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 3px rgba(198,40,40,0.12);
+}
+
+.lf-group.has-error .lf-input-icon {
+    color: var(--color-danger);
+}
+
+/* ── Error alert banner ───────────────────────────────────── */
+.lf-alert {
+    display: none;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--color-danger-bg);
+    border: 1px solid rgba(198,40,40,0.22);
+    border-radius: var(--radius-md);
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: var(--color-danger);
+    font-weight: var(--font-weight-medium);
+    animation: alertIn 0.22s ease both;
+}
+
+    .lf-alert.is-visible {
+        display: flex;
+    }
+
+@keyframes alertIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lf-alert i {
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* ── Server-side error label (hidden via CSS; shown via code-behind) ── */
+.server-error-label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-danger);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: var(--color-danger-bg);
+    border: 1px solid rgba(198,40,40,0.20);
+    border-radius: var(--radius-md);
+    animation: alertIn 0.22s ease both;
+}
+
+/* ── Options row (remember me) ────────────────────────────── */
+.lf-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+}
+
+.lf-remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    user-select: none;
+}
+
+    .lf-remember input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--color-primary);
+        cursor: pointer;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+.lf-forgot {
+    font-size: 13px;
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color var(--transition-fast);
+}
+
+    .lf-forgot:hover {
+        color: var(--color-primary-dark);
+        text-decoration: underline;
+    }
+
+/* ── Login button ─────────────────────────────────────────── */
+.lf-btn-login {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-bright) 100%);
+    color: #ffffff;
+    font-family: var(--font-family-base);
+    font-size: 14px;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: var(--shadow-green);
+    transition: background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+    .lf-btn-login::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255,255,255,0);
+        transition: background var(--transition-fast);
+    }
+
+    .lf-btn-login:hover {
+        background: linear-gradient(135deg, var(--color-primary-bright) 0%, var(--color-primary) 100%);
+        box-shadow: 0 6px 22px rgba(46,125,50,0.38);
+        transform: translateY(-1px);
+    }
+
+    .lf-btn-login:active {
+        transform: translateY(0) scale(0.98);
+        box-shadow: var(--shadow-green);
+    }
+
+    .lf-btn-login:disabled {
+        opacity: 0.72;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+/* Loading spinner inside button */
+.lf-btn-spinner {
+    display: none;
+}
+
+.lf-btn-login.is-loading .lf-btn-text {
+    display: none;
+}
+
+.lf-btn-login.is-loading .lf-btn-spinner {
+    display: inline-block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.lf-btn-spinner {
+    animation: spin 0.7s linear infinite;
+}
+
+/* ── Form footer ──────────────────────────────────────────── */
+.lf-footer {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+/* ── Page-level entry animation ───────────────────────────── */
+.login-form-inner {
+    animation: formIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes formIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-panel .panel-illustration {
+    animation: panelIn 0.44s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+@keyframes panelIn {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.lf-divider {
+    height: 1px;
+    background: var(--color-border-light);
+    margin: 28px 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 991.98px) {
+    .login-panel {
+        display: none;
+    }
+
+    .login-form-col {
+        width: 100%;
+        padding: 48px 24px;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .login-form-col {
+        padding: 32px 16px;
+    }
+
+    .login-form-inner {
+        padding: 36px 24px 28px;
+        border-radius: 18px;
+    }
+
+    .lf-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(46,125,50,0.3);
+    border-radius: 9999px;
+}

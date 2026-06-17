@@ -1,0 +1,650 @@
+/* ================================================================
+   PharmaSync — customers.css
+   Customers module page styles.
+   Load order: theme.css → sidebar.css → topnav.css →
+               responsive.css → components.css → customers.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. FILTER BAR
+   ================================================================ */
+.cust-filter-card {
+    margin-bottom: var(--space-5);
+}
+
+.cust-filter-bar {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+    padding:     var(--space-4) var(--space-6);
+    flex-wrap:   wrap;
+}
+
+.cust-search-wrap {
+    position:  relative;
+    flex:      1;
+    min-width: 220px;
+}
+
+.cust-search-icon {
+    position:       absolute;
+    left:           13px;
+    top:            50%;
+    transform:      translateY(-50%);
+    color:          var(--color-text-muted);
+    font-size:      13px;
+    pointer-events: none;
+    transition:     color var(--transition-fast);
+}
+
+.cust-search-input {
+    width:         100%;
+    height:        40px;
+    padding:       0 14px 0 38px;
+    background:    var(--color-page-bg);
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-family:   var(--font-family-base);
+    font-size:     var(--font-size-base);
+    color:         var(--color-text-primary);
+    outline:       none;
+    transition:    border-color var(--transition-fast),
+                   box-shadow   var(--transition-fast),
+                   background   var(--transition-fast);
+}
+
+.cust-search-input::placeholder { color: var(--color-text-muted); }
+
+.cust-search-input:focus {
+    border-color: var(--color-primary);
+    background:   var(--color-white);
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.cust-filter-select {
+    height:      40px;
+    min-width:   140px;
+    padding:     0 var(--space-3);
+    background:  var(--color-page-bg);
+    border:      1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-family-base);
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-primary);
+    cursor:      pointer;
+    outline:     none;
+    transition:  border-color var(--transition-fast),
+                 box-shadow   var(--transition-fast);
+}
+
+.cust-filter-select:focus {
+    border-color: var(--color-primary);
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+
+/* ================================================================
+   2. TABLE CARD
+   ================================================================ */
+.cust-table-card {
+    overflow: hidden;
+}
+
+.cust-table-count {
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+.ps-card-title i {
+    margin-right: var(--space-2);
+    color:        var(--color-primary);
+    font-size:    14px;
+}
+
+.cust-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* ================================================================
+   3. TABLE
+   ================================================================ */
+.cust-table {
+    width:           100%;
+    border-collapse: collapse;
+    font-size:       var(--font-size-sm);
+    color:           var(--color-text-primary);
+    white-space:     nowrap;
+}
+
+/* Head */
+.cust-table thead tr {
+    background:   var(--color-page-bg);
+    border-bottom: 2px solid var(--color-border-light);
+}
+
+.cust-table th {
+    padding:        var(--space-3) var(--space-5);
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-widest);
+    color:          var(--color-text-muted);
+    text-align:     left;
+    white-space:    nowrap;
+    user-select:    none;
+}
+
+/* Body rows */
+.cust-table tbody tr {
+    border-bottom: 1px solid var(--color-border-light);
+    transition:    background var(--transition-fast);
+}
+
+.cust-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.cust-table tbody tr:hover {
+    background: var(--color-primary-pale);
+}
+
+.cust-table td {
+    padding:     var(--space-4) var(--space-5);
+    vertical-align: middle;
+    color:       var(--color-text-secondary);
+}
+
+/* Actions column — fixed width, right-aligned */
+.cust-col-actions {
+    width:      96px;
+    min-width:  96px;
+    text-align: right !important;
+}
+
+
+/* ================================================================
+   4. NAME CELL — avatar + name inline
+   ================================================================ */
+.cust-name-cell {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+}
+
+.cust-avatar--sm {
+    width:           34px;
+    height:          34px;
+    min-width:       34px;
+    border-radius:   var(--radius-circle);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       11px;
+    font-weight:     var(--font-weight-bold);
+    color:           #fff;
+    letter-spacing:  0.04em;
+    flex-shrink:     0;
+}
+
+.cust-full-name {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+}
+
+.cust-email {
+    max-width:     180px;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ================================================================
+   5. INLINE BADGES
+   ================================================================ */
+.cust-code-badge {
+    display:       inline-block;
+    padding:       2px 9px;
+    background:    var(--color-primary-pale);
+    color:         var(--color-primary-dark);
+    border:        1px solid var(--color-primary-light);
+    border-radius: var(--radius-pill);
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-semibold);
+    letter-spacing: 0.04em;
+}
+
+.cust-allergy-badge {
+    display:       inline-block;
+    padding:       2px 9px;
+    background:    var(--color-warning-bg);
+    color:         #b45309;
+    border:        1px solid rgba(245, 127, 23, 0.28);
+    border-radius: var(--radius-pill);
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-semibold);
+}
+
+.cust-no-allergy {
+    font-size: var(--font-size-xs);
+    color:     var(--color-text-muted);
+}
+
+
+/* ================================================================
+   6. ROW ACTION BUTTONS
+   ================================================================ */
+.cust-row-actions {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-end;
+    gap:             6px;
+}
+
+.cust-action-btn {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           30px;
+    height:          30px;
+    border-radius:   var(--radius-sm);
+    border:          1px solid var(--color-border);
+    background:      transparent;
+    font-size:       12px;
+    color:           var(--color-text-muted);
+    cursor:          pointer;
+    transition:      background    var(--transition-fast),
+                     border-color  var(--transition-fast),
+                     color         var(--transition-fast),
+                     transform     var(--transition-fast);
+}
+
+.cust-action-btn:hover  { transform: translateY(-1px); }
+.cust-action-btn:active { transform: scale(0.93); }
+
+.cust-action-btn:focus-visible {
+    outline:        2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.cust-action-btn--edit:hover {
+    background:   var(--color-primary-pale);
+    border-color: var(--color-primary);
+    color:        var(--color-primary);
+}
+
+.cust-action-btn--view:hover,
+.cust-action-btn--history:hover {
+    background:   var(--color-primary-pale);
+    border-color: var(--color-primary);
+    color:        var(--color-primary);
+}
+
+.cust-action-btn--delete:hover {
+    background:   var(--color-danger-bg);
+    border-color: var(--color-danger);
+    color:        var(--color-danger);
+}
+
+
+/* ================================================================
+   7. EMPTY STATE
+   ================================================================ */
+.cust-empty-state {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    padding:        var(--space-16) var(--space-8);
+    text-align:     center;
+    gap:            var(--space-3);
+}
+
+.cust-empty-icon {
+    width:           64px;
+    height:          64px;
+    border-radius:   var(--radius-circle);
+    background:      var(--color-primary-pale);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       24px;
+    color:           var(--color-primary);
+    margin-bottom:   var(--space-2);
+}
+
+.cust-empty-title {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    margin:      0;
+}
+
+.cust-empty-sub {
+    font-size: var(--font-size-sm);
+    color:     var(--color-text-muted);
+    margin:    0;
+}
+
+
+/* ================================================================
+   8. MODALS — shared
+   ================================================================ */
+.cust-modal {
+    max-width: 540px;
+}
+
+.cust-modal--confirm {
+    max-width: 420px;
+}
+
+.cust-modal--lg {
+    max-width: 720px;
+}
+
+/* Read-only "view" field display (View Customer modal,
+   Customer Code field in Edit Customer modal) */
+.cust-view-value {
+    margin:        0;
+    padding:       var(--space-2) 0;
+    font-size:     var(--font-size-md);
+    color:         var(--color-text-primary);
+    min-height:    1.4em;
+}
+
+.cust-view-body .ps-form-group {
+    margin-bottom: var(--space-3);
+}
+
+/* Delete header accent */
+.cust-modal-header--danger {
+    border-bottom-color: rgba(198, 40, 40, 0.15);
+}
+
+.cust-modal-header--danger .ps-modal-title {
+    color: var(--color-danger);
+}
+
+/* Confirm body layout */
+.cust-confirm-body {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    text-align:     center;
+    gap:            var(--space-3);
+    padding:        var(--space-7) var(--space-6);
+}
+
+.cust-confirm-icon {
+    width:           60px;
+    height:          60px;
+    border-radius:   var(--radius-circle);
+    background:      var(--color-danger-bg);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       24px;
+    color:           var(--color-danger);
+    margin-bottom:   var(--space-2);
+}
+
+.cust-confirm-msg {
+    font-size:   var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-primary);
+    margin:      0;
+    line-height: var(--line-height-base);
+}
+
+.cust-confirm-sub {
+    font-size:  var(--font-size-sm);
+    color:      var(--color-text-muted);
+    margin:     0;
+    line-height: var(--line-height-base);
+}
+
+
+/* ================================================================
+   9. SHARED MODAL PRIMITIVES (if not in components.css yet)
+   ================================================================ */
+.ps-modal-backdrop {
+    position:        fixed;
+    inset:           0;
+    background:      rgba(6, 12, 6, 0.52);
+    z-index:         var(--z-modal);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    padding:         var(--space-4);
+    opacity:         0;
+    visibility:      hidden;
+    transition:      opacity    var(--transition-base),
+                     visibility var(--transition-base);
+    backdrop-filter: blur(3px);
+}
+
+.ps-modal-backdrop.is-open {
+    opacity:    1;
+    visibility: visible;
+}
+
+.ps-modal {
+    background:    var(--color-surface);
+    border-radius: var(--radius-xl);
+    box-shadow:    var(--shadow-xl);
+    width:         100%;
+    max-height:    90vh;
+    overflow-y:    auto;
+    transform:     scale(0.96) translateY(-8px);
+    transition:    transform var(--transition-base);
+}
+
+.ps-modal-backdrop.is-open .ps-modal {
+    transform: scale(1) translateY(0);
+}
+
+.ps-modal-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    padding:         var(--space-5) var(--space-6);
+    border-bottom:   1px solid var(--color-border-light);
+}
+
+.ps-modal-title {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    margin:      0;
+}
+
+.ps-modal-close {
+    width:           32px;
+    height:          32px;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    background:      transparent;
+    border:          1px solid var(--color-border);
+    border-radius:   var(--radius-sm);
+    color:           var(--color-text-muted);
+    font-size:       13px;
+    cursor:          pointer;
+    transition:      background   var(--transition-fast),
+                     color        var(--transition-fast),
+                     border-color var(--transition-fast);
+}
+
+.ps-modal-close:hover {
+    background:   var(--color-danger-bg);
+    border-color: var(--color-danger);
+    color:        var(--color-danger);
+}
+
+.ps-modal-body {
+    padding:        var(--space-5) var(--space-6);
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-5);
+}
+
+.ps-modal-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-end;
+    gap:             var(--space-3);
+    padding:         var(--space-4) var(--space-6);
+    border-top:      1px solid var(--color-border-light);
+}
+
+
+/* ================================================================
+   10. FORM PRIMITIVES
+   ================================================================ */
+.ps-form-group {
+    display:        flex;
+    flex-direction: column;
+    gap:            5px;
+}
+
+.ps-form-label {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+}
+
+.ps-form-required { color: var(--color-danger); }
+
+.ps-form-control {
+    width:         100%;
+    height:        42px;
+    padding:       0 var(--space-3);
+    background:    var(--color-white);
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family:   var(--font-family-base);
+    font-size:     var(--font-size-base);
+    color:         var(--color-text-primary);
+    outline:       none;
+    transition:    border-color var(--transition-fast),
+                   box-shadow   var(--transition-fast);
+}
+
+.ps-form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.ps-form-control::placeholder { color: var(--color-text-muted); }
+
+.ps-form-row {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   var(--space-4);
+}
+
+.ps-select {
+    appearance:  auto;
+    background:  var(--color-white);
+    cursor:      pointer;
+}
+
+
+/* ================================================================
+   11. BUTTONS
+   ================================================================ */
+.btn-ps {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             var(--space-2);
+    padding:         9px 20px;
+    border-radius:   var(--radius-md);
+    font-family:     var(--font-family-base);
+    font-size:       var(--font-size-sm);
+    font-weight:     var(--font-weight-semibold);
+    cursor:          pointer;
+    border:          1px solid transparent;
+    text-decoration: none;
+    white-space:     nowrap;
+    line-height:     1;
+    transition:      background   var(--transition-fast),
+                     border-color var(--transition-fast),
+                     box-shadow   var(--transition-fast),
+                     transform    var(--transition-fast);
+}
+
+.btn-ps:active        { transform: scale(0.97); }
+.btn-ps:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+.btn-ps--primary {
+    background:   var(--color-primary);
+    color:        #fff;
+    border-color: var(--color-primary);
+    box-shadow:   var(--shadow-green);
+}
+.btn-ps--primary:hover {
+    background:   var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform:    translateY(-1px);
+}
+
+.btn-ps--ghost {
+    background:   var(--color-white);
+    color:        var(--color-text-secondary);
+    border-color: var(--color-border);
+}
+.btn-ps--ghost:hover {
+    background:   var(--color-page-bg);
+    border-color: var(--color-gray-400);
+    color:        var(--color-text-primary);
+}
+
+.btn-ps--danger {
+    background:   var(--color-danger);
+    color:        #fff;
+    border-color: var(--color-danger);
+}
+.btn-ps--danger:hover {
+    background:   #b71c1c;
+    border-color: #b71c1c;
+    transform:    translateY(-1px);
+}
+
+
+/* ================================================================
+   12. RESPONSIVE
+   ================================================================ */
+@media (max-width: 991.98px) {
+    .cust-filter-bar {
+        padding: var(--space-4);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .cust-filter-bar {
+        flex-direction: column;
+        align-items:    stretch;
+    }
+
+    .cust-filter-select,
+    .cust-search-wrap {
+        min-width: 0;
+        width:     100%;
+    }
+
+    .ps-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cust-modal,
+    .cust-modal--confirm {
+        max-width: 100%;
+    }
+
+    .cust-table th,
+    .cust-table td {
+        padding: var(--space-3) var(--space-4);
+    }
+}

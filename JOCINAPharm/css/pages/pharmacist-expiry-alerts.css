@@ -1,0 +1,538 @@
+/* ================================================================
+   PharmaSync — expiry-alerts.css
+   Expiry Alerts module styles.
+
+   ADDITIONS ONLY — zero duplication of theme.css / components.css.
+
+   Load order:
+   theme.css → sidebar.css → topnav.css → responsive.css
+   → components.css → sidebar-pharmacist.css → expiry-alerts.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. KPI CARDS — Severity colour overrides
+   ================================================================ */
+
+/* Urgent tier: deeper amber tint distinct from Warning */
+.expiry-kpi-urgent.kpi-card--warning .kpi-card-icon {
+    background: #fff3e0;
+    color:      #e65100;
+}
+.expiry-kpi-urgent.kpi-card--warning::before { background: #e65100; }
+
+/* Warning tier: standard amber */
+.expiry-kpi-warning.kpi-card--warning .kpi-card-icon {
+    background: var(--color-warning-bg);
+    color:      var(--color-warning);
+}
+
+/* Watch tier: teal / calm green */
+.expiry-kpi-watch .kpi-card-icon {
+    background: rgba(38, 166, 154, 0.12);
+    color:      #26a69a;
+}
+.expiry-kpi-watch::before { background: #26a69a; }
+
+/* Clickable KPI cards */
+.expiry-kpi-card {
+    cursor: pointer;
+}
+
+.expiry-kpi-card:hover {
+    transform:  translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.expiry-kpi-card.is-active {
+    outline:        2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.expiry-kpi-card:focus {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   2. FILTER BANNER — active filter indicator
+   ================================================================ */
+.expiry-filter-banner {
+    margin-bottom: var(--space-5);
+    animation:     ps-slide-down 0.22s ease both;
+}
+
+@keyframes ps-slide-down {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.expiry-clear-filter-btn {
+    background:   none;
+    border:       none;
+    color:        var(--color-info);
+    font-weight:  var(--font-weight-semibold);
+    font-size:    var(--font-size-sm);
+    cursor:       pointer;
+    padding:      0 2px;
+    text-decoration: underline;
+    font-family:  var(--font-family-base);
+}
+
+.expiry-clear-filter-btn:hover { opacity: 0.8; }
+
+
+/* ================================================================
+   3. TABLE CARD
+   ================================================================ */
+.expiry-table-card {
+    margin-bottom: var(--space-7);
+}
+
+.expiry-card-header {
+    flex-wrap: wrap;
+    gap:       var(--space-3);
+}
+
+
+/* ================================================================
+   4. SEVERITY TABS
+   ================================================================ */
+.expiry-tabs {
+    display:     flex;
+    align-items: center;
+    gap:         2px;
+    flex-wrap:   wrap;
+}
+
+.expiry-tab {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             6px;
+    padding:         7px 14px;
+    background:      transparent;
+    border:          none;
+    border-radius:   var(--radius-sm);
+    font-family:     var(--font-family-base);
+    font-size:       var(--font-size-sm);
+    font-weight:     var(--font-weight-medium);
+    color:           var(--color-text-muted);
+    cursor:          pointer;
+    white-space:     nowrap;
+    transition:      background var(--transition-fast),
+                     color     var(--transition-fast);
+}
+
+.expiry-tab:hover {
+    background: var(--color-primary-pale);
+    color:      var(--color-primary);
+}
+
+.expiry-tab.active {
+    background:  var(--color-primary-pale);
+    color:       var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.expiry-tab:focus-visible {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: 2px;
+}
+
+/* Tab count badges */
+.expiry-tab-count {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    min-width:       20px;
+    height:          18px;
+    padding:         0 5px;
+    background:      var(--color-gray-200);
+    color:           var(--color-gray-700);
+    border-radius:   var(--radius-pill);
+    font-size:       var(--font-size-xs);
+    font-weight:     var(--font-weight-bold);
+    line-height:     1;
+}
+
+.expiry-tab-count--danger  { background: var(--color-danger-bg);  color: var(--color-danger);  }
+.expiry-tab-count--warning { background: var(--color-warning-bg); color: var(--color-warning); }
+.expiry-tab-count--watch   { background: rgba(38,166,154,0.12);   color: #26a69a;              }
+
+
+/* ================================================================
+   5. FILTER ROW
+   ================================================================ */
+.expiry-filter-row {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+    flex-wrap:   wrap;
+    padding:     var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.expiry-filter-select {
+    height:    38px;
+    width:     auto;
+    min-width: 150px;
+    flex:      0 1 auto;
+}
+
+.expiry-reset-btn {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+
+/* ================================================================
+   6. TABLE CELL STYLES
+   ================================================================ */
+.expiry-code {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-medium);
+    color:          var(--color-text-muted);
+    letter-spacing: 0.04em;
+    font-family:    var(--font-family-mono);
+}
+
+.expiry-medicine-cell {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+}
+
+.expiry-medicine-name {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+}
+
+.expiry-stock {
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.expiry-stock--low {
+    color: var(--color-danger);
+}
+
+.expiry-date-text {
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.expiry-supplier-cell {
+    font-size:  var(--font-size-sm);
+    color:      var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.expiry-value-cell {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    white-space: nowrap;
+}
+
+/* Days badge overrides (tighten size) */
+.expiry-days-badge {
+    font-size:   var(--font-size-xs);
+    white-space: nowrap;
+}
+
+/* Acknowledged row style */
+.expiry-row--acknowledged td {
+    opacity: 0.55;
+}
+
+.expiry-row--acknowledged .expiry-ack-btn {
+    display: none;
+}
+
+/* Sort icon */
+.expiry-sort-icon {
+    font-size:    10px;
+    margin-left:  3px;
+    color:        var(--color-text-disabled);
+    transition:   color var(--transition-fast);
+    vertical-align: middle;
+}
+
+th.sort-asc  .expiry-sort-icon,
+th.sort-desc .expiry-sort-icon { color: var(--color-primary); }
+
+th.sort-asc  .expiry-sort-icon::before { content: "\f0de"; } /* fa-sort-up */
+th.sort-desc .expiry-sort-icon::before { content: "\f0dd"; } /* fa-sort-down */
+
+/* Action column — prevent shrinking below button widths */
+.expiry-table th:last-child,
+.expiry-table td:last-child,
+.expiry-table td.td-actions {
+    min-width:   160px;
+    white-space: nowrap;
+}
+
+/* Action group */
+.expiry-action-group {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-start;
+    gap:             var(--space-2);
+    flex-wrap:       nowrap;
+    white-space:     nowrap;
+}
+
+/* Prevent the icon-only button from shrinking */
+.expiry-action-group .ps-btn-icon {
+    flex-shrink: 0;
+    min-width:   34px;
+}
+
+/* Keep the Acknowledge text button from shrinking and collapsing its label */
+.expiry-ack-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-width:   fit-content;
+    padding:     6px 12px;
+}
+
+
+/* ================================================================
+   7. DETAIL MODAL — wide layout
+   ================================================================ */
+.expiry-detail-modal {
+    max-width: 680px;
+}
+
+/* Severity band at top of modal */
+.expiry-detail-severity {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-3);
+    padding:       var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    background:    var(--color-success-bg);
+    color:         var(--color-success);
+    font-weight:   var(--font-weight-semibold);
+    font-size:     var(--font-size-sm);
+    margin-bottom: var(--space-5);
+}
+
+.expiry-detail-severity.is-critical {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+}
+
+.expiry-detail-severity.is-urgent {
+    background: #fff3e0;
+    color:      #e65100;
+}
+
+.expiry-detail-severity.is-warning {
+    background: var(--color-warning-bg);
+    color:      var(--color-warning);
+}
+
+.expiry-detail-days {
+    margin-left:   auto;
+    font-weight:   var(--font-weight-bold);
+    font-size:     var(--font-size-md);
+}
+
+/* Detail grid — 2-up on desktop */
+.expiry-detail-grid {
+    display:               grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:                   var(--space-5);
+    margin-bottom:         var(--space-6);
+}
+
+.expiry-detail-section {
+    padding:       var(--space-4) var(--space-5);
+    background:    var(--color-gray-50);
+    border-radius: var(--radius-md);
+    border:        1px solid var(--color-border-light);
+}
+
+.expiry-detail-section-title {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-2);
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-primary);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.expiry-detail-section-title i {
+    font-size:   12px;
+    flex-shrink: 0;
+}
+
+.expiry-detail-dl {
+    display:               grid;
+    grid-template-columns: auto 1fr;
+    gap:                   5px var(--space-3);
+    font-size:             var(--font-size-sm);
+}
+
+.expiry-detail-dl dt {
+    color:       var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+}
+
+.expiry-detail-dl dd {
+    color:       var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+    word-break:  break-word;
+}
+
+.expiry-detail-highlight {
+    color: var(--color-primary-dark) !important;
+}
+
+/* Expiry timeline progress bar */
+.expiry-timeline-bar-wrap {
+    margin-bottom: var(--space-5);
+}
+
+.expiry-timeline-bar-labels {
+    display:         flex;
+    justify-content: space-between;
+    font-size:       var(--font-size-xs);
+    color:           var(--color-text-muted);
+    margin-bottom:   var(--space-1);
+}
+
+.expiry-timeline-bar {
+    height:        10px;
+    background:    var(--color-gray-200);
+    border-radius: var(--radius-pill);
+    overflow:      hidden;
+}
+
+.expiry-timeline-fill {
+    height:        100%;
+    border-radius: var(--radius-pill);
+    background:    var(--color-primary);
+    transition:    width 0.50s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expiry-timeline-fill.is-critical { background: var(--color-danger);  }
+.expiry-timeline-fill.is-urgent   { background: #e65100;              }
+.expiry-timeline-fill.is-warning  { background: var(--color-warning); }
+
+/* Recommendation panel */
+.expiry-recommendation {
+    display:       flex;
+    align-items:   flex-start;
+    gap:           var(--space-3);
+    padding:       var(--space-4) var(--space-5);
+    background:    var(--color-primary-pale);
+    border:        1px solid var(--color-primary-light);
+    border-radius: var(--radius-md);
+    font-size:     var(--font-size-sm);
+    color:         var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+}
+
+.expiry-recommendation i {
+    color:       var(--color-primary);
+    font-size:   15px;
+    flex-shrink: 0;
+    margin-top:  1px;
+}
+
+.expiry-recommendation.is-critical {
+    background: var(--color-danger-bg);
+    border-color: rgba(198,40,40,0.20);
+    color:      var(--color-danger);
+}
+
+.expiry-recommendation.is-critical i {
+    color: var(--color-danger);
+}
+
+/* Remarks textarea */
+.expiry-remarks-wrap {
+    margin-top: var(--space-2);
+}
+
+
+/* ================================================================
+   8. RESPONSIVE
+   ================================================================ */
+@media (max-width: 991.98px) {
+
+    .expiry-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .expiry-tabs {
+        overflow-x: auto;
+        flex-wrap:  nowrap;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+    }
+
+    .expiry-tabs::-webkit-scrollbar { display: none; }
+}
+
+@media (max-width: 767.98px) {
+
+    /* Hide less critical columns */
+    .expiry-table thead th:nth-child(8),
+    .expiry-table tbody td:nth-child(8) {
+        display: none; /* Inv. Value — hidden on mobile */
+    }
+
+    .expiry-filter-row {
+        flex-direction: column;
+        align-items:    stretch;
+    }
+
+    .expiry-filter-select {
+        min-width: 100%;
+    }
+
+    .expiry-reset-btn {
+        margin-left: 0;
+        width:       100%;
+        justify-content: center;
+    }
+
+    .expiry-card-header {
+        flex-direction: column;
+        align-items:    flex-start;
+    }
+}
+
+@media (max-width: 479.98px) {
+
+    /* Hide category and supplier on tiny screens */
+    .expiry-table thead th:nth-child(3),
+    .expiry-table tbody td:nth-child(3),
+    .expiry-table thead th:nth-child(7),
+    .expiry-table tbody td:nth-child(7) {
+        display: none;
+    }
+}
+
+
+/* ================================================================
+   9. REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .expiry-kpi-card,
+    .expiry-timeline-fill,
+    .expiry-filter-banner {
+        animation:  none !important;
+        transition: none !important;
+    }
+}

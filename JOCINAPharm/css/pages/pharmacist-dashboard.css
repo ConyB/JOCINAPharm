@@ -1,0 +1,669 @@
+/* ================================================================
+   PharmaSync — css/pages/dashboard.css
+   Page-scoped styles for pages/Dashboard.aspx ONLY.
+
+   Load position: 6th — after components.css (guide Part 4).
+   Injected via HeadStyles ContentPlaceHolder in Dashboard.aspx.
+   Path from pages/ folder: ../css/pages/dashboard.css
+
+   RULE: additions only — never redefine tokens or rules already
+   present in theme.css / sidebar.css / topnav.css /
+   responsive.css / components.css.
+
+   All colour, spacing, radius, shadow and font values must
+   reference existing CSS custom properties from theme.css.
+   ================================================================ */
+
+
+/* ================================================================
+   1. ROLE BANNER
+   Teal "Pharmacist View Active" info alert strip.
+   ps-alert + ps-alert-info base come from components.css;
+   only the icon bubble and layout tweaks are added here.
+   ================================================================ */
+.dash-role-banner {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.dash-role-banner-icon {
+    width:           36px;
+    height:          36px;
+    min-width:       36px;
+    border-radius:   var(--radius-md);
+    background:      rgba(38, 166, 154, 0.16);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    color:           #26a69a;
+    font-size:       16px;
+    flex-shrink:     0;
+}
+
+
+/* ================================================================
+   2. TWO-COLUMN DASHBOARD BODY GRID
+   Left: main content (prescriptions + sales)
+   Right: alerts aside (expiry + stock + quick actions)
+   ================================================================ */
+.dash-body-grid {
+    display:               grid;
+    grid-template-columns: 1fr 310px;
+    align-items:           start;
+    gap:                   var(--spacing-xl);
+    margin-top:            var(--spacing-xl);
+}
+
+.dash-col-main,
+.dash-col-aside {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--spacing-xl);
+    min-width:      0;
+}
+
+
+/* ================================================================
+   3. CARD HEADER ICON — small coloured icon before card title text
+   ================================================================ */
+.dash-card-icon {
+    color:        var(--active-green);
+    margin-right: var(--spacing-sm);
+    font-size:    15px;
+    vertical-align: middle;
+}
+
+/* Alert-coloured titles (Expiry Alerts, Critical Stock) */
+.dash-title-danger {
+    color: var(--badge-bg);   /* --badge-bg = #c62828 from theme.css */
+}
+
+.dash-title-danger i {
+    margin-right: var(--spacing-sm);
+    font-size:    15px;
+}
+
+
+/* ================================================================
+   4. PENDING PRESCRIPTIONS LIST
+   ================================================================ */
+.rx-list {
+    display:        flex;
+    flex-direction: column;
+}
+
+/* Single prescription row */
+.rx-item {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--spacing-lg);
+    padding:       var(--spacing-lg) var(--spacing-xl);
+    border-bottom: 1px solid #e8f5e9;
+    transition:    background var(--transition-fast);
+}
+
+.rx-item:last-child {
+    border-bottom: none;
+}
+
+.rx-item:hover {
+    background: #f4faf4;
+}
+
+/* Pending clock icon bubble */
+.rx-icon-wrap {
+    width:           38px;
+    height:          38px;
+    min-width:       38px;
+    border-radius:   var(--radius-md);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       16px;
+    flex-shrink:     0;
+}
+
+.rx-icon--pending {
+    background: #fff8e1;
+    color:      #f57f17;
+}
+
+.rx-icon--dispensed {
+    background: #e8f5e9;
+    color:      var(--active-green);
+}
+
+/* Text block */
+.rx-body {
+    flex:     1;
+    min-width: 0;
+}
+
+.rx-row-top {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             var(--spacing-sm);
+    flex-wrap:       wrap;
+    margin-bottom:   2px;
+}
+
+.rx-patient-name {
+    font-size:   var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--topnav-text);
+    white-space: nowrap;
+}
+
+.rx-number {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    color:          var(--topnav-muted);
+    white-space:    nowrap;
+    letter-spacing: 0.04em;
+}
+
+.rx-meta {
+    font-size:     var(--font-size-sm);
+    color:         var(--topnav-muted);
+    line-height:   1.4;
+    margin-bottom: 2px;
+}
+
+.rx-medicines {
+    font-size:     var(--font-size-sm);
+    color:         var(--topnav-text);
+    line-height:   1.4;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+    white-space:   nowrap;
+}
+
+/* Dispense button column */
+.rx-actions {
+    flex-shrink: 0;
+}
+
+/* Dispensed state applied by dashboard.js after confirmation */
+.rx-item--dispensed .rx-icon-wrap {
+    background: #e8f5e9;
+    color:      var(--active-green);
+}
+
+.rx-item--dispensed .rx-dispense-btn {
+    background:     #e8f5e9;
+    border-color:   rgba(46, 125, 50, 0.25);
+    color:          var(--active-green);
+    pointer-events: none;
+    cursor:         default;
+}
+
+/* Action column — stacks Dispense + Cancel vertically */
+.rx-actions-wrap {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--spacing-sm);
+    flex-shrink:    0;
+    align-items:    stretch;
+}
+
+/* Allergy warning line below the medicines list */
+.rx-allergy-alert {
+    display:     flex;
+    align-items: center;
+    gap:         4px;
+    font-size:   var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--badge-bg);
+    margin-top:  3px;
+}
+
+.rx-allergy-alert i {
+    font-size: 11px;
+}
+
+/* Walk-in patient badge */
+.rx-walkin-badge {
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-semibold);
+    color:         #0277bd;
+    background:    #e1f5fe;
+    padding:       1px 7px;
+    border-radius: var(--radius-sm);
+    white-space:   nowrap;
+}
+
+
+/* ================================================================
+   5. RECENT SALES — table footer and amount styling
+   ================================================================ */
+.dash-sales-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+}
+
+.dash-invoice-id {
+    font-size:      var(--font-size-sm);
+    font-weight:    var(--font-weight-semibold);
+    color:          var(--active-green);
+    letter-spacing: 0.04em;
+}
+
+.dash-amount {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--topnav-text);
+    white-space: nowrap;
+}
+
+.dash-revenue-total {
+    font-size: var(--font-size-md);
+    color:     var(--active-green);
+}
+
+
+/* ================================================================
+   6. EXPIRY ALERTS LIST
+   ================================================================ */
+.expiry-list {
+    display:        flex;
+    flex-direction: column;
+    padding:        var(--spacing-sm) 0;
+    list-style:     none;
+    margin:         0;
+}
+
+.expiry-item {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--spacing-md);
+    padding:       var(--spacing-md) var(--spacing-xl);
+    border-bottom: 1px solid #e8f5e9;
+    transition:    background var(--transition-fast);
+}
+
+.expiry-item:last-child {
+    border-bottom: none;
+}
+
+.expiry-item:hover {
+    background: #fff8f8;
+}
+
+/* Status dot */
+.expiry-dot {
+    width:         9px;
+    height:        9px;
+    min-width:     9px;
+    border-radius: var(--radius-circle);
+    flex-shrink:   0;
+}
+
+.expiry-dot--warning { background: #f57f17; }
+.expiry-dot--danger  { background: var(--badge-bg); }
+.expiry-dot--success { background: var(--active-green); }
+
+/* Name + date stack */
+.expiry-info {
+    display:        flex;
+    flex-direction: column;
+    gap:            1px;
+    flex:           1;
+    min-width:      0;
+}
+
+.expiry-name {
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--topnav-text);
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.expiry-date {
+    font-size:  var(--font-size-xs);
+    color:      var(--topnav-muted);
+    line-height: 1.3;
+}
+
+/* Days remaining pill */
+.expiry-badge {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-bold);
+    padding:        3px 8px;
+    border-radius:  var(--radius-sm);
+    white-space:    nowrap;
+    flex-shrink:    0;
+    letter-spacing: 0.02em;
+}
+
+.expiry-badge--warning {
+    background: #fff8e1;
+    color:      #f57f17;
+}
+
+.expiry-badge--danger {
+    background: #ffebee;
+    color:      var(--badge-bg);
+}
+
+.expiry-badge--success {
+    background: #e8f5e9;
+    color:      var(--active-green);
+}
+
+/* Aside card footer — full-width button */
+.dash-aside-footer {
+    display: flex;
+}
+
+.dash-full-btn {
+    flex:            1;
+    justify-content: center;
+}
+
+
+/* ================================================================
+   7. CRITICAL STOCK LIST
+   ================================================================ */
+.stock-list {
+    display:        flex;
+    flex-direction: column;
+    padding:        var(--spacing-sm) 0;
+    list-style:     none;
+    margin:         0;
+}
+
+.stock-item {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             var(--spacing-md);
+    padding:         var(--spacing-md) var(--spacing-xl);
+    border-bottom:   1px solid #e8f5e9;
+    transition:      background var(--transition-fast);
+}
+
+.stock-item:last-child {
+    border-bottom: none;
+}
+
+.stock-item:hover {
+    background: #f4faf4;
+}
+
+.stock-info {
+    display:        flex;
+    flex-direction: column;
+    gap:            1px;
+    flex:           1;
+    min-width:      0;
+}
+
+.stock-name {
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--topnav-text);
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.stock-category {
+    font-size:  var(--font-size-xs);
+    color:      var(--topnav-muted);
+    line-height: 1.3;
+}
+
+.stock-qty-wrap {
+    display:     flex;
+    align-items: baseline;
+    gap:         1px;
+    flex-shrink: 0;
+}
+
+.stock-qty {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+}
+
+.stock-qty--danger  { color: var(--badge-bg); }
+.stock-qty--warning { color: #f57f17; }
+.stock-qty--ok      { color: var(--active-green); }
+
+.stock-max {
+    font-size:  var(--font-size-xs);
+    color:      var(--topnav-muted);
+    line-height: 1;
+}
+
+
+/* ================================================================
+   8. QUICK ACTIONS GRID
+   ================================================================ */
+.quick-actions-grid {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   var(--spacing-md);
+}
+
+.quick-action-btn {
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    justify-content: center;
+    gap:             var(--spacing-sm);
+    padding:         var(--spacing-lg) var(--spacing-sm);
+    border-radius:   var(--radius-md);
+    border:          1px solid #e4f0e5;
+    background:      #f9fdf9;
+    text-decoration: none;
+    transition:      background     var(--transition-fast),
+                     border-color   var(--transition-fast),
+                     box-shadow     var(--transition-fast),
+                     transform      var(--transition-fast);
+}
+
+.quick-action-btn:hover {
+    background:   #e8f5e9;
+    border-color: #a5d6a7;
+    box-shadow:   0 2px 8px rgba(13, 31, 16, 0.08);
+    transform:    translateY(-1px);
+}
+
+.quick-action-btn:active {
+    transform: scale(0.97);
+}
+
+.quick-action-btn--disabled,
+.quick-action-btn--disabled:hover,
+.quick-action-btn--disabled:active {
+    opacity:        0.45;
+    cursor:         not-allowed;
+    pointer-events: none;
+    transform:      none;
+    box-shadow:     none;
+    background:     #f9fdf9;
+    border-color:   #e4f0e5;
+}
+
+.quick-action-icon {
+    width:           36px;
+    height:          36px;
+    border-radius:   var(--radius-md);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       16px;
+}
+
+.quick-action-icon--primary {
+    background: #e8f5e9;
+    color:      var(--active-green);
+}
+
+.quick-action-icon--info {
+    background: #e1f5fe;
+    color:      #0277bd;
+}
+
+.quick-action-icon--success {
+    background: #e8f5e9;
+    color:      #2e7d32;
+}
+
+.quick-action-icon--warning {
+    background: #fff8e1;
+    color:      #f57f17;
+}
+
+.quick-action-label {
+    font-size:   var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--topnav-text);
+    text-align:  center;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+
+/* ================================================================
+   9. DISPENSE MODAL BODY
+   ps-modal-backdrop, ps-modal, ps-modal-header, ps-modal-footer
+   all come from components.css — only the inner confirm layout added.
+   ================================================================ */
+.dash-dispense-confirm {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            var(--spacing-lg);
+    text-align:     center;
+    padding:        var(--spacing-lg) 0;
+}
+
+.dash-dispense-icon {
+    width:           56px;
+    height:          56px;
+    border-radius:   var(--radius-circle);
+    background:      #e8f5e9;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       26px;
+    color:           var(--active-green);
+}
+
+/* Cancel prescription modal — red icon variant */
+.dash-cancel-icon {
+    width:           56px;
+    height:          56px;
+    border-radius:   var(--radius-circle);
+    background:      #ffebee;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       26px;
+    color:           var(--badge-bg);
+}
+
+.dash-dispense-text {
+    font-size:   var(--font-size-md);
+    color:       var(--topnav-text);
+    line-height: 1.6;
+    margin:      0;
+    max-width:   340px;
+}
+
+/* ── Expiry alerts: right-side container (severity + badge) ──── */
+.expiry-right {
+    display:        flex;
+    flex-direction: column;
+    align-items:    flex-end;
+    gap:            3px;
+    flex-shrink:    0;
+}
+
+/* Severity text label */
+.expiry-severity-label {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height:    1;
+}
+
+.expiry-severity--critical { color: var(--badge-bg); }
+.expiry-severity--urgent   { color: #e65100; }
+.expiry-severity--warning  { color: #f57f17; }
+.expiry-severity--watch    { color: var(--active-green); }
+
+/* ── Recent sales: payment method text ────────────────────────── */
+.dash-payment-method {
+    font-size:   var(--font-size-sm);
+    color:       var(--topnav-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+
+/* ================================================================
+   10. RESPONSIVE
+   ================================================================ */
+
+/* Tablet landscape — narrow the aside */
+@media (max-width: 1199.98px) {
+
+    .dash-body-grid {
+        grid-template-columns: 1fr 270px;
+    }
+}
+
+/* Tablet portrait — stack to single column, aside flows as row */
+@media (max-width: 991.98px) {
+
+    .dash-body-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-col-aside {
+        flex-direction: row;
+        flex-wrap:      wrap;
+    }
+
+    .dash-col-aside > .ps-card {
+        flex: 1 1 260px;
+    }
+}
+
+/* Mobile — full stack, touch-friendly rows */
+@media (max-width: 767.98px) {
+
+    .dash-role-banner {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .rx-item {
+        flex-wrap: wrap;
+        gap:       var(--spacing-md);
+    }
+
+    .rx-actions {
+        width: 100%;
+    }
+
+    .rx-actions .rx-dispense-btn {
+        width:           100%;
+        justify-content: center;
+    }
+
+    .dash-col-aside {
+        flex-direction: column;
+    }
+
+    .dash-col-aside > .ps-card {
+        flex: 1 1 auto;
+    }
+}

@@ -1,0 +1,689 @@
+/* ================================================================
+   PharmaSync — css/pages/prescriptions.css
+   Prescriptions module: table, filter bar, status badges,
+   modals, detail panel, dispensing timeline.
+
+   SCOPE: page-only additions — never redefines global variables.
+   Load order: ...components.css → sidebar-pharmacist.css
+               → [injected here via HeadStyles]
+   ================================================================ */
+
+
+/* ================================================================
+   1. FILTER BAR EXTENSIONS
+   ================================================================ */
+.rx-filter-card {
+    margin-bottom: var(--space-5);
+}
+
+.rx-filter-bar {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+    flex-wrap:   wrap;
+}
+
+/* Wider search: matches screenshot full-width look */
+.rx-search-wrap {
+    flex:      1;
+    min-width: 260px;
+    max-width: 100%;
+}
+
+.rx-filter-select-wrap {
+    min-width: 148px;
+}
+
+.rx-filter-select {
+    height:     38px;
+    min-width:  148px;
+    cursor:     pointer;
+}
+
+.rx-filter-date-wrap {
+    min-width: 130px;
+}
+
+.rx-filter-date {
+    height:    38px;
+    min-width: 130px;
+}
+
+/* Hide text label on very narrow screens */
+@media (max-width: 479.98px) {
+    .rx-btn-label { display: none; }
+}
+
+
+/* ================================================================
+   2. RX TABLE EXTENSIONS
+   ================================================================ */
+.rx-table-card {
+    /* no extra style needed — inherits .ps-card */
+}
+
+/* Sort icon */
+.rx-sort-icon {
+    font-size:      9px;
+    margin-left:    4px;
+    color:          var(--color-text-disabled);
+    vertical-align: middle;
+    transition:     color var(--transition-fast);
+}
+
+.ps-table thead th.sortable:hover .rx-sort-icon,
+.ps-table thead th.sort-asc   .rx-sort-icon,
+.ps-table thead th.sort-desc  .rx-sort-icon {
+    color: var(--color-primary);
+}
+
+/* Rx ID chip */
+.rx-id-chip {
+    display:       inline-block;
+    font-family:   var(--font-family-mono);
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-primary-dark);
+    background:    var(--color-primary-pale);
+    border:        1px solid var(--color-primary-light);
+    border-radius: var(--radius-sm);
+    padding:       2px 8px;
+    white-space:   nowrap;
+    letter-spacing: 0.04em;
+}
+
+/* Patient cell with mini avatar */
+.rx-patient-cell {
+    display:     flex;
+    align-items: center;
+    gap:         9px;
+}
+
+.rx-patient-avatar {
+    width:           28px;
+    height:          28px;
+    min-width:       28px;
+    border-radius:   var(--radius-circle);
+    background:      var(--color-primary);
+    color:           #ffffff;
+    font-size:       9px;
+    font-weight:     var(--font-weight-bold);
+    letter-spacing:  0.04em;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    flex-shrink:     0;
+    user-select:     none;
+}
+
+.rx-patient-name {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+}
+
+/* Medicines text — truncate to one line on desktop */
+.rx-med-text {
+    display:            block;
+    max-width:          340px;
+    overflow:           hidden;
+    text-overflow:      ellipsis;
+    white-space:        nowrap;
+    color:              var(--color-text-secondary);
+    font-size:          var(--font-size-sm);
+}
+
+/* Action button — eye + label pattern from screenshot */
+.rx-action-btn {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             5px;
+    padding:         5px 12px;
+    background:      transparent;
+    border:          1px solid var(--color-border);
+    border-radius:   var(--radius-sm);
+    font-family:     var(--font-family-base);
+    font-size:       var(--font-size-sm);
+    font-weight:     var(--font-weight-medium);
+    color:           var(--color-text-secondary);
+    cursor:          pointer;
+    white-space:     nowrap;
+    transition:      background    var(--transition-fast),
+                     border-color  var(--transition-fast),
+                     color         var(--transition-fast);
+}
+
+.rx-btn-view:hover {
+    background:   var(--color-primary-pale);
+    border-color: var(--color-primary-light);
+    color:        var(--color-primary);
+}
+
+.rx-btn-view:focus-visible {
+    outline:        2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+
+/* ================================================================
+   3. NEW PRESCRIPTION MODAL
+   ================================================================ */
+
+/* ── Auto-generated Rx ID row (Issue 9) ────────────────────── */
+.rx-autoid-row {
+    display:      flex;
+    align-items:  center;
+    gap:          10px;
+    margin-bottom: var(--space-4);
+    padding:      var(--space-3) var(--space-4);
+    background:   var(--color-gray-50);
+    border:       1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+}
+
+.rx-autoid-label {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-secondary);
+    flex-shrink: 0;
+}
+
+/* ── Line-item medicine builder (Issue 2) ────────────────────── */
+.rx-items-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    margin-bottom:   var(--space-3);
+}
+
+.rx-items-header .ps-form-label {
+    margin-bottom: 0;
+}
+
+.rx-items-list {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-2);
+}
+
+.rx-item-row {
+    display:     flex;
+    align-items: flex-start;
+    gap:         var(--space-2);
+}
+
+.rx-item-fields {
+    display:   grid;
+    grid-template-columns: 1fr 72px 1fr;
+    gap:       var(--space-2);
+    flex:      1;
+}
+
+.rx-item-qty {
+    text-align: center;
+    min-width:  64px;
+}
+
+.rx-item-remove {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    width:           32px;
+    height:          38px;
+    min-width:       32px;
+    background:      transparent;
+    border:          1px solid var(--color-border);
+    border-radius:   var(--radius-sm);
+    color:           var(--color-text-muted);
+    cursor:          pointer;
+    flex-shrink:     0;
+    transition:      background var(--transition-fast),
+                     border-color var(--transition-fast),
+                     color var(--transition-fast);
+}
+
+.rx-item-remove:hover {
+    background:   var(--color-danger-pale);
+    border-color: var(--color-danger-light);
+    color:        var(--color-danger);
+}
+
+/* Disable remove button when only one row remains */
+.rx-item-row:only-child .rx-item-remove {
+    opacity:        0.3;
+    pointer-events: none;
+}
+
+@media (max-width: 575.98px) {
+    .rx-item-fields {
+        grid-template-columns: 1fr 64px;
+    }
+
+    .rx-item-dosage {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Patient-type toggle (Walk-in / Registered) */
+.rx-patient-type-group {
+    margin-bottom: var(--space-4);
+}
+
+.rx-toggle-wrap {
+    display:       inline-flex;
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow:      hidden;
+}
+
+.rx-toggle-btn {
+    padding:     7px 16px;
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-family-base);
+    background:  transparent;
+    border:      none;
+    color:       var(--color-text-secondary);
+    cursor:      pointer;
+    transition:  background var(--transition-fast), color var(--transition-fast);
+}
+
+.rx-toggle-btn + .rx-toggle-btn {
+    border-left: 1px solid var(--color-border);
+}
+
+.rx-toggle-btn--active {
+    background: var(--color-primary);
+    color:      #ffffff;
+}
+
+.rx-toggle-btn:focus-visible {
+    outline:        2px solid var(--color-primary);
+    outline-offset: -2px;
+}
+
+/* Edit / Cancel buttons in detail footer */
+.rx-btn-cancel-rx:hover {
+    background:   var(--color-danger-pale);
+    border-color: var(--color-danger-light);
+    color:        var(--color-danger);
+}
+
+.ps-btn-warning {
+    background:    var(--color-warning);
+    border-color:  var(--color-warning);
+    color:         #ffffff;
+}
+
+.ps-btn-warning:hover {
+    background:   color-mix(in srgb, var(--color-warning) 85%, black);
+    border-color: color-mix(in srgb, var(--color-warning) 85%, black);
+}
+
+/* Modal title icon — teal accent matching screenshot */
+.rx-modal-title-icon {
+    color:        #26a69a;
+    margin-right: 6px;
+    font-size:    16px;
+}
+
+/* The modal itself: matches screenshot width (≈580px) */
+.rx-modal {
+    max-width: 580px;
+}
+
+.rx-modal--wide {
+    max-width: 680px;
+}
+
+
+/* ================================================================
+   4. VIEW PRESCRIPTION DETAIL MODAL
+   ================================================================ */
+.rx-detail-header-left {
+    display:     flex;
+    align-items: center;
+    gap:         10px;
+}
+
+.rx-detail-id {
+    font-family:  var(--font-family-mono);
+    font-size:    var(--font-size-sm);
+    font-weight:  var(--font-weight-semibold);
+    color:        var(--color-primary-dark);
+    background:   var(--color-primary-pale);
+    border:       1px solid var(--color-primary-light);
+    border-radius: var(--radius-sm);
+    padding:      2px 9px;
+}
+
+.rx-detail-header-right {
+    display:     flex;
+    align-items: center;
+    gap:         10px;
+}
+
+/* Meta info cards row */
+.rx-detail-meta-row {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   var(--space-4);
+    margin-bottom:         var(--space-5);
+}
+
+.rx-detail-meta-card {
+    display:        flex;
+    flex-direction: column;
+    gap:            4px;
+    padding:        var(--space-4) var(--space-5);
+    background:     var(--color-gray-50);
+    border:         1px solid var(--color-border-light);
+    border-radius:  var(--radius-md);
+}
+
+.rx-detail-meta-label {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-widest);
+    color:          var(--color-text-muted);
+    display:        flex;
+    align-items:    center;
+    gap:            5px;
+}
+
+.rx-detail-meta-label i {
+    font-size: 10px;
+    color:     var(--color-primary);
+}
+
+.rx-detail-meta-value {
+    font-size:   var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    line-height: 1.3;
+}
+
+/* Detail section */
+.rx-detail-section {
+    margin-bottom: var(--space-5);
+}
+
+.rx-detail-section-title {
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    margin:        0 0 var(--space-3);
+    display:       flex;
+    align-items:   center;
+    gap:           6px;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.rx-detail-section-title i {
+    color:     var(--color-primary);
+    font-size: 13px;
+}
+
+/* Medicine items */
+.rx-detail-meds-list {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-2);
+}
+
+.rx-med-item {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             var(--space-3);
+    padding:         9px var(--space-4);
+    background:      var(--color-primary-pale);
+    border:          1px solid var(--color-primary-light);
+    border-radius:   var(--radius-md);
+    transition:      background var(--transition-fast);
+}
+
+.rx-med-item:hover {
+    background: #dcedc8;
+}
+
+/* Stacked name + dosage (Issue 7) */
+.rx-med-main {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex:           1;
+    min-width:      0;
+}
+
+.rx-med-name {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-primary);
+}
+
+.rx-med-qty {
+    font-size:    var(--font-size-xs);
+    font-weight:  var(--font-weight-bold);
+    color:        var(--color-primary-dark);
+    background:   #c8e6c9;
+    padding:      2px 8px;
+    border-radius: var(--radius-pill);
+    white-space:   nowrap;
+    flex-shrink:   0;
+}
+
+/* Notes */
+.rx-detail-notes {
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin:      0;
+    padding:     var(--space-4);
+    background:  var(--color-gray-50);
+    border:      1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    min-height:  52px;
+}
+
+/* Dosage instruction line under each medicine (Issue 7) */
+.rx-med-dosage {
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    margin-top:  3px;
+    font-style:  italic;
+    line-height: 1.3;
+}
+
+/* ── Dispensing timeline ─────────────────────────────────────── */
+.rx-status-timeline {
+    display:     flex;
+    align-items: flex-start;
+    gap:         0;
+    position:    relative;
+    padding:     var(--space-3) 0;
+}
+
+.rx-timeline-step {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            6px;
+    flex:           1;
+    position:       relative;
+    text-align:     center;
+}
+
+/* Connecting line between steps */
+.rx-timeline-step:not(:last-child)::after {
+    content:    '';
+    position:   absolute;
+    top:        10px;
+    left:       calc(50% + 10px);
+    right:      calc(-50% + 10px);
+    height:     2px;
+    background: var(--color-border);
+    z-index:    0;
+}
+
+.rx-timeline-step--done:not(:last-child)::after {
+    background: var(--color-primary-light);
+}
+
+.rx-timeline-dot {
+    width:         20px;
+    height:        20px;
+    border-radius: var(--radius-circle);
+    background:    var(--color-gray-300);
+    border:        2px solid var(--color-gray-300);
+    position:      relative;
+    z-index:       1;
+    flex-shrink:   0;
+    transition:    background var(--transition-base),
+                   border-color var(--transition-base);
+}
+
+.rx-timeline-step--done .rx-timeline-dot {
+    background:   var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* Active step: pulsing ring */
+.rx-timeline-step--active .rx-timeline-dot {
+    background:   var(--color-warning);
+    border-color: var(--color-warning);
+    box-shadow:   0 0 0 4px rgba(245, 127, 23, 0.20);
+    animation:    rx-dot-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes rx-dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(245, 127, 23, 0.20); }
+    50%       { box-shadow: 0 0 0 8px rgba(245, 127, 23, 0.08); }
+}
+
+.rx-timeline-label {
+    font-size:   var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-muted);
+    line-height: 1.3;
+    margin-top:  2px;
+}
+
+.rx-timeline-step--done .rx-timeline-label,
+.rx-timeline-step--active .rx-timeline-label {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Cancelled step */
+.rx-timeline-step--cancelled .rx-timeline-dot {
+    background:   var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.rx-timeline-step--cancelled .rx-timeline-label {
+    color:       var(--color-danger);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Detail modal footer */
+.rx-detail-footer {
+    gap: var(--space-2);
+}
+
+/* Status section separator */
+.rx-detail-status-section {
+    margin-bottom: 0;
+}
+
+
+/* ================================================================
+   5. EMPTY STATE
+   ================================================================ */
+.rx-empty-state {
+    /* inherits .ps-empty */
+}
+
+
+/* ================================================================
+   6. RESPONSIVE — TABLET (≤991px)
+   ================================================================ */
+@media (max-width: 991.98px) {
+
+    .rx-detail-meta-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rx-med-text {
+        max-width: 220px;
+    }
+
+    /* Hide doctor column on tablet to avoid overflow */
+    .rx-table .rx-col-doctor { display: none; }
+}
+
+
+/* ================================================================
+   7. RESPONSIVE — MOBILE (≤767px)
+   ================================================================ */
+@media (max-width: 767.98px) {
+
+    /* Search bar: full width */
+    .rx-filter-bar {
+        flex-direction: column;
+        align-items:    stretch;
+    }
+
+    .rx-search-wrap,
+    .rx-filter-select-wrap,
+    .rx-filter-date-wrap {
+        min-width:  100%;
+        max-width:  100%;
+    }
+
+    /* Table: horizontal scroll */
+    .rx-table .rx-col-meds   { display: none; }
+    .rx-table .rx-col-doctor { display: none; }
+
+    .rx-detail-meta-row {
+        grid-template-columns: 1fr;
+    }
+
+    .rx-modal,
+    .rx-modal--wide {
+        max-width: 100%;
+        margin:    var(--space-4);
+    }
+
+    .rx-status-timeline {
+        flex-direction: column;
+        gap:            var(--space-3);
+    }
+
+    .rx-timeline-step:not(:last-child)::after {
+        display: none;
+    }
+
+    .rx-timeline-step {
+        flex-direction: row;
+        text-align:     left;
+        gap:            var(--space-3);
+    }
+
+    .ps-modal-footer.rx-detail-footer {
+        flex-wrap: wrap;
+    }
+}
+
+
+/* ================================================================
+   8. REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .rx-timeline-step--active .rx-timeline-dot {
+        animation: none;
+    }
+}

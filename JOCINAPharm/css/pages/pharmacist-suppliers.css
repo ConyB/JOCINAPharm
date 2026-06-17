@@ -1,0 +1,283 @@
+/* ================================================================
+   PharmaSync — suppliers.css
+   Suppliers module — Pharmacist view.
+   Strictly extends existing tokens. No duplication of shared sheets.
+   Load order: ... → components.css → sidebar-pharmacist.css
+               → suppliers.css  (last)
+   ================================================================ */
+
+
+/* ================================================================
+   1. SEARCH CARD
+   ================================================================ */
+.supp-search-card {
+    padding:       var(--space-5) var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+/* Make the search input span the full card width */
+.supp-search-full {
+    max-width: 100%;
+    width:     100%;
+}
+
+.supp-search-input {
+    border-radius: var(--radius-md);   /* straight corners, not pill */
+    height:        44px;
+    font-size:     var(--font-size-base);
+}
+
+
+/* ================================================================
+   2. SUPPLIER CARDS GRID — 3-column desktop, matches screenshot
+   ================================================================ */
+.supp-card-grid {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   var(--space-5);
+    margin-bottom:         var(--space-7);
+}
+
+
+/* ================================================================
+   3. INDIVIDUAL SUPPLIER CARD
+   ================================================================ */
+.supp-card {
+    background:     var(--color-surface);
+    border:         1px solid var(--color-border-light);
+    border-radius:  var(--radius-lg);
+    box-shadow:     var(--shadow-card);
+    display:        flex;
+    flex-direction: column;
+    overflow:       hidden;
+    transition:     box-shadow var(--transition-base),
+                    transform  var(--transition-base);
+}
+
+.supp-card:hover {
+    box-shadow: var(--shadow-md);
+    transform:  translateY(-2px);
+}
+
+/* ── Card header: avatar · name/category · badge ── */
+.supp-card-header {
+    display:     flex;
+    align-items: flex-start;
+    gap:         var(--space-3);
+    padding:     var(--space-5) var(--space-5) var(--space-3);
+}
+
+.supp-card-avatar {
+    width:           42px;
+    height:          42px;
+    min-width:       42px;
+    border-radius:   var(--radius-md);
+    background:      var(--color-primary-pale);
+    color:           var(--color-primary);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       17px;
+    flex-shrink:     0;
+}
+
+.supp-card-title-wrap {
+    flex:           1;
+    min-width:      0;
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+}
+
+.supp-card-name {
+    font-size:     var(--font-size-md);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-text-primary);
+    margin:        0;
+    line-height:   1.3;
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.supp-card-category {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+    line-height: 1.4;
+    display:    block;
+}
+
+/* ── Card body: contact rows ── */
+.supp-card-body {
+    padding:        var(--space-1) var(--space-5) var(--space-4);
+    flex:           1;
+    display:        flex;
+    flex-direction: column;
+    gap:            6px;
+}
+
+.supp-contact-row {
+    display:     flex;
+    align-items: center;
+    gap:         8px;
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-secondary);
+    margin:      0;
+    line-height: 1.5;
+}
+
+.supp-contact-row i {
+    font-size:   12px;
+    color:       var(--color-text-muted);
+    width:       14px;
+    text-align:  center;
+    flex-shrink: 0;
+}
+
+.supp-contact-row strong {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+}
+
+/* ── Thin divider before footer ── */
+.supp-card-divider {
+    height:     1px;
+    background: var(--color-border-light);
+    margin:     0 var(--space-5);
+}
+
+/* ── Card footer: stats + Edit button ── */
+.supp-card-footer {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-4);
+    padding:     var(--space-4) var(--space-5);
+}
+
+.supp-card-stats {
+    display: flex;
+    gap:     var(--space-6);
+    flex:    1;
+}
+
+.supp-stat {
+    display:        flex;
+    flex-direction: column;
+    gap:            1px;
+}
+
+.supp-stat-label {
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    line-height: 1.3;
+}
+
+.supp-stat-value {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    line-height: 1.4;
+}
+
+.supp-stat-value--primary {
+    color: var(--color-primary);
+}
+
+
+/* ================================================================
+   4. ADD / EDIT MODAL
+   ================================================================ */
+.supp-modal {
+    max-width: 560px;
+    width:     calc(100% - var(--space-8));
+}
+
+/* Form rows: 2-column grid */
+.supp-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:     var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.supp-form-group {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-1);
+}
+
+.supp-form-group--full {
+    margin-bottom: var(--space-4);
+}
+
+.supp-required {
+    color:       var(--color-danger);
+    margin-left: 2px;
+}
+
+/* Company Name input gets a green focus ring to match screenshot */
+#addSupplierName:focus,
+#editSupplierName:focus {
+    border-color: var(--color-primary);
+    box-shadow:   0 0 0 3px var(--color-primary-glow);
+}
+
+
+/* ================================================================
+   5. CARD ENTRANCE ANIMATION
+   ================================================================ */
+@keyframes supp-card-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.supp-card {
+    animation: supp-card-in 0.26s ease both;
+}
+
+.supp-card:nth-child(1) { animation-delay: 0.04s; }
+.supp-card:nth-child(2) { animation-delay: 0.08s; }
+.supp-card:nth-child(3) { animation-delay: 0.12s; }
+.supp-card:nth-child(4) { animation-delay: 0.16s; }
+.supp-card:nth-child(5) { animation-delay: 0.20s; }
+.supp-card:nth-child(6) { animation-delay: 0.24s; }
+
+
+/* ================================================================
+   6. RESPONSIVE
+   ================================================================ */
+
+/* Tablet: 2-column cards */
+@media (max-width: 1199.98px) {
+    .supp-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Small tablet / large mobile: 1-column cards */
+@media (max-width: 767.98px) {
+    .supp-card-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .supp-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .supp-modal {
+        width:         100%;
+        max-width:     100%;
+        margin:        0;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        position:      fixed;
+        bottom:        0;
+        left:          0;
+        right:         0;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .supp-card { animation: none !important; }
+}

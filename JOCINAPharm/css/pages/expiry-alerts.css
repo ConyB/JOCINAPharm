@@ -1,0 +1,621 @@
+/* ================================================================
+   PharmaSync — expiry-alerts.css
+   Styles scoped exclusively to the Expiry Alerts page.
+   Extends (never overrides) the global design system:
+     theme.css → sidebar.css → topnav.css → responsive.css → components.css
+   Load order: injected last via HeadStyles ContentPlaceHolder.
+   ================================================================ */
+
+
+/* ================================================================
+   1. KPI GRID — 4-column severity summary cards
+   ================================================================ */
+
+/* Force exactly 4 equal columns on desktop */
+.ea-kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Severity-specific icon backgrounds reusing theme tokens */
+.ea-icon--critical {
+    background: var(--color-danger-bg) !important;
+    color:      var(--color-danger)    !important;
+}
+
+.ea-icon--urgent {
+    background: #fff3e0 !important;
+    color:      #e65100 !important;
+}
+
+.ea-icon--warning {
+    background: var(--color-warning-bg) !important;
+    color:      var(--color-warning)    !important;
+}
+
+.ea-icon--watch {
+    background: var(--color-success-bg) !important;
+    color:      var(--color-success)    !important;
+}
+
+/* Urgent card — no built-in variant in kpi-card; add left-bar + icon */
+.ea-stat-card--urgent::before {
+    background: #e65100 !important;
+}
+
+.ea-stat-card--warning::before {
+    background: var(--color-warning) !important;
+}
+
+.ea-stat-card--watch::before {
+    background: var(--color-success) !important;
+    opacity:    0.55;
+}
+
+/* Stat cards are clickable — scroll to the matching section */
+.ea-stat-card {
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select:         none;
+}
+
+.ea-stat-card:focus-visible {
+    outline:        2px solid var(--color-primary-bright);
+    outline-offset: 3px;
+}
+
+.ea-stat-desc {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+    line-height: 1.4;
+}
+
+
+/* ================================================================
+   2. FILTER BAR
+   ================================================================ */
+.ea-filter-card {
+    margin-bottom: var(--space-7);
+}
+
+.ea-filter-body {
+    display:     flex;
+    align-items: flex-end;
+    gap:         var(--space-4);
+    padding:     var(--space-5) var(--space-6);
+    flex-wrap:   wrap;
+}
+
+.ea-filter-search {
+    position: relative;
+    flex:     1;
+    min-width: 200px;
+}
+
+.ea-filter-search-icon {
+    position:       absolute;
+    left:           12px;
+    top:            50%;
+    transform:      translateY(-50%);
+    color:          var(--color-text-muted);
+    font-size:      13px;
+    pointer-events: none;
+}
+
+.ea-search-input {
+    padding-left: 36px !important;
+    border-radius: var(--radius-pill) !important;
+}
+
+/* Visual divider between search and filter groups */
+.ea-filter-divider {
+    width:      1px;
+    height:     36px;
+    background: var(--color-border-light);
+    flex-shrink: 0;
+    align-self: flex-end;
+    margin-bottom: 2px;
+}
+
+.ea-filter-group {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-1);
+    min-width:      140px;
+}
+
+/* Compact label above each filter dropdown */
+.ea-filter-group .ps-form-label {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    color:          var(--color-text-muted);
+    margin-bottom:  0;
+}
+
+/* Override select height for compact filter bar */
+.ea-filter-select.ps-form-select {
+    height:    36px;
+    font-size: var(--font-size-sm);
+}
+
+/* Clear button — aligns with bottom of the selects */
+.ea-filter-clear {
+    align-self:    flex-end;
+    flex-shrink:   0;
+    height:        36px;
+    padding:       0 var(--space-3);
+    display:       inline-flex;
+    align-items:   center;
+    gap:           var(--space-1);
+    font-size:     var(--font-size-sm);
+    color:         var(--color-text-muted)    !important;
+    border-color:  var(--color-border-light)  !important;
+    border-radius: var(--radius-md)           !important;
+    transition:    all var(--transition-base);
+}
+
+.ea-filter-clear:hover {
+    color:        var(--color-danger)     !important;
+    border-color: var(--color-danger)     !important;
+    background:   var(--color-danger-bg)  !important;
+}
+
+.ea-filter-clear i {
+    font-size: 11px;
+}
+
+
+/* ================================================================
+   3. ALERT SECTION CARDS — severity-accented borders
+   ================================================================ */
+.ea-section {
+    margin-bottom: var(--space-6);
+}
+
+/* Thin left border accent per severity */
+.ea-alert-card {
+    border-left-width: 3px !important;
+    border-left-style: solid !important;
+}
+
+.ea-alert-card--critical { border-left-color: var(--color-danger)  !important; }
+.ea-alert-card--urgent   { border-left-color: #e65100              !important; }
+.ea-alert-card--warning  { border-left-color: var(--color-warning)  !important; }
+.ea-alert-card--watch    { border-left-color: var(--color-success)  !important; }
+
+
+/* ================================================================
+   4. SECTION HEADER
+   ================================================================ */
+.ea-section-header {
+    gap: var(--space-3);
+}
+
+.ea-section-title-group {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+}
+
+.ea-section-icon {
+    font-size:  18px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.ea-section-icon--critical { color: var(--color-danger);  }
+.ea-section-icon--urgent   { color: #e65100;              }
+.ea-section-icon--warning  { color: var(--color-warning); }
+.ea-section-icon--watch    { color: var(--color-success); }
+
+.ea-section-title {
+    display:     flex;
+    align-items: baseline;
+    gap:         var(--space-2);
+}
+
+.ea-section-range {
+    font-size:   var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    color:       var(--color-text-muted);
+}
+
+/* Count badge in header */
+.ea-section-badge {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    min-width:       26px;
+    height:          26px;
+    padding:         0 var(--space-2);
+    border-radius:   var(--radius-pill);
+    font-size:       var(--font-size-xs);
+    font-weight:     var(--font-weight-bold);
+    line-height:     1;
+    flex-shrink:     0;
+}
+
+.ea-section-badge--critical {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+}
+.ea-section-badge--urgent {
+    background: #fff3e0;
+    color:      #e65100;
+}
+.ea-section-badge--warning {
+    background: var(--color-warning-bg);
+    color:      var(--color-warning);
+}
+.ea-section-badge--watch {
+    background: var(--color-success-bg);
+    color:      var(--color-success);
+}
+
+
+/* ================================================================
+   5. TABLE COLUMNS & CELL STYLES
+   ================================================================ */
+.ea-table {
+    min-width: 740px; /* prevents layout collapse before scroll kicks in */
+}
+
+.ea-col-id       { white-space: nowrap; width: 90px;  }
+.ea-col-name     { min-width:   160px; }
+.ea-col-stock    { white-space: nowrap; width: 90px;  }
+.ea-col-date     { white-space: nowrap; width: 110px; }
+.ea-col-supplier { min-width:   130px; }
+.ea-col-batch    { white-space: nowrap; width: 110px; }
+
+/* Medicine code pill */
+.ea-medicine-code {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    color:          var(--color-text-muted);
+    font-family:    var(--font-family-mono);
+    letter-spacing: 0.03em;
+}
+
+/* Batch number */
+.ea-batch-code {
+    font-size:   var(--font-size-xs);
+    font-family: var(--font-family-mono);
+    color:       var(--color-text-muted);
+    letter-spacing: 0.02em;
+}
+
+/* Medicine name */
+.ea-medicine-name {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    font-size:   var(--font-size-sm);
+}
+
+/* Category badge — neutral pill */
+.ea-cat-badge {
+    font-size:   var(--font-size-2xs) !important;
+    padding:     2px 8px             !important;
+}
+
+/* Days-left badges */
+.ea-days-badge {
+    font-size:      var(--font-size-xs) !important;
+    font-weight:    var(--font-weight-semibold) !important;
+    padding:        3px 10px !important;
+    border-radius:  var(--radius-pill) !important;
+    white-space:    nowrap;
+}
+
+.ea-days-badge--critical {
+    background: var(--color-danger-bg) !important;
+    color:      var(--color-danger)    !important;
+}
+.ea-days-badge--urgent {
+    background: #fff3e0  !important;
+    color:      #e65100  !important;
+}
+.ea-days-badge--warning {
+    background: var(--color-warning-bg) !important;
+    color:      var(--color-warning)    !important;
+}
+.ea-days-badge--watch {
+    background: var(--color-success-bg) !important;
+    color:      var(--color-success)    !important;
+}
+
+/* Acknowledged row — subtle dimming */
+.ea-row-acknowledged td {
+    opacity: 0.60;
+}
+
+.ea-row-acknowledged .ea-medicine-name {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-text-muted);
+}
+
+
+/* ================================================================
+   6. ACTION BUTTONS IN TABLE
+   ================================================================ */
+.ea-btn-details {
+    color:         var(--color-text-muted) !important;
+    border-color:  var(--color-border)     !important;
+    margin-right:  var(--space-1);
+}
+
+.ea-btn-details:hover {
+    color:        var(--color-primary)     !important;
+    background:   var(--color-primary-pale)!important;
+    border-color: var(--color-primary-light)!important;
+}
+
+/* Acknowledge button */
+.ea-btn-ack {
+    min-width: 120px;
+    justify-content: center;
+}
+
+/* Already-acknowledged state */
+.ea-btn-ack--done {
+    color:        var(--color-success)     !important;
+    border-color: var(--color-primary-light)!important;
+    background:   var(--color-success-bg)  !important;
+    cursor:       default                  !important;
+    pointer-events: none;
+    opacity:      0.75;
+}
+
+
+/* ================================================================
+   7. EMPTY STATE
+   ================================================================ */
+.ea-empty-state {
+    display:         flex;
+    justify-content: center;
+    padding:         var(--space-16) var(--space-6);
+}
+
+.ea-empty-inner {
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    gap:             var(--space-4);
+    text-align:      center;
+    max-width:       380px;
+}
+
+.ea-empty-icon {
+    width:           72px;
+    height:          72px;
+    background:      var(--color-success-bg);
+    border-radius:   var(--radius-circle);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       32px;
+    color:           var(--color-success);
+    margin-bottom:   var(--space-2);
+}
+
+.ea-empty-title {
+    font-size:   var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    margin:      0;
+}
+
+.ea-empty-desc {
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-muted);
+    margin:      0;
+    line-height: var(--line-height-relaxed);
+}
+
+
+/* ================================================================
+   8. DETAIL MODAL — severity banner + detail list
+   ================================================================ */
+.ea-detail-modal {
+    max-width: 540px;
+}
+
+/* Severity banner strip */
+.ea-detail-severity-banner {
+    display:         flex;
+    align-items:     center;
+    gap:             var(--space-3);
+    padding:         var(--space-3) var(--space-4);
+    border-radius:   var(--radius-md);
+    margin-bottom:   var(--space-5);
+    font-size:       var(--font-size-sm);
+    font-weight:     var(--font-weight-semibold);
+}
+
+/* Banner severity variants — set via JS class toggle */
+.ea-detail-severity-banner.sev-critical {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+}
+.ea-detail-severity-banner.sev-urgent {
+    background: #fff3e0;
+    color:      #e65100;
+}
+.ea-detail-severity-banner.sev-warning {
+    background: var(--color-warning-bg);
+    color:      var(--color-warning);
+}
+.ea-detail-severity-banner.sev-watch {
+    background: var(--color-success-bg);
+    color:      var(--color-success);
+}
+
+/* Days-left pill inside banner */
+.ea-detail-days-pill {
+    margin-left:   auto;
+    padding:       2px 12px;
+    border-radius: var(--radius-pill);
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-bold);
+    background:    rgba(255,255,255,0.55);
+    border:        1px solid currentColor;
+    opacity:       0.9;
+}
+
+/* Detail key-value list */
+.ea-detail-list {
+    display:        flex;
+    flex-direction: column;
+    gap:            0;
+    margin:         0;
+}
+
+.ea-detail-row {
+    display:         grid;
+    grid-template-columns: 140px 1fr;
+    gap:             var(--space-3);
+    padding:         var(--space-3) 0;
+    border-bottom:   1px solid var(--color-border-light);
+    align-items:     center;
+}
+
+.ea-detail-row:last-child {
+    border-bottom: none;
+}
+
+.ea-detail-row dt {
+    font-size:   var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+    line-height: 1.4;
+}
+
+.ea-detail-row dd {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-primary);
+    margin:      0;
+    line-height: 1.5;
+}
+
+
+/* ================================================================
+   9. RESPONSIVE OVERRIDES
+   ================================================================ */
+
+/* Tablet landscape — 3-column KPI */
+@media (max-width: 1199.98px) {
+    .ea-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablet portrait — filter wraps */
+@media (max-width: 991.98px) {
+    .ea-filter-body {
+        flex-direction: column;
+        align-items:    stretch;
+        gap:            var(--space-3);
+    }
+
+    .ea-filter-group,
+    .ea-filter-select {
+        min-width: unset;
+        width:     100%;
+    }
+
+    .ea-filter-search { min-width: unset; }
+
+    .ea-filter-clear {
+        align-self: flex-start;
+        margin-top: var(--space-1);
+    }
+}
+
+/* Mobile — 2-column KPI, hide non-essential table columns */
+@media (max-width: 767.98px) {
+    .ea-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Hide supplier and batch columns on mobile — keep critical info */
+    .ea-table th:nth-child(7),
+    .ea-table td:nth-child(7),
+    .ea-table th:nth-child(8),
+    .ea-table td:nth-child(8) {
+        display: none;
+    }
+
+    .ea-section-header {
+        flex-wrap: wrap;
+        gap:       var(--space-2);
+    }
+
+    .ea-detail-row {
+        grid-template-columns: 110px 1fr;
+    }
+}
+
+/* Small mobile — stack KPI 1 per row */
+@media (max-width: 479.98px) {
+    .ea-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ================================================================
+   10. PRINT STYLES
+   ================================================================ */
+@media print {
+    .ea-filter-card,
+    .page-header-actions,
+    .td-actions,
+    .ps-modal-backdrop {
+        display: none !important;
+    }
+
+    .ea-alert-card {
+        box-shadow: none !important;
+        border:     1px solid #ccc !important;
+        break-inside: avoid;
+        margin-bottom: 16px;
+    }
+
+    .ea-section {
+        break-inside: avoid;
+    }
+}
+
+/* ================================================================
+   PAGE HEADER BUTTONS — Print & Export CSV
+   ================================================================ */
+.ea-action-btn {
+    display:          inline-flex;
+    align-items:      center;
+    justify-content:  center;
+    gap:              var(--space-2);
+    height:           32px;
+    padding:          0 var(--space-3);
+    background:       var(--color-white) !important;
+    border:           1px solid var(--color-border-light) !important;
+    color:            var(--color-text-secondary) !important;
+    font-size:        var(--font-size-sm);
+    font-weight:      var(--font-weight-medium);
+    border-radius:    var(--radius-md);
+    transition:       all var(--transition-base);
+    white-space:      nowrap;
+}
+
+.ea-action-btn:hover {
+    background:       var(--color-gray-50) !important;
+    border-color:     var(--color-border)  !important;
+    color:            var(--color-text-primary) !important;
+}
+
+.ea-action-btn i {
+    font-size: 14px;
+    flex-shrink: 0;
+}

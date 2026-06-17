@@ -1,0 +1,268 @@
+/* ================================================================
+   PharmaSync — inventory.css
+   Page-scoped additions for Inventory.aspx ONLY.
+   Extends: theme.css → sidebar.css → topnav.css → components.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. KPI GRID — 3-col on large screens, wraps below
+   ================================================================ */
+.inv-kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Smaller value text for long currency strings */
+.inv-kpi-value-sm {
+    font-size: var(--font-size-2xl) !important;
+}
+
+@media (max-width: 1199.98px) {
+    .inv-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 767.98px) {
+    .inv-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 479.98px) {
+    .inv-kpi-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================
+   2. CARD HEADER — Override to make search span full width
+   ================================================================ */
+.ps-card > .ps-card-header {
+    display:   flex;
+    flex-wrap: wrap;
+    gap:       var(--space-3);
+}
+
+/* Make search take full width and remove flex constraints */
+.ps-card > .ps-card-header > .ps-search-wrap {
+    width:        100%;
+    max-width:    100% !important;
+    flex:         0 0 100%;
+    min-width:    auto !important;
+    order:        1;
+}
+
+.ps-card > .ps-card-header > .ps-search-wrap .ps-search-input {
+    width: 100%;
+}
+
+
+/* ================================================================
+   3. CATEGORY FILTER PILLS
+   ================================================================ */
+.inv-filter-pills {
+    display:   flex;
+    flex-wrap: wrap;
+    gap:       var(--space-1);
+    flex:      1;
+    min-width: 0;
+}
+
+.inv-pill {
+    display:       inline-flex;
+    align-items:   center;
+    padding:       5px 14px;
+    height:        32px;
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background:    var(--color-white);
+    font-family:   var(--font-family-base);
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-medium);
+    color:         var(--color-text-secondary);
+    cursor:        pointer;
+    white-space:   nowrap;
+    transition:    background   var(--transition-fast),
+                   border-color var(--transition-fast),
+                   color        var(--transition-fast),
+                   box-shadow   var(--transition-fast);
+}
+
+.inv-pill:hover {
+    border-color: var(--color-primary-light);
+    color:        var(--color-primary);
+    background:   var(--color-primary-pale);
+}
+
+.inv-pill--active,
+.inv-pill:focus-visible {
+    background:   var(--color-primary);
+    border-color: var(--color-primary);
+    color:        var(--color-text-inverse);
+    box-shadow:   var(--shadow-green);
+}
+
+.inv-pill:focus-visible {
+    outline:        2px solid var(--color-primary-bright);
+    outline-offset: 2px;
+}
+
+
+/* ================================================================
+   4. FILTER SELECTS CLUSTER
+   ================================================================ */
+.inv-filter-selects {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-2);
+    flex-wrap:   wrap;
+    flex-shrink: 0;
+}
+
+.inv-filter-select {
+    height:    38px;
+    padding:   0 var(--space-3);
+    min-width: 130px;
+    font-size: var(--font-size-sm);
+}
+
+
+/* ================================================================
+   5. MEDICINE ID CHIP
+   ================================================================ */
+.inv-med-id {
+    display:       inline-block;
+    padding:       2px 8px;
+    background:    var(--color-gray-100);
+    border-radius: var(--radius-xs);
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-text-muted);
+    letter-spacing: 0.03em;
+    white-space:   nowrap;
+}
+
+
+/* ================================================================
+   6. TABLE ROW — expired row tint
+   ================================================================ */
+.ps-table tbody tr[data-status="expired"] td {
+    background: var(--color-danger-bg);
+    opacity: 0.85;
+}
+
+.ps-table tbody tr[data-status="expired"]:hover td {
+    background: #ffd7d7;
+    opacity: 1;
+}
+
+
+/* ================================================================
+   7. MEDICINE DETAIL GRID (View modal)
+   ================================================================ */
+.inv-detail-grid {
+    display:               grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:                   var(--space-5) var(--space-6);
+}
+
+.inv-detail-group {
+    display:        flex;
+    flex-direction: column;
+    gap:            4px;
+}
+
+.inv-detail-group--full {
+    grid-column: 1 / -1;
+}
+
+.inv-detail-label {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-widest);
+    color:          var(--color-text-muted);
+}
+
+.inv-detail-value {
+    font-size:   var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-primary);
+    line-height: 1.4;
+}
+
+
+/* ================================================================
+   8. LARGER MODAL for details
+   ================================================================ */
+.ps-modal--lg {
+    max-width: 600px;
+}
+
+
+/* ================================================================
+   9. PAGINATION LAYOUT
+   ================================================================ */
+.ps-pagination {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    flex-wrap:       wrap;
+    gap:             var(--space-3);
+}
+
+.ps-pagination-info {
+    font-size: var(--font-size-sm);
+    color:     var(--color-text-muted);
+}
+
+.ps-pagination-pages {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-1);
+}
+
+.ps-page-ellipsis {
+    padding:     0 4px;
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-muted);
+    line-height: 1;
+}
+
+
+/* ================================================================
+   10. HIDDEN OVERLAY (closes modals on click-outside)
+   ================================================================ */
+.ps-modal-overlay-close {
+    display: none;
+}
+
+
+/* ================================================================
+   11. RESPONSIVE — table card header
+   ================================================================ */
+@media (max-width: 767.98px) {
+
+    .inv-filter-pills {
+        order:     2;
+        width:     100%;
+    }
+
+    .inv-filter-selects {
+        order:     3;
+        width:     100%;
+    }
+
+    .inv-filter-selects .inv-filter-select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .ps-card > .ps-card-header > .ps-search-wrap {
+        order: 1;
+    }
+
+    .inv-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .inv-detail-group--full {
+        grid-column: 1;
+    }
+}

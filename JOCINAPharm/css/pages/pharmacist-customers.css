@@ -1,0 +1,851 @@
+/* ================================================================
+   PharmaSync — customers.css
+   Customers module — card grid, customer profile cards, avatars,
+   table overrides, search bar, and modal layout additions.
+
+   Additions ONLY — no duplication of existing component/theme rules.
+   Load order: ...components.css → sidebar-pharmacist.css → customers.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. KPI GRID OVERRIDE — 4 columns on large screens
+   ================================================================ */
+.cust-kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cust-kpi-ugx {
+    font-size:    var(--font-size-2xl);
+    letter-spacing: -0.01em;
+}
+
+@media (max-width: 1199.98px) {
+    .cust-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 479.98px) {
+    .cust-kpi-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================
+   2. SEARCH CARD — flex row: search grows, toggle stays fixed
+   ================================================================ */
+.cust-search-card {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+    margin-bottom: var(--space-6);
+    /* theme.css already applies padding: var(--space-6) on .ps-card */
+}
+
+/* Search wrapper — takes all remaining width */
+.cust-search-full {
+    position:  relative;
+    flex:      1;
+    min-width: 0;
+}
+
+.cust-search-full-icon {
+    position:       absolute;
+    left:           14px;
+    top:            50%;
+    transform:      translateY(-50%);
+    color:          var(--color-text-muted);
+    font-size:      14px;
+    pointer-events: none;
+    transition:     color var(--transition-fast);
+}
+
+.cust-search-full-input {
+    width:         100%;
+    height:        42px;
+    padding:       0 16px 0 42px;
+    background:    #f4faf4;
+    border:        1px solid #d0e8d1;
+    border-radius: var(--radius-md);
+    font-family:   var(--font-family-base);
+    font-size:     var(--font-size-md);
+    color:         var(--color-text-primary);
+    outline:       none;
+    box-sizing:    border-box;
+    transition:    border-color var(--transition-fast),
+                   box-shadow   var(--transition-fast),
+                   background   var(--transition-fast);
+}
+
+.cust-search-full-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.cust-search-full-input:focus {
+    border-color: var(--color-primary);
+    background:   #ffffff;
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.cust-search-full:focus-within .cust-search-full-icon {
+    color: var(--color-primary);
+}
+
+
+/* ================================================================
+   3. SHARED VIEW TOGGLE COMPONENT
+   Used on Customers (and reusable on any future module).
+   Markup pattern:
+     <div class="ps-view-toggle" role="group">
+       <button class="ps-view-btn ps-view-btn--active"
+               data-target-show="cardViewId"
+               data-target-hide="tableViewId">…</button>
+       <button class="ps-view-btn"
+               data-target-show="tableViewId"
+               data-target-hide="cardViewId">…</button>
+     </div>
+   JS: PharmaSync.ViewToggle.init() wires all .ps-view-toggle groups.
+   ================================================================ */
+.ps-view-toggle {
+    display:       flex;
+    align-items:   center;
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow:      hidden;
+    flex-shrink:   0;
+    height:        44px;            /* matches search input height */
+}
+
+.ps-view-btn {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           42px;
+    height:          100%;
+    background:      transparent;
+    border:          none;
+    color:           var(--color-text-muted);
+    font-size:       15px;
+    cursor:          pointer;
+    transition:      background var(--transition-fast),
+                     color      var(--transition-fast);
+    position:        relative;
+}
+
+.ps-view-btn + .ps-view-btn {
+    border-left: 1px solid var(--color-border);
+}
+
+.ps-view-btn:hover {
+    background: var(--color-primary-pale);
+    color:      var(--color-primary);
+}
+
+.ps-view-btn:focus-visible {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: -2px;
+}
+
+/* Active state — filled green */
+.ps-view-btn--active {
+    background: var(--color-primary);
+    color:      #ffffff;
+}
+
+.ps-view-btn--active:hover {
+    background: var(--color-primary);
+    color:      #ffffff;
+}
+
+/* Subtle icon scale on transition */
+.ps-view-btn i {
+    transition: transform var(--transition-fast);
+}
+
+.ps-view-btn:active i {
+    transform: scale(0.88);
+}
+
+
+/* ================================================================
+   4. CUSTOMER AVATARS
+   ================================================================ */
+.cust-avatar {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           44px;
+    height:          44px;
+    min-width:       44px;
+    border-radius:   var(--radius-circle);
+    font-size:       var(--font-size-sm);
+    font-weight:     var(--font-weight-bold);
+    color:           var(--color-white);
+    letter-spacing:  0.04em;
+    flex-shrink:     0;
+}
+
+.cust-avatar--sm {
+    width:     32px;
+    height:    32px;
+    min-width: 32px;
+    font-size: var(--font-size-xs);
+}
+
+.cust-avatar--lg {
+    width:     56px;
+    height:    56px;
+    min-width: 56px;
+    font-size: var(--font-size-lg);
+}
+
+.cust-avatar--teal   { background: #00897b; }
+.cust-avatar--green  { background: var(--color-primary); }
+.cust-avatar--blue   { background: #1565c0; }
+.cust-avatar--purple { background: #6a1b9a; }
+.cust-avatar--orange { background: #e65100; }
+
+
+/* ================================================================
+   5. CUSTOMER CARD GRID
+   ================================================================ */
+.cust-card-grid {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   var(--space-5);
+    margin-bottom:         var(--space-6);
+}
+
+@media (max-width: 1199.98px) {
+    .cust-card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 639.98px) {
+    .cust-card-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================
+   6. INDIVIDUAL CUSTOMER CARD
+   ================================================================ */
+.cust-card {
+    background:     var(--color-surface);
+    border:         1px solid var(--color-border-light);
+    border-radius:  var(--radius-lg);
+    box-shadow:     var(--shadow-card);
+    padding:        var(--space-5);
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-4);
+    transition:     box-shadow var(--transition-base),
+                    transform  var(--transition-base),
+                    border-color var(--transition-fast);
+}
+
+.cust-card:hover {
+    box-shadow:   var(--shadow-md);
+    transform:    translateY(-2px);
+    border-color: var(--color-primary-light);
+}
+
+.cust-card-header {
+    display:     flex;
+    align-items: flex-start;
+    gap:         var(--space-3);
+}
+
+.cust-card-meta {
+    flex:      1;
+    min-width: 0;
+}
+
+.cust-card-name {
+    font-size:     var(--font-size-md);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-text-primary);
+    margin:        0 0 2px;
+    line-height:   1.3;
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.cust-card-id {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+    display:    block;
+}
+
+.cust-allergy-badge {
+    flex-shrink:  0;
+    margin-left:  auto;
+}
+
+.cust-card-contact {
+    display:        flex;
+    flex-direction: column;
+    gap:            5px;
+    font-size:      var(--font-size-sm);
+    color:          var(--color-text-secondary);
+}
+
+.cust-card-contact span {
+    display:       flex;
+    align-items:   center;
+    gap:           8px;
+    white-space:   nowrap;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+}
+
+.cust-card-contact i {
+    width:       14px;
+    font-size:   12px;
+    color:       var(--color-text-muted);
+    flex-shrink: 0;
+    text-align:  center;
+}
+
+.cust-card-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    font-size:       var(--font-size-xs);
+    color:           var(--color-text-muted);
+    padding-top:     var(--space-3);
+    border-top:      1px solid var(--color-border-light);
+}
+
+.cust-card-visits {
+    display:     flex;
+    align-items: center;
+    gap:         6px;
+}
+
+.cust-card-actions {
+    display: flex;
+    gap:     var(--space-2);
+}
+
+.cust-card-actions .ps-btn {
+    flex:            1;
+    justify-content: center;
+}
+
+.cust-card-actions .ps-btn:last-child {
+    flex: 0 0 auto;
+}
+
+
+/* ================================================================
+   7. TABLE VIEW
+   ================================================================ */
+.cust-table-customer {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+}
+
+.cust-table-name {
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-primary);
+    font-size:   var(--font-size-sm);
+    line-height: 1.3;
+}
+
+.cust-table-id {
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    line-height: 1.3;
+}
+
+@media (max-width: 991.98px) { .cust-hide-md { display: none !important; } }
+@media (max-width: 767.98px) { .cust-hide-sm { display: none !important; } }
+
+
+/* ================================================================
+   8. TABLE ACTION BUTTONS
+   ================================================================ */
+.ps-table td.td-actions .cust-btn-view,
+.ps-table td.td-actions .cust-btn-history,
+.ps-table td.td-actions .cust-btn-edit {
+    background: transparent;
+    color:      var(--color-text-muted);
+    border:     none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.ps-table td.td-actions .cust-btn-view:hover    { background: var(--color-primary-pale); color: var(--color-primary); }
+.ps-table td.td-actions .cust-btn-history:hover { background: var(--color-info-bg);      color: var(--color-info);    }
+.ps-table td.td-actions .cust-btn-edit:hover    { background: var(--color-warning-bg);   color: var(--color-warning); }
+
+
+/* ================================================================
+   9. MODAL BACKDROP & CONTAINER
+   ================================================================ */
+/* NOTE: Modal backdrop styling is handled by components.css
+   .ps-modal-backdrop uses opacity/visibility transitions via .is-open class.
+   Do NOT override display or opacity here. */
+
+.ps-modal {
+    background:    #ffffff;
+    border-radius: 14px;
+    width:         100%;
+    max-width:     560px;
+    max-height:    90vh;
+    overflow-y:    auto;
+    box-shadow:    0 16px 48px rgba(0, 0, 0, 0.22);
+    animation:     custModalIn 0.22s ease both;
+    position:      relative;
+}
+
+@keyframes custModalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(-10px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);     }
+}
+
+.ps-modal-header {
+    display:         flex;
+    align-items:     flex-start;
+    justify-content: space-between;
+    padding:         20px 24px 16px;
+    border-bottom:   1px solid #e8f0e8;
+    gap:             var(--space-3);
+}
+
+.ps-modal-title {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    margin:      0;
+    line-height: 1.3;
+}
+
+.ps-modal-close {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           30px;
+    height:          30px;
+    min-width:       30px;
+    background:      transparent;
+    border:          1px solid transparent;
+    border-radius:   var(--radius-sm);
+    color:           var(--color-text-muted);
+    font-size:       14px;
+    cursor:          pointer;
+    flex-shrink:     0;
+    transition:      background var(--transition-fast), color var(--transition-fast);
+}
+
+.ps-modal-close:hover {
+    background: #fce4e4;
+    color:      #c62828;
+}
+
+.ps-modal-body {
+    padding: 20px 24px;
+}
+
+.ps-modal-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-end;
+    gap:             var(--space-3);
+    padding:         16px 24px 20px;
+    border-top:      1px solid #e8f0e8;
+    flex-wrap:       wrap;
+}
+
+/* Wide modal variant */
+.cust-modal-wide {
+    max-width: 720px;
+}
+
+@media (max-width: 767.98px) {
+    .cust-modal-wide { max-width: 100%; }
+    .ps-modal        { max-width: 100%; border-radius: 10px; }
+}
+
+
+/* ================================================================
+   10. MODAL FORM GRID
+   ================================================================ */
+.cust-form-grid {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   var(--space-4) var(--space-5);
+}
+
+.cust-form-full  { grid-column: 1 / -1; }
+
+.cust-form-group {
+    display:        flex;
+    flex-direction: column;
+    gap:            4px;
+}
+
+.cust-required { color: var(--color-danger); }
+
+@media (max-width: 479.98px) {
+    .cust-form-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================
+   11. VIEW MODAL — CUSTOMER PROFILE
+   ================================================================ */
+.cust-profile-body { padding: 20px 24px; }
+
+.cust-profile-header {
+    display:       flex;
+    align-items:   flex-start;
+    gap:           var(--space-4);
+    padding:       var(--space-5);
+    background:    var(--color-primary-pale);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-5);
+    flex-wrap:     wrap;
+}
+
+.cust-profile-info        { flex: 1; min-width: 160px; }
+
+.cust-profile-name {
+    font-size:   var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    margin:      0 0 2px;
+    line-height: 1.2;
+}
+
+.cust-profile-id {
+    font-size:     var(--font-size-sm);
+    color:         var(--color-text-muted);
+    display:       block;
+    margin-bottom: var(--space-2);
+}
+
+.cust-profile-badges  { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+.cust-profile-stat-row {
+    display:     flex;
+    gap:         var(--space-5);
+    flex-shrink: 0;
+    flex-wrap:   wrap;
+}
+
+.cust-profile-stat {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            2px;
+    min-width:      80px;
+}
+
+.cust-profile-stat-value {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.cust-profile-stat-label {
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    white-space: nowrap;
+}
+
+.cust-profile-grid {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   var(--space-5);
+    margin-bottom:         var(--space-5);
+}
+
+@media (max-width: 639.98px) {
+    .cust-profile-grid   { grid-template-columns: 1fr; }
+    .cust-profile-header { flex-direction: column; }
+    .cust-profile-stat-row { width: 100%; justify-content: space-between; }
+}
+
+.cust-detail-section {
+    background:    var(--color-gray-50);
+    border:        1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    padding:       var(--space-4) var(--space-5);
+}
+
+.cust-detail-section-title {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-secondary);
+    margin:      0 0 var(--space-3);
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-2);
+}
+
+.cust-detail-section-title i {
+    color:      var(--color-primary);
+    font-size:  13px;
+    width:      16px;
+    text-align: center;
+}
+
+.cust-detail-row {
+    display:       flex;
+    gap:           var(--space-3);
+    padding:       6px 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size:     var(--font-size-sm);
+}
+
+.cust-detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.cust-detail-label {
+    min-width:   110px;
+    color:       var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+    flex-shrink: 0;
+}
+
+.cust-detail-value  { color: var(--color-text-primary); flex: 1; min-width: 0; }
+.cust-allergy-text  { color: var(--color-danger); font-weight: var(--font-weight-medium); }
+
+.cust-recent-purchases {
+    border-top:  1px solid var(--color-border-light);
+    padding-top: var(--space-5);
+}
+
+.cust-purchase-table           { font-size: var(--font-size-xs); }
+.cust-purchase-table thead th  { font-size: 10px; }
+
+
+/* ================================================================
+   12. PURCHASE HISTORY MODAL — KPI ROW
+   ================================================================ */
+.cust-history-kpis {
+    display:               grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:                   var(--space-4);
+    margin:                var(--space-5) 0;
+    padding:               var(--space-4) var(--space-5);
+    background:            var(--color-primary-pale);
+    border-radius:         var(--radius-md);
+}
+
+@media (max-width: 639.98px) {
+    .cust-history-kpis { grid-template-columns: repeat(2, 1fr); }
+}
+
+.cust-history-kpi {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            2px;
+    text-align:     center;
+}
+
+.cust-history-kpi-value {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    line-height: 1.2;
+}
+
+.cust-history-kpi-label {
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    white-space: nowrap;
+}
+
+
+/* ================================================================
+   13. REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .cust-card   { transition: none !important; }
+    .ps-modal    { animation:  none !important; }
+}
+
+
+/* ================================================================
+   SEARCH BAR ROW — search input + view toggle side by side
+   ================================================================ */
+.cust-search-bar {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+}
+
+.cust-search-bar .cust-search-full {
+    flex: 1;        /* takes all remaining width */
+    min-width: 0;
+}
+
+
+/* ================================================================
+   REUSABLE VIEW TOGGLE  (.ps-view-toggle / .ps-view-btn)
+   Drop this into any module that needs card ↔ table switching.
+   Usage in markup:
+     <div class="ps-view-toggle" role="group">
+       <button class="ps-view-btn ps-view-btn--active"
+               data-target-show="myCardView"
+               data-target-hide="myTableView"> ... </button>
+       <button class="ps-view-btn"
+               data-target-show="myTableView"
+               data-target-hide="myCardView"> ... </button>
+     </div>
+   JS: PharmaSync.ViewToggle.init() handles all instances automatically.
+   ================================================================ */
+.ps-view-toggle {
+    display:       flex;
+    flex-shrink:   0;
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow:      hidden;
+}
+
+.ps-view-btn {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           40px;
+    height:          40px;
+    background:      transparent;
+    border:          none;
+    color:           var(--color-text-muted);
+    font-size:       14px;
+    cursor:          pointer;
+    transition:      background var(--transition-fast),
+                     color      var(--transition-fast);
+    /* Separate adjacent buttons */
+}
+
+.ps-view-btn + .ps-view-btn {
+    border-left: 1px solid var(--color-border);
+}
+
+.ps-view-btn:hover {
+    background: var(--color-primary-pale);
+    color:      var(--color-primary);
+}
+
+.ps-view-btn--active,
+.ps-view-btn.ps-view-btn--active:hover {
+    background: var(--color-primary);
+    color:      #ffffff;
+    cursor:     default;
+}
+
+.ps-view-btn:focus-visible {
+    outline:        2px solid var(--color-primary);
+    outline-offset: -2px;
+}
+
+@media (max-width: 479.98px) {
+    /* Slightly smaller on very small screens */
+    .ps-view-btn { width: 36px; height: 36px; }
+}
+
+/* Check if this exists in any parent CSS */
+.page-body {
+    overflow: hidden;  /* This would clip modals */
+}
+
+.main-content {
+    overflow: hidden;  /* This would also clip */
+}
+/* ================================================================
+   9. MODAL BACKDROP & CONTAINER
+   ================================================================ */
+/* NOTE: Modal backdrop styling is handled by components.css
+   .ps-modal-backdrop uses opacity/visibility transitions via .is-open class.
+   Do NOT override display or opacity here. */
+
+.ps-modal {
+    background:    #ffffff;
+    border-radius: 14px;
+    width:         100%;
+    max-width:     560px;
+    max-height:    90vh;
+    overflow-y:    auto;
+    box-shadow:    0 16px 48px rgba(0, 0, 0, 0.22);
+    animation:     custModalIn 0.22s ease both;
+    position:      relative;
+}
+
+@keyframes custModalIn {
+    from { opacity: 0; transform: scale(0.96) translateY(-10px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0);     }
+}
+
+.ps-modal-header {
+    display:         flex;
+    align-items:     flex-start;
+    justify-content: space-between;
+    padding:         20px 24px 16px;
+    border-bottom:   1px solid #e8f0e8;
+    gap:             var(--space-3);
+}
+
+.ps-modal-title {
+    font-size:   var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    margin:      0;
+    line-height: 1.3;
+}
+
+.ps-modal-close {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           30px;
+    height:          30px;
+    min-width:       30px;
+    background:      transparent;
+    border:          1px solid transparent;
+    border-radius:   var(--radius-sm);
+    color:           var(--color-text-muted);
+    font-size:       14px;
+    cursor:          pointer;
+    flex-shrink:     0;
+    transition:      background var(--transition-fast), color var(--transition-fast);
+}
+
+.ps-modal-close:hover {
+    background: #fce4e4;
+    color:      #c62828;
+}
+
+.ps-modal-body {
+    padding: 20px 24px;
+}
+
+.ps-modal-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-end;
+    gap:             var(--space-3);
+    padding:         16px 24px 20px;
+    border-top:      1px solid #e8f0e8;
+    flex-wrap:       wrap;
+}
+
+/* Wide modal variant */
+.cust-modal-wide {
+    max-width: 720px;
+}
+
+@media (max-width: 767.98px) {
+    .cust-modal-wide { max-width: 100%; }
+    .ps-modal        { max-width: 100%; border-radius: 10px; }
+}
+/* Check if this exists in any parent CSS */
+.page-body {
+    overflow: hidden;  /* This would clip modals */
+}
+
+.main-content {
+    overflow: hidden;  /* This would also clip */
+}

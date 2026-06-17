@@ -1,0 +1,440 @@
+/* ================================================================
+   PharmaSync — inventory.css
+   Inventory module styles — additions only.
+   Load order: …components.css → sidebar-pharmacist.css → inventory.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. KPI GRID — wider breakpoint for 6 cards
+   ================================================================ */
+.inv-kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+/* Smaller value text for long monetary figures */
+.kpi-card-value--sm {
+    font-size: var(--font-size-xl);
+    letter-spacing: -0.01em;
+}
+
+
+/* ================================================================
+   2. SEARCH BAR CARD — full-width input
+   ================================================================ */
+.inv-search-card {
+    padding:       var(--space-4) var(--space-5);
+    margin-bottom: var(--space-5);
+}
+
+.inv-search-wrap {
+    position: relative;
+    width:    100%;
+}
+
+.inv-search-icon {
+    position:       absolute;
+    left:           14px;
+    top:            50%;
+    transform:      translateY(-50%);
+    color:          var(--color-text-muted);
+    font-size:      14px;
+    pointer-events: none;
+    transition:     color var(--transition-fast);
+}
+
+.inv-search-input {
+    width:         100%;
+    height:        42px;
+    padding:       0 16px 0 42px;
+    background:    var(--color-gray-50);
+    border:        1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    font-family:   var(--font-family-base);
+    font-size:     var(--font-size-base);
+    color:         var(--color-text-primary);
+    outline:       none;
+    transition:    border-color var(--transition-fast),
+                   box-shadow   var(--transition-fast),
+                   background   var(--transition-fast);
+}
+
+.inv-search-input::placeholder {
+    color: var(--color-text-disabled);
+}
+
+.inv-search-input:focus {
+    border-color: var(--color-primary);
+    background:   var(--color-white);
+    box-shadow:   0 0 0 3px var(--color-primary-glow);
+}
+
+.inv-search-wrap:focus-within .inv-search-icon {
+    color: var(--color-primary);
+}
+
+
+/* ================================================================
+   3. TABLE CARD
+   ================================================================ */
+.inv-table-card {
+    margin-bottom: var(--space-6);
+}
+
+/* Filter selects in card header */
+.inv-filter-select {
+    height:    36px;
+    min-width: 140px;
+    padding:   0 var(--space-3);
+    font-size: var(--font-size-sm);
+}
+
+/* Code column */
+.inv-code {
+    font-family: var(--font-family-mono);
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    white-space: nowrap;
+}
+
+/* Medicine name */
+.inv-name strong {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+}
+
+/* Sell price highlight */
+.inv-sell-price {
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-primary-dark);
+}
+
+/* Text alignment utility */
+.text-right {
+    text-align: right;
+}
+
+/* Expiry date colouring */
+.inv-expiry--warn     { color: var(--color-warning); font-weight: var(--font-weight-medium); }
+.inv-expiry--critical { color: var(--color-danger);  font-weight: var(--font-weight-semibold); }
+
+
+/* ================================================================
+   4. STATUS BADGES
+   ================================================================ */
+.inv-status-badge {
+    font-size:      var(--font-size-xs);
+    padding:        3px 10px;
+    border-radius:  var(--radius-pill);
+    font-weight:    var(--font-weight-semibold);
+    letter-spacing: var(--letter-spacing-wide);
+    white-space:    nowrap;
+}
+
+/* Critical — deeper red-orange, distinct from danger/warning */
+.inv-badge-critical {
+    background: #fff3e0;
+    color:      #e65100;
+}
+
+
+/* ================================================================
+   5. ACTION BUTTONS
+   ================================================================ */
+.td-actions {
+    white-space: nowrap;
+    text-align:  right;
+}
+
+.inv-action-btn {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    width:           30px;
+    height:          30px;
+    border-radius:   var(--radius-sm);
+    border:          none;
+    cursor:          pointer;
+    font-size:       13px;
+    transition:      background var(--transition-fast),
+                     color      var(--transition-fast),
+                     transform  var(--transition-fast);
+    color:           var(--color-text-muted);
+    background:      transparent;
+}
+
+.inv-action-btn:hover {
+    transform: translateY(-1px);
+}
+
+.inv-action-btn:active {
+    transform: scale(0.93);
+}
+
+.inv-action-edit:hover {
+    background: var(--color-primary-pale);
+    color:      var(--color-primary);
+}
+
+.inv-action-delete:hover {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+}
+
+.inv-action-btn:focus-visible {
+    outline:        2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+
+/* ================================================================
+   6. TABLE FOOTER
+   ================================================================ */
+.inv-table-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+}
+
+.inv-table-count {
+    font-size:  var(--font-size-sm);
+    color:      var(--color-text-muted);
+    margin:     0;
+}
+
+.inv-table-count strong {
+    color:       var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+
+/* ================================================================
+   7. MODALS
+   ================================================================ */
+
+/*
+   The project uses .ps-modal-backdrop for the full-screen overlay
+   (defined in components.css).  It is always in the DOM; visibility
+   is toggled with opacity + visibility + .is-open.
+
+   We need the backdrop to start as display:flex so the flex centering
+   works, but opacity:0 / visibility:hidden keeps it invisible.
+   Override the display:none that the markup sets inline so the CSS
+   transition can fire correctly — the JS removes the inline style
+   before adding .is-open.
+*/
+.ps-modal-backdrop {
+    display:         flex !important;   /* override inline style:display:none */
+    align-items:     center;
+    justify-content: center;
+    position:        fixed;
+    inset:           0;
+    z-index:         var(--z-modal);
+    background:      rgba(6, 12, 6, 0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    padding:         var(--space-4);
+    opacity:         0;
+    visibility:      hidden;
+    transition:      opacity    var(--transition-base),
+                     visibility var(--transition-base);
+    pointer-events:  none;
+}
+
+.ps-modal-backdrop.is-open {
+    opacity:        1;
+    visibility:     visible;
+    pointer-events: auto;
+}
+
+/* Inner modal box — slide-up entrance */
+.ps-modal-backdrop .ps-modal {
+    transform:  scale(0.96) translateY(-10px);
+    transition: transform var(--transition-base);
+}
+
+.ps-modal-backdrop.is-open .ps-modal {
+    transform: scale(1) translateY(0);
+}
+
+.inv-modal {
+    width:     100%;
+    max-width: 560px;
+}
+
+.inv-modal--sm {
+    max-width: 420px;
+}
+
+
+/* 2-column form grid */
+.inv-form-grid {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   var(--space-4);
+    margin-bottom:         var(--space-4);
+}
+
+.inv-form-row {
+    display:        flex;
+    flex-direction: column;
+    gap:            var(--space-1);
+    margin-bottom:  var(--space-4);
+}
+
+.inv-form-row--full {
+    /* Full-width row outside the grid */
+}
+
+/* Required asterisk */
+.inv-required {
+    color: var(--color-danger);
+}
+
+/* Delete confirmation icon */
+.inv-delete-icon {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           56px;
+    height:          56px;
+    border-radius:   var(--radius-xl);
+    background:      var(--color-danger-bg);
+    color:           var(--color-danger);
+    font-size:       24px;
+    margin:          0 auto var(--space-4);
+}
+
+.inv-delete-msg {
+    text-align:  center;
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin:      0;
+}
+
+.inv-delete-msg strong {
+    color: var(--color-text-primary);
+}
+
+
+/* ================================================================
+   8. EMPTY STATE
+   ================================================================ */
+.inv-empty-state {
+    padding: var(--space-12) var(--space-8);
+}
+
+/* ================================================================
+   9. FORM VALIDATION
+   ================================================================ */
+
+.ps-form-control--error {
+    border-color: var(--color-danger) !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+.inv-field-error {
+    display: block;
+    margin-top: 3px;
+    font-size: var(--font-size-xs);
+    color: var(--color-danger);
+    min-height: 1em;
+    line-height: var(--line-height-normal);
+}
+
+/* ================================================================
+   10. RESPONSIVE
+   ================================================================ */
+@media (max-width: 1199.98px) {
+    .inv-kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    .inv-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Stack card header filters below title */
+    .inv-table-card .ps-card-header {
+        flex-direction: column;
+        align-items:    flex-start;
+        gap:            var(--space-3);
+    }
+
+    .inv-table-card .ps-card-header-actions {
+        width:     100%;
+        flex-wrap: wrap;
+    }
+
+    .inv-filter-select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* 1-column form grid on mobile */
+    .inv-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 479.98px) {
+
+    .inv-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .inv-modal {
+        max-width: 100%;
+        margin:    0 var(--space-4);
+    }
+}
+
+
+/* ================================================================
+   11. BATCH NUMBER COLUMN
+   ================================================================ */
+.inv-batch {
+    font-family: var(--font-family-mono);
+    font-size:   var(--font-size-xs);
+    color:       var(--color-text-muted);
+    white-space: nowrap;
+}
+
+
+/* ================================================================
+   12. ADJUST STOCK ACTION BUTTON
+   ================================================================ */
+.inv-action-adjust:hover {
+    background: #e3f2fd;
+    color:      #1565c0;
+}
+
+
+/* ================================================================
+   13. ADJUST STOCK MODAL
+   ================================================================ */
+.inv-adjust-medicine-name {
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-text-primary);
+    margin-bottom: var(--space-4);
+    padding:       var(--space-3) var(--space-4);
+    background:    var(--color-gray-50);
+    border-radius: var(--radius-md);
+    border-left:   3px solid var(--color-primary);
+}
+
+.inv-field-hint {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+    margin-top: 3px;
+    display:    block;
+}
+
+.inv-adjust-notes {
+    resize:     vertical;
+    min-height: 60px;
+}

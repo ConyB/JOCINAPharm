@@ -1,0 +1,384 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Dashboard_Pharmacist.master.cs" Inherits="JOCINAPharm.Dashboard_Pharmacist" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1f10" />
+
+    <title>
+        <asp:ContentPlaceHolder ID="PageTitle" runat="server">Dashboard</asp:ContentPlaceHolder>
+        — JOCINA Pharmacy
+    </title>
+
+    <!-- ── Google Fonts ──────────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet" />
+
+    <!-- ── Font Awesome 6 ────────────────────────────────────────── -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- ── PharmaSync CSS — strict load order ────────────────────── -->
+    <link href="<%= ResolveUrl("~/css/theme.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/css/sidebar.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/css/topnav.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/css/responsive.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/css/components.css") %>" rel="stylesheet" />
+    <link href="<%= ResolveUrl("~/css/sidebar-pharmacist.css") %>" rel="stylesheet" />
+    <!-- ── Per-page styles injected by child pages ───────────────── -->
+    <asp:ContentPlaceHolder ID="HeadStyles" runat="server" />
+</head>
+
+<body>
+    <%-- Accessibility: skip nav link --%>
+    <a class="skip-to-main" href="#mainContent">Skip to main content</a>
+
+    <form id="masterForm" runat="server">
+
+        <%-- ScriptManager MUST be first child of <form> for UpdatePanel support --%>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"
+                           EnablePartialRendering="true"
+                           EnablePageMethods="false" />
+
+        <%-- ========================================================
+             APP WRAPPER — sidebar + main content flex container
+             ======================================================== --%>
+        <div class="app-wrapper" id="appWrapper">
+
+
+            <%-- ====================================================
+                 SIDEBAR OVERLAY — mobile backdrop / tap-to-close
+                 ==================================================== --%>
+            <div class="sidebar-overlay"
+                 id="sidebarOverlay"
+                 aria-hidden="true"
+                 role="presentation"></div>
+
+
+            <%-- ====================================================
+                 PHARMACIST SIDEBAR
+                 ==================================================== --%>
+            <aside class="sidebar"
+                   id="mainSidebar"
+                   role="navigation"
+                   aria-label="Pharmacist navigation"
+                   aria-hidden="false">
+
+                <div class="sidebar-inner">
+
+
+                    <%-- ── BRAND AREA ─────────────────────────────── --%>
+                    <div class="sidebar-brand">
+
+                        <a class="sidebar-brand-link"
+                           href="<%= ResolveUrl("~/pages/Dashboard.aspx") %>"
+                           title="JOCINA Pharmacy — Go to dashboard">
+                            <div class="sidebar-brand-icon" aria-hidden="true">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+                            <div class="sidebar-brand-text">
+                                <span class="sidebar-brand-name">JOCINA Pharmacy</span>
+                                <span class="sidebar-brand-tagline">Management System</span>
+                            </div>
+                        </a>
+
+                        <%-- Desktop collapse toggle --%>
+                        <button class="sidebar-collapse-btn"
+                                id="sidebarCollapseBtn"
+                                aria-label="Collapse sidebar"
+                                aria-expanded="true"
+                                title="Collapse sidebar"
+                                type="button">
+                            <i class="fa-solid fa-chevron-left" id="collapseIcon" aria-hidden="true"></i>
+                        </button>
+
+                        <%-- Mobile close button (shown only on mobile) --%>
+                        <button class="sidebar-mobile-close"
+                                id="sidebarMobileClose"
+                                aria-label="Close navigation"
+                                type="button">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+
+                    </div><%-- /.sidebar-brand --%>
+
+
+                    <%-- ── PHARMACIST ROLE BANNER ──────────────────── --%>
+                    <%-- Visual role context indicator — matches screenshot design --%>
+                    <div class="sidebar-role-banner" role="img" aria-label="Pharmacist View — Medicines and Rx">
+                        <div class="sidebar-role-banner-icon" aria-hidden="true">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <div class="sidebar-role-banner-text">
+                            <span class="sidebar-role-banner-title">Pharmacist View</span>
+                            <span class="sidebar-role-banner-sub">Medicines &amp; Rx</span>
+                        </div>
+                    </div>
+
+
+                    <%-- ── MAIN NAVIGATION ────────────────────────── --%>
+                    <nav class="sidebar-nav" aria-label="Main menu">
+                        <ul class="sidebar-nav-list" role="list">
+
+                            <%-- Dashboard --%>
+                            <li class="sidebar-nav-item" role="listitem">
+                                <a class="sidebar-nav-link"
+                                   href="<%= ResolveUrl("~/pages/Pharmacist/Dashboard.aspx") %>"
+                                   data-page="dashboard.aspx"
+                                   title="Dashboard">
+                                    <span class="sidebar-nav-icon" aria-hidden="true">
+                                        <i class="fa-solid fa-table-cells-large"></i>
+                                    </span>
+                                    <span class="sidebar-nav-label">Dashboard</span>
+                                </a>
+                            </li>
+
+                            <%-- Inventory --%>
+                            <li class="sidebar-nav-item" role="listitem">
+                                <a class="sidebar-nav-link"
+                                   href="<%= ResolveUrl("~/pages/Pharmacist/Inventory.aspx") %>"
+                                   data-page="inventory.aspx"
+                                   title="Inventory">
+                                    <span class="sidebar-nav-icon" aria-hidden="true">
+                                        <i class="fa-solid fa-box-archive"></i>
+                                    </span>
+                                    <span class="sidebar-nav-label">Inventory</span>
+                                </a>
+                            </li>
+
+                            <%-- Prescriptions --%>
+                            <li class="sidebar-nav-item" role="listitem">
+                                <a class="sidebar-nav-link"
+                                   href="<%= ResolveUrl("~/pages/Pharmacist/Prescriptions.aspx") %>"
+                                   data-page="prescriptions.aspx"
+                                   title="Prescriptions">
+                                    <span class="sidebar-nav-icon" aria-hidden="true">
+                                        <i class="fa-solid fa-file-prescription"></i>
+                                    </span>
+                                    <span class="sidebar-nav-label">Prescriptions</span>
+                                </a>
+                            </li>
+
+                            <%-- Suppliers --%>
+                            <li class="sidebar-nav-item" role="listitem">
+                                <a class="sidebar-nav-link"
+                                   href="<%= ResolveUrl("~/pages/Pharmacist/Suppliers.aspx") %>"
+                                   data-page="suppliers.aspx"
+                                   title="Suppliers">
+                                    <span class="sidebar-nav-icon" aria-hidden="true">
+                                        <i class="fa-solid fa-truck-ramp-box"></i>
+                                    </span>
+                                    <span class="sidebar-nav-label">Suppliers</span>
+                                </a>
+                            </li>
+
+                            <%-- Customers --%>
+                            <li class="sidebar-nav-item" role="listitem">
+                                <a class="sidebar-nav-link"
+                                   href="<%= ResolveUrl("~/pages/Pharmacist/Customers.aspx") %>"
+                                   data-page="customers.aspx"
+                                   title="Customers">
+                                    <span class="sidebar-nav-icon" aria-hidden="true">
+                                        <i class="fa-solid fa-user-group"></i>
+                                    </span>
+                                    <span class="sidebar-nav-label">Customers</span>
+                                </a>
+                            </li>
+
+                            <%-- Expiry Alerts — badge driven by lblExpiryBadge --%>
+                            <li class="sidebar-nav-item" role="listitem">
+                                <a class="sidebar-nav-link"
+                                   href="<%= ResolveUrl("~/pages/Pharmacist/ExpiryAlerts.aspx") %>"
+                                   data-page="expiryalerts.aspx"
+                                   title="Expiry Alerts">
+                                    <span class="sidebar-nav-icon" aria-hidden="true">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                    </span>
+                                    <span class="sidebar-nav-label">Expiry Alerts</span>
+                                    <%-- Set Text="0" to hide; set Text="3" etc. from code-behind --%>
+                                    <asp:Label ID="lblExpiryBadge"
+                                               runat="server"
+                                               CssClass="sidebar-nav-badge"
+                                               Text="0"
+                                               aria-label="expiry alerts count" />
+                                </a>
+                            </li>
+
+                        </ul>
+                    </nav><%-- /.sidebar-nav --%>
+
+
+                    <%-- ── SIDEBAR FOOTER ──────────────────────────── --%>
+                    <div class="sidebar-footer" role="contentinfo">
+                        <span class="sidebar-footer-text">JOCINA Pharmacy v1.0 &copy; 2026</span>
+                    </div>
+
+
+                </div><%-- /.sidebar-inner --%>
+            </aside><%-- /#mainSidebar --%>
+
+
+            <%-- ====================================================
+                 MAIN CONTENT AREA
+                 ==================================================== --%>
+            <div class="main-content">
+
+
+                <%-- ── TOP NAVIGATION BAR ──────────────────────── --%>
+                <header class="topnav" id="topNavbar" role="banner">
+                    <div class="topnav-inner">
+
+                        <%-- Left: hamburger + page heading --%>
+                        <div class="topnav-left">
+
+                            <button class="topnav-hamburger"
+                                    id="sidebarToggleMobile"
+                                    aria-label="Open navigation"
+                                    aria-expanded="false"
+                                    aria-controls="mainSidebar"
+                                    type="button">
+                                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                            </button>
+
+                            <div class="topnav-page-title">
+                                <%-- SetHeading("Title") from child page code-behind updates this --%>
+                                <h1 class="topnav-heading"
+                                    id="topnavHeading"
+                                    runat="server">Dashboard</h1>
+                            </div>
+
+                        </div>
+
+                        <%-- Right: search + notification + user pill --%>
+                        <div class="topnav-right">
+
+                            <%-- Global search --%>
+                            <div class="topnav-search">
+                                <i class="fa-solid fa-magnifying-glass topnav-search-icon"
+                                   aria-hidden="true"></i>
+                                <input type="text"
+                                       class="topnav-search-input"
+                                       placeholder="Search medicines, prescriptions…"
+                                       aria-label="Global search"
+                                       autocomplete="off" />
+                            </div>
+
+                            <%-- Action icon buttons --%>
+                            <div class="topnav-action-group">
+                                <button class="topnav-icon-btn"
+                                        type="button"
+                                        title="Notifications"
+                                        aria-label="Notifications">
+                                    <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                                    <%-- Driven by server; set display:none when 0 --%>
+                                    <span class="topnav-icon-badge"
+                                          id="topnavNotifBadge"
+                                          runat="server"
+                                          aria-label="3 notifications">3</span>
+                                </button>
+                            </div>
+
+                            <%-- User pill — placeholder initials until auth is wired --%>
+                            <button class="topnav-user-pill"
+                                    id="userDropdownTrigger"
+                                    type="button"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    aria-controls="userDropdownMenu">
+                                <div class="topnav-user-avatar" aria-hidden="true">
+                                    <%-- Initials set from code-behind via topnavAvatarInitials --%>
+                                    <span class="topnav-avatar-initials"
+                                          id="topnavAvatarInitials"
+                                          runat="server">PH</span>
+                                </div>
+                                <div class="topnav-user-info">
+                                    <span class="topnav-user-name"
+                                          id="topnavUserName"
+                                          runat="server">Pharmacist</span>
+                                    <span class="topnav-user-role"
+                                          id="topnavUserRole"
+                                          runat="server">Pharmacist</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down topnav-user-chevron"
+                                   aria-hidden="true"></i>
+                            </button>
+
+                        </div><%-- /.topnav-right --%>
+                    </div><%-- /.topnav-inner --%>
+                </header><%-- /#topNavbar --%>
+
+
+                <%-- ── USER DROPDOWN MENU ──────────────────────── --%>
+                <%-- Positioned relative to topnav; z-index managed by --z-user-menu --%>
+                <div class="topnav-user-dropdown"
+                     id="userDropdownMenu"
+                     role="menu"
+                     aria-labelledby="userDropdownTrigger">
+                    <ul class="user-dropdown-list" role="none">
+
+                        <li role="none">
+                            <a class="user-dropdown-item"
+                               href="<%= ResolveUrl("~/pages/Profile.aspx") %>"
+                               role="menuitem">
+                                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                                My Profile
+                            </a>
+                        </li>
+
+                        <li role="none">
+                            <a class="user-dropdown-item"
+                               href="<%= ResolveUrl("~/pages/Settings.aspx") %>"
+                               role="menuitem">
+                                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li role="none" aria-hidden="true">
+                            <div class="user-dropdown-divider"></div>
+                        </li>
+
+                        <li role="none">
+                            <a class="user-dropdown-item user-dropdown-item--danger"
+                               href="<%= ResolveUrl("~/Logout.aspx") %>"
+                               role="menuitem">
+                                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                                Sign Out
+                            </a>
+                        </li>
+
+                    </ul>
+                </div><%-- /#userDropdownMenu --%>
+
+
+                <%-- ── PAGE BODY — child page content renders here --%>
+                <main class="page-body"
+                      id="mainContent"
+                      role="main"
+                      tabindex="-1">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                </main>
+
+
+            </div><%-- /.main-content --%>
+
+        </div><%-- /#appWrapper --%>
+
+    </form><%-- /#masterForm --%>
+
+
+    <%-- ── Core scripts — sidebar.js first, then app.js ──────────── --%>
+    <script src="<%= ResolveUrl("~/js/sidebar.js") %>"></script>
+    <script src="<%= ResolveUrl("~/js/app.js") %>"></script>
+    <script src="<%= ResolveUrl("~/js/sidebar-pharmacist.js") %>"></script>
+    <%-- Per-page scripts injected by child pages --%>
+    <asp:ContentPlaceHolder ID="ScriptContent" runat="server" />
+
+</body>
+</html>

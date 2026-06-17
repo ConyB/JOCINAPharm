@@ -1,0 +1,375 @@
+/* ================================================================
+   PharmaSync — responsive.css
+   All @media queries, mobile off-canvas, tablet behavior,
+   touch targets, animation keyframes, print, high-contrast,
+   and no-transition resize guard.
+   Load order: theme.css → sidebar.css → topnav.css → responsive.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. NO-TRANSITION GUARD
+   Applied during window resize to suppress animation jank.
+   sidebar.js adds/removes this class via ResizeTransitionGuard.
+   ================================================================ */
+.no-transition,
+.no-transition *,
+.no-transition *::before,
+.no-transition *::after {
+    transition: none !important;
+    animation:  none !important;
+}
+
+
+/* ================================================================
+   2. TOPNAV SCROLLED STATE
+   ================================================================ */
+.topnav {
+    transition: box-shadow var(--transition-base);
+}
+
+.topnav--scrolled {
+    box-shadow: 0 1px 0 #d8ecd9, 0 4px 20px rgba(13, 31, 16, 0.11);
+}
+
+
+/* ================================================================
+   3. SIDEBAR OPEN ANIMATION — Mobile / Tablet off-canvas
+   ================================================================ */
+@media (max-width: 991.98px) {
+
+    .sidebar {
+        transform:  translateX(-100%);
+        visibility: hidden;
+        will-change: transform;
+        /* Override desktop box-shadow when hidden */
+        box-shadow: none;
+        transition: transform   0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                    visibility  0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                    box-shadow  0.32s ease;
+    }
+
+    .sidebar.is-open {
+        transform:  translateX(0);
+        visibility: visible;
+        box-shadow: 8px 0 40px rgba(0, 0, 0, 0.38);
+    }
+
+    /* Staggered nav item cascade on open */
+    .sidebar.is-open .sidebar-nav-item {
+        animation: nav-item-slide-in 0.28s ease both;
+    }
+
+    .sidebar.is-open .sidebar-nav-item:nth-child(1)  { animation-delay: 0.08s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(2)  { animation-delay: 0.11s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(3)  { animation-delay: 0.14s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(4)  { animation-delay: 0.17s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(5)  { animation-delay: 0.20s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(6)  { animation-delay: 0.23s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(7)  { animation-delay: 0.26s; }
+    .sidebar.is-open .sidebar-nav-item:nth-child(8)  { animation-delay: 0.29s; }
+
+    @keyframes nav-item-slide-in {
+        from { opacity: 0; transform: translateX(-12px); }
+        to   { opacity: 1; transform: translateX(0);     }
+    }
+
+    .sidebar.is-open .sidebar-brand {
+        animation: brand-fade-in 0.30s ease 0.05s both;
+    }
+
+    @keyframes brand-fade-in {
+        from { opacity: 0; transform: translateX(-8px); }
+        to   { opacity: 1; transform: translateX(0);    }
+    }
+
+    /* Reset main content — sidebar is overlaid, not pushing */
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    /* Override collapsed state inside off-canvas so labels show */
+    .sidebar.is-collapsed .sidebar-nav-link {
+        padding:         10px 12px;
+        justify-content: flex-start;
+        gap:             11px;
+    }
+
+    .sidebar.is-collapsed .sidebar-nav-icon {
+        min-width: 20px;
+        width:     20px;
+        font-size: 15px;
+    }
+
+    .sidebar.is-collapsed .sidebar-nav-label,
+    .sidebar.is-collapsed .sidebar-nav-badge,
+    .sidebar.is-collapsed .sidebar-footer-user {
+        opacity:    1 !important;
+        width:      auto !important;
+        visibility: visible !important;
+        overflow:   visible !important;
+    }
+
+    .sidebar.is-collapsed .sidebar-brand {
+        justify-content: space-between;
+        padding-left:    16px;
+        padding-right:   14px;
+    }
+
+    .sidebar.is-collapsed .sidebar-brand-text,
+    .sidebar.is-collapsed .sidebar-collapse-btn {
+        opacity:    1 !important;
+        width:      auto !important;
+        visibility: visible !important;
+        overflow:   visible !important;
+    }
+
+    .sidebar.is-collapsed .sidebar-brand-link {
+        flex:           1;
+        pointer-events: auto;
+    }
+
+    .sidebar.is-collapsed .sidebar-footer {
+        justify-content: flex-start;
+        padding-left:    14px;
+        padding-right:   14px;
+        gap:             9px;
+    }
+
+    /* No tooltips on off-canvas */
+    .sidebar.is-collapsed .sidebar-nav-link::after,
+    .sidebar.is-collapsed .sidebar-nav-link::before {
+        display: none !important;
+    }
+}
+
+
+/* ================================================================
+   4. OVERLAY ANIMATION
+   ================================================================ */
+.sidebar-overlay {
+    opacity:    0;
+    visibility: hidden;
+    transition: opacity    0.32s ease,
+                visibility 0.32s ease;
+}
+
+.sidebar-overlay.is-visible {
+    display:              block;
+    opacity:              1;
+    visibility:           visible;
+    backdrop-filter:      blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+
+/* ================================================================
+   5. TOUCH FEEDBACK — Minimum 48px touch targets (WCAG 2.5.5)
+   ================================================================ */
+@media (max-width: 991.98px) {
+
+    .sidebar-nav-link {
+        padding-top:    12px;
+        padding-bottom: 12px;
+        min-height:     48px;
+        -webkit-tap-highlight-color: rgba(46, 125, 50, 0.18);
+    }
+
+    .sidebar-nav-icon {
+        width:     24px;
+        min-width: 24px;
+        height:    24px;
+        font-size: 16px;
+    }
+
+    .topnav-icon-btn,
+    .topnav-hamburger {
+        width:     44px;
+        height:    44px;
+        min-width: 44px;
+    }
+
+    .topnav-user-pill {
+        -webkit-tap-highlight-color: rgba(46, 125, 50, 0.12);
+    }
+}
+
+
+/* ================================================================
+   6. DESKTOP COLLAPSE ANIMATION
+   ================================================================ */
+@media (min-width: 992px) {
+
+    .sidebar {
+        transition: width     0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .main-content {
+        transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Icon spring bounce when entering collapsed state */
+    .sidebar.is-collapsed .sidebar-nav-icon {
+        animation: icon-bounce 0.30s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes icon-bounce {
+        0%   { transform: scale(0.82); }
+        60%  { transform: scale(1.14); }
+        100% { transform: scale(1);    }
+    }
+
+    .sidebar.is-collapsed .sidebar-brand-icon {
+        animation: brand-icon-pulse 0.35s ease both;
+    }
+
+    @keyframes brand-icon-pulse {
+        0%   { transform: scale(1);    }
+        50%  { transform: scale(1.10); }
+        100% { transform: scale(1);    }
+    }
+}
+
+
+/* ================================================================
+   7. TABLET LANDSCAPE (≤1199px)
+   ================================================================ */
+@media (max-width: 1199.98px) {
+
+    :root {
+        --sidebar-width: 248px;
+    }
+
+    .topnav-search {
+        max-width: 220px;
+    }
+}
+
+
+/* ================================================================
+   8. TABLET PORTRAIT (≤991px) — off-canvas activates
+   ================================================================ */
+@media (max-width: 991.98px) {
+
+    .topnav-inner {
+        padding: 0 var(--spacing-lg);
+    }
+
+    .page-body {
+        padding: var(--spacing-lg);
+    }
+}
+
+
+/* ================================================================
+   9. MOBILE (≤767px)
+   ================================================================ */
+@media (max-width: 767.98px) {
+
+    :root {
+        --sidebar-width:      280px;
+        --topnav-height:      56px;
+        --page-body-padding:  14px;
+    }
+
+    .topnav-search {
+        display: none;
+    }
+
+    .topnav-heading {
+        font-size:   15px;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    .topnav-user-dropdown {
+        right:  var(--spacing-lg);
+        width:  190px;
+    }
+
+    .sidebar-brand-tagline {
+        display: none;
+    }
+}
+
+
+/* ================================================================
+   10. SMALL MOBILE (≤479px)
+   ================================================================ */
+@media (max-width: 479.98px) {
+
+    :root {
+        --sidebar-width: 100vw;
+    }
+
+    .sidebar {
+        border-right: none;
+    }
+
+    .topnav-inner {
+        padding: 0 var(--spacing-md);
+        gap:     var(--spacing-sm);
+    }
+}
+
+
+/* ================================================================
+   11. PRINT STYLES
+   ================================================================ */
+@media print {
+
+    .sidebar,
+    .sidebar-overlay,
+    .topnav {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .page-body {
+        padding: 0 !important;
+    }
+}
+
+
+/* ================================================================
+   12. HIGH CONTRAST MODE (Windows Accessibility)
+   ================================================================ */
+@media (forced-colors: active) {
+
+    .sidebar-nav-link.active {
+        forced-color-adjust: none;
+        background-color:    Highlight;
+        color:               HighlightText;
+        box-shadow:          none;
+    }
+
+    .sidebar-nav-badge,
+    .topnav-icon-badge {
+        forced-color-adjust: none;
+        background-color:    Mark;
+        color:               MarkText;
+    }
+
+    .sidebar-brand-icon {
+        forced-color-adjust: none;
+        border: 2px solid ButtonText;
+    }
+}
+
+
+/* ================================================================
+   13. REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration:        0.01ms !important;
+        animation-iteration-count: 1      !important;
+        transition-duration:       0.01ms !important;
+        scroll-behavior:           auto   !important;
+    }
+}

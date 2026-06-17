@@ -1,0 +1,1152 @@
+/* ================================================================
+   PharmaSync — cashier-dashboard.css
+   Page-specific styles for the Cashier Workstation dashboard.
+   Load order: theme.css → sidebar.css → topnav.css →
+               responsive.css → components.css → cashier-dashboard.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. NEW SALE BUTTON
+   ================================================================ */
+.cd-btn-new-sale {
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    padding:       10px 20px;
+    border-radius: var(--radius-md);
+    gap:           var(--space-2);
+    letter-spacing: 0.01em;
+    box-shadow:    var(--shadow-green);
+    transition:    background   var(--transition-fast),
+                   box-shadow   var(--transition-fast),
+                   transform    var(--transition-fast);
+}
+
+.cd-btn-new-sale:hover {
+    transform:  translateY(-1px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.35);
+}
+
+.cd-btn-new-sale:active {
+    transform:  scale(0.97);
+    box-shadow: var(--shadow-green);
+}
+
+
+/* ================================================================
+   2. ROLE BANNER
+   ================================================================ */
+.cd-role-banner {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-4);
+    padding:       var(--space-4) var(--space-6);
+    background:    #fff8e1;
+    border:        1px solid #ffe082;
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-7);
+    position:      relative;
+    animation:     cd-banner-in 0.35s ease both;
+}
+
+@keyframes cd-banner-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.cd-role-banner-icon {
+    width:           42px;
+    height:          42px;
+    min-width:       42px;
+    border-radius:   var(--radius-md);
+    background:      #f57f17;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    color:           #ffffff;
+    font-size:       18px;
+    flex-shrink:     0;
+}
+
+.cd-role-banner-body {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex:           1;
+    min-width:      0;
+}
+
+.cd-role-banner-title {
+    font-size:   var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color:       #e65100;
+    line-height: 1.3;
+    display:     block;
+}
+
+.cd-role-banner-desc {
+    font-size:   var(--font-size-sm);
+    color:       #bf360c;
+    line-height: var(--line-height-base);
+    display:     block;
+}
+
+.cd-role-banner-close {
+    width:           28px;
+    height:          28px;
+    min-width:       28px;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    background:      rgba(245, 127, 23, 0.12);
+    border:          none;
+    border-radius:   var(--radius-sm);
+    color:           #e65100;
+    font-size:       13px;
+    cursor:          pointer;
+    flex-shrink:     0;
+    transition:      background var(--transition-fast),
+                     color      var(--transition-fast);
+}
+
+.cd-role-banner-close:hover {
+    background: rgba(245, 127, 23, 0.22);
+    color:      #bf360c;
+}
+
+.cd-role-banner.is-dismissed {
+    animation:      cd-banner-out 0.25s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes cd-banner-out {
+    from { opacity: 1; transform: translateY(0);    max-height: 120px; margin-bottom: var(--space-7); }
+    to   { opacity: 0; transform: translateY(-6px); max-height: 0;     margin-bottom: 0; padding: 0; border: none; }
+}
+
+
+/* ================================================================
+   3. KPI GRID — CASHIER OVERRIDES
+   ================================================================ */
+.cd-kpi-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cd-kpi-card {
+    /* Staggered entrance animation */
+    animation: cd-kpi-in 0.40s ease both;
+}
+
+.cd-kpi-grid .cd-kpi-card:nth-child(1) { animation-delay: 0.05s; }
+.cd-kpi-grid .cd-kpi-card:nth-child(2) { animation-delay: 0.10s; }
+.cd-kpi-grid .cd-kpi-card:nth-child(3) { animation-delay: 0.15s; }
+.cd-kpi-grid .cd-kpi-card:nth-child(4) { animation-delay: 0.20s; }
+
+@keyframes cd-kpi-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Custom KPI icon colours matching screenshot */
+.cd-kpi-icon {
+    width:           42px;
+    height:          42px;
+    border-radius:   var(--radius-md);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       17px;
+    flex-shrink:     0;
+}
+
+.cd-kpi-icon--sales {
+    background: #fff3e0;
+    color:      #f57f17;
+}
+
+.cd-kpi-icon--customers {
+    background: var(--color-info-bg);
+    color:      var(--color-info);
+}
+
+.cd-kpi-icon--avg {
+    background: #e8f5e9;
+    color:      #2e7d32;
+}
+
+.cd-kpi-icon--pending {
+    background: var(--color-danger-bg);
+    color:      var(--color-danger);
+}
+
+.kpi-card-footer-text {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+    line-height: 1.4;
+}
+
+
+/* ================================================================
+   4. MAIN TWO-COLUMN GRID
+   ================================================================ */
+.cd-main-grid {
+    display:               grid;
+    grid-template-columns: 1fr 360px;
+    gap:                   var(--space-6);
+    align-items:           start;
+}
+
+
+/* ================================================================
+   5. CARD TITLE ROW (icon + heading)
+   ================================================================ */
+.cd-card-title-wrap {
+    display:     flex;
+    align-items: center;
+    gap:         var(--space-3);
+}
+
+.cd-card-title-icon {
+    font-size: 16px;
+    color:     var(--color-primary);
+}
+
+.cd-card-title-icon--orange {
+    color: #f57f17;
+}
+
+.cd-view-all-btn {
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    padding:       7px 16px;
+    border-radius: var(--radius-md);
+    white-space:   nowrap;
+    flex-shrink:   0;
+}
+
+
+/* ================================================================
+   6. TRANSACTIONS TABLE
+   ================================================================ */
+.cd-transactions-card {
+    animation: cd-card-in 0.40s ease 0.25s both;
+}
+
+.cd-quick-products-card {
+    animation: cd-card-in 0.40s ease 0.30s both;
+}
+
+@keyframes cd-card-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.cd-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.cd-transactions-table {
+    width:           100%;
+    border-collapse: collapse;
+    font-size:       var(--font-size-sm);
+}
+
+.cd-transactions-table thead th {
+    padding:        var(--space-3) var(--space-5);
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-semibold);
+    color:          var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-widest);
+    text-align:     left;
+    background:     var(--color-gray-50);
+    border-bottom:  1px solid var(--color-border-light);
+    white-space:    nowrap;
+}
+
+.cd-transactions-table thead th:first-child { padding-left: var(--space-6); }
+.cd-transactions-table thead th:last-child  { padding-right: var(--space-6); }
+
+.cd-transactions-table tbody tr {
+    border-bottom: 1px solid var(--color-border-light);
+    transition:    background var(--transition-fast);
+}
+
+.cd-transactions-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.cd-transactions-table tbody tr:hover {
+    background: var(--color-primary-pale);
+}
+
+.cd-transactions-table tbody td {
+    padding:     var(--space-4) var(--space-5);
+    color:       var(--color-text-primary);
+    vertical-align: middle;
+}
+
+.cd-transactions-table tbody td:first-child { padding-left: var(--space-6); }
+.cd-transactions-table tbody td:last-child  { padding-right: var(--space-6); }
+
+/* Column-specific */
+.cd-invoice-no {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-muted);
+    white-space: nowrap;
+}
+
+.cd-customer-name {
+    font-weight: var(--font-weight-medium);
+    color:       var(--color-text-primary);
+    white-space: nowrap;
+}
+
+.cd-amount {
+    font-weight:  var(--font-weight-bold);
+    color:        var(--color-text-primary);
+    white-space:  nowrap;
+    font-size:    var(--font-size-md);
+}
+
+.cd-time-cell {
+    color:       var(--color-text-muted);
+    white-space: nowrap;
+    font-size:   var(--font-size-xs);
+    display:     flex;
+    align-items: center;
+    gap:         5px;
+}
+
+.cd-col-items,
+.cd-col-total,
+.cd-col-time,
+.cd-col-status {
+    white-space: nowrap;
+}
+
+.cd-col-items  { text-align: center; }
+.cd-col-total  { text-align: right; }
+.cd-col-time   { text-align: right; min-width: 110px; }
+.cd-col-status { text-align: center; min-width: 90px; }
+
+/* Status badges — extend existing ps-badge system */
+.ps-badge {
+    font-size:   var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    padding:     4px 10px;
+}
+
+
+/* ================================================================
+   6b. PAYMENT METHOD BADGES
+   ================================================================ */
+.cd-col-payment { text-align: center; min-width: 90px; white-space: nowrap; }
+
+.cd-pay-badge {
+    display:       inline-block;
+    font-size:     11px;
+    font-weight:   var(--font-weight-semibold);
+    padding:       3px 8px;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cd-pay-cash      { background: #e8f5e9; color: #2e7d32; }
+.cd-pay-momo      { background: #fff3e0; color: #e65100; }
+.cd-pay-card      { background: #e3f2fd; color: #1565c0; }
+.cd-pay-insurance { background: #f3e5f5; color: #6a1b9a; }
+
+
+/* ================================================================
+   6c. ACTION COLUMN — MARK PAID
+   ================================================================ */
+.cd-col-action {
+    text-align:  center;
+    min-width:   96px;
+    white-space: nowrap;
+    color:       var(--color-text-muted);
+}
+
+.cd-mark-paid-btn {
+    display:       inline-flex;
+    align-items:   center;
+    gap:           5px;
+    font-size:     11px;
+    font-weight:   var(--font-weight-semibold);
+    padding:       4px 10px;
+    border-radius: var(--radius-md);
+    border:        1px solid #a5d6a7;
+    background:    #e8f5e9;
+    color:         #2e7d32;
+    cursor:        pointer;
+    white-space:   nowrap;
+    transition:    background   var(--transition-fast),
+                   border-color var(--transition-fast),
+                   color        var(--transition-fast);
+}
+
+.cd-mark-paid-btn:hover {
+    background:   #2e7d32;
+    border-color: #2e7d32;
+    color:        #ffffff;
+}
+
+.cd-mark-paid-btn:active { transform: scale(0.97); }
+
+/* Hide action column on mobile — same breakpoint as cd-col-time */
+@media (max-width: 767.98px) {
+    .cd-transactions-table .cd-col-action,
+    .cd-transactions-table thead th:nth-child(8) {
+        display: none;
+    }
+    .cd-transactions-table .cd-col-payment,
+    .cd-transactions-table thead th:nth-child(5) {
+        display: none;
+    }
+}
+
+
+/* ================================================================
+   7. EMPTY STATE
+   ================================================================ */
+.cd-empty-state {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    justify-content: center;
+    gap:            var(--space-3);
+    padding:        var(--space-12) var(--space-6);
+    text-align:     center;
+}
+
+.cd-empty-icon {
+    width:           56px;
+    height:          56px;
+    border-radius:   var(--radius-circle);
+    background:      var(--color-primary-pale);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       22px;
+    color:           var(--color-primary);
+    margin-bottom:   var(--space-2);
+}
+
+.cd-empty-title {
+    font-size:   var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    margin:      0;
+}
+
+.cd-empty-desc {
+    font-size: var(--font-size-sm);
+    color:     var(--color-text-muted);
+    margin:    0;
+    max-width: 260px;
+    line-height: var(--line-height-base);
+}
+
+
+/* ================================================================
+   8. QUICK PRODUCTS PANEL
+   ================================================================ */
+.cd-qp-search-wrap {
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.cd-qp-search {
+    position: relative;
+}
+
+.cd-qp-search-icon {
+    position:       absolute;
+    left:           12px;
+    top:            50%;
+    transform:      translateY(-50%);
+    font-size:      12px;
+    color:          var(--color-text-muted);
+    pointer-events: none;
+    transition:     color var(--transition-fast);
+}
+
+.cd-qp-search-input {
+    width:         100%;
+    height:        36px;
+    padding:       0 12px 0 34px;
+    background:    #f4faf4;
+    border:        1px solid #d0e8d1;
+    border-radius: var(--radius-pill);
+    font-family:   var(--font-family-base);
+    font-size:     var(--font-size-sm);
+    color:         var(--color-text-primary);
+    outline:       none;
+    transition:    border-color var(--transition-fast),
+                   background   var(--transition-fast),
+                   box-shadow   var(--transition-fast);
+}
+
+.cd-qp-search-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.cd-qp-search-input:focus {
+    border-color: var(--color-primary);
+    background:   #ffffff;
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.cd-qp-search-input:focus ~ .cd-qp-search-icon {
+    color: var(--color-primary);
+}
+
+/* Products list container */
+.cd-qp-list {
+    display:        flex;
+    flex-direction: column;
+    max-height:     480px;
+    overflow-y:     auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(46,125,50,0.2) transparent;
+}
+
+/* Individual product row */
+.cd-qp-item {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             var(--space-3);
+    padding:         var(--space-4) var(--space-5);
+    border-bottom:   1px solid var(--color-border-light);
+    transition:      background var(--transition-fast);
+}
+
+.cd-qp-item:last-child {
+    border-bottom: none;
+}
+
+.cd-qp-item:hover {
+    background: var(--color-primary-pale);
+}
+
+.cd-qp-item.is-hidden {
+    display: none;
+}
+
+.cd-qp-item-info {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    flex:           1;
+    min-width:      0;
+}
+
+.cd-qp-item-name {
+    font-size:    var(--font-size-sm);
+    font-weight:  var(--font-weight-medium);
+    color:        var(--color-text-primary);
+    white-space:  nowrap;
+    overflow:     hidden;
+    text-overflow: ellipsis;
+    display:      block;
+}
+
+.cd-qp-item-price {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       #f57f17;
+    display:     block;
+}
+
+/* Add (+) button */
+.cd-qp-add-btn {
+    width:           34px;
+    height:          34px;
+    min-width:       34px;
+    border-radius:   var(--radius-md);
+    background:      #f57f17;
+    color:           #ffffff;
+    border:          none;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       14px;
+    cursor:          pointer;
+    flex-shrink:     0;
+    transition:      background  var(--transition-fast),
+                     transform   var(--transition-fast),
+                     box-shadow  var(--transition-fast);
+    box-shadow:      0 2px 6px rgba(245,127,23,0.30);
+}
+
+.cd-qp-add-btn:hover {
+    background:  #e65100;
+    transform:   translateY(-1px) scale(1.05);
+    box-shadow:  0 4px 12px rgba(245,127,23,0.40);
+}
+
+.cd-qp-add-btn:active {
+    transform:  scale(0.95);
+    box-shadow: none;
+}
+
+.cd-qp-add-btn:focus-visible {
+    outline:        2px solid #f57f17;
+    outline-offset: 2px;
+}
+
+/* Add animation on click */
+.cd-qp-add-btn.cd-added {
+    animation: cd-btn-pop 0.30s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes cd-btn-pop {
+    0%   { transform: scale(1);    background: #f57f17; }
+    50%  { transform: scale(1.25); background: var(--color-primary); }
+    100% { transform: scale(1);    background: #f57f17; }
+}
+
+/* Unit label inside product name */
+.cd-qp-unit {
+    font-size:    10px;
+    font-style:   normal;
+    font-weight:  var(--font-weight-normal);
+    color:        var(--color-text-muted);
+    margin-left:  4px;
+}
+
+/* Meta row: price + stock badge side by side */
+.cd-qp-item-meta {
+    display:     flex;
+    align-items: center;
+    gap:         6px;
+    margin-top:  1px;
+}
+
+/* Stock badges */
+.cd-stock-badge {
+    display:       inline-block;
+    font-size:     10px;
+    font-weight:   var(--font-weight-semibold);
+    padding:       1px 6px;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink:   0;
+}
+
+.cd-stock-in       { background: #e8f5e9; color: #2e7d32; }
+.cd-stock-low      { background: #fff3e0; color: #e65100; }
+.cd-stock-critical { background: #ffebee; color: #c62828; }
+.cd-stock-out      { background: #f5f5f5; color: #757575; }
+
+/* Disable add button when out-of-stock */
+[data-stock="Out of Stock"] .cd-qp-add-btn {
+    background:  #e0e0e0;
+    color:       #9e9e9e;
+    cursor:      not-allowed;
+    box-shadow:  none;
+    pointer-events: none;
+}
+
+
+/* No results */
+.cd-qp-empty {
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    gap:            var(--space-2);
+    padding:        var(--space-8) var(--space-5);
+    color:          var(--color-text-muted);
+    font-size:      var(--font-size-sm);
+}
+
+.cd-qp-empty i {
+    font-size: 24px;
+    opacity:   0.45;
+}
+
+
+/* ================================================================
+   9. RESPONSIVE OVERRIDES
+   ================================================================ */
+
+/* Tablet landscape — tighten grid */
+@media (max-width: 1199.98px) {
+    .cd-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cd-main-grid {
+        grid-template-columns: 1fr 320px;
+    }
+}
+
+/* Tablet portrait — stack main grid */
+@media (max-width: 991.98px) {
+    .cd-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cd-quick-products-card {
+        order: -1; /* Show quick products above transactions on tablet */
+    }
+
+    .cd-qp-list {
+        max-height: 320px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+    .cd-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+    }
+
+    .cd-role-banner {
+        flex-wrap: wrap;
+        gap:       var(--space-3);
+        padding:   var(--space-4);
+    }
+
+    .cd-role-banner-desc {
+        font-size: 11px;
+    }
+
+    /* Hide less important table columns on mobile */
+    .cd-transactions-table .cd-col-time,
+    .cd-transactions-table thead th:nth-child(5) {
+        display: none;
+    }
+
+    .cd-transactions-table tbody td:first-child,
+    .cd-transactions-table thead th:first-child {
+        padding-left: var(--space-4);
+    }
+
+    .cd-transactions-table tbody td:last-child,
+    .cd-transactions-table thead th:last-child {
+        padding-right: var(--space-4);
+    }
+
+    .cd-btn-new-sale {
+        padding: 9px 14px;
+        font-size: 12px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 479.98px) {
+    .cd-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .kpi-card-value {
+        font-size: var(--font-size-3xl);
+    }
+
+    .cd-main-grid {
+        gap: var(--space-4);
+    }
+}
+
+.cd-ns-backdrop {
+    position:        fixed;
+    inset:           0;
+    background:      rgba(6, 18, 6, 0.52);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index:         1050;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    padding:         var(--space-5);
+
+    /* Hidden by default */
+    opacity:    0;
+    visibility: hidden;
+    transition: opacity    0.22s ease,
+                visibility 0.22s ease;
+}
+
+.cd-ns-backdrop.is-open {
+    opacity:    1;
+    visibility: visible;
+}
+
+
+/* ================================================================
+   NEW SALE MODAL — DIALOG
+   ================================================================ */
+.cd-ns-dialog {
+    background:    #ffffff;
+    border-radius: var(--radius-xl, 16px);
+    box-shadow:    0 24px 64px rgba(0, 0, 0, 0.22);
+    width:         100%;
+    max-width:     520px;
+    max-height:    90vh;
+    overflow-y:    auto;
+    display:       flex;
+    flex-direction: column;
+
+    transform:    translateY(16px) scale(0.97);
+    transition:   transform 0.26s cubic-bezier(0.34, 1.20, 0.64, 1);
+}
+
+.cd-ns-backdrop.is-open .cd-ns-dialog {
+    transform: translateY(0) scale(1);
+}
+
+
+/* ================================================================
+   MODAL HEADER
+   ================================================================ */
+.cd-ns-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    padding:         20px 24px 16px;
+    border-bottom:   1px solid #e8f5e9;
+    flex-shrink:     0;
+}
+
+.cd-ns-header-left {
+    display:     flex;
+    align-items: center;
+    gap:         12px;
+}
+
+.cd-ns-header-icon {
+    width:           40px;
+    height:          40px;
+    border-radius:   var(--radius-md, 10px);
+    background:      #e8f5e9;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-size:       17px;
+    color:           #2e7d32;
+    flex-shrink:     0;
+}
+
+.cd-ns-title {
+    font-size:   16px;
+    font-weight: var(--font-weight-semibold, 600);
+    color:       #1a2e1b;
+    margin:      0;
+    line-height: 1.2;
+}
+
+.cd-ns-subtitle {
+    font-size:   12px;
+    color:       #78909c;
+    margin:      0;
+    line-height: 1.3;
+    display:     block;
+    margin-top:  2px;
+}
+
+.cd-ns-close-btn {
+    width:           34px;
+    height:          34px;
+    min-width:       34px;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    background:      #f4faf4;
+    border:          1px solid #d0e8d1;
+    border-radius:   var(--radius-md, 10px);
+    color:           #546e5a;
+    font-size:       14px;
+    cursor:          pointer;
+    transition:      background var(--transition-fast, 0.15s),
+                     color      var(--transition-fast, 0.15s);
+    flex-shrink:     0;
+}
+
+.cd-ns-close-btn:hover {
+    background: #ffebee;
+    border-color: #ef9a9a;
+    color:      #c62828;
+}
+
+.cd-ns-close-btn:focus-visible {
+    outline:        2px solid #2e7d32;
+    outline-offset: 2px;
+}
+
+
+/* ================================================================
+   MODAL BODY — FORM
+   ================================================================ */
+.cd-ns-body {
+    padding:    20px 24px;
+    flex:       1;
+    overflow-y: auto;
+}
+
+/* Form field group */
+.cd-ns-field {
+    margin-bottom: 16px;
+}
+
+.cd-ns-field:last-child {
+    margin-bottom: 0;
+}
+
+.cd-ns-label {
+    display:       block;
+    font-size:     12px;
+    font-weight:   600;
+    color:         #546e5a;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+}
+
+.cd-ns-label span.cd-ns-required {
+    color:       #c62828;
+    margin-left: 2px;
+}
+
+.cd-ns-input,
+.cd-ns-select {
+    width:         100%;
+    height:        42px;
+    padding:       0 14px;
+    background:    #f4faf4;
+    border:        1px solid #d0e8d1;
+    border-radius: var(--radius-md, 10px);
+    font-family:   var(--font-family-base, 'Poppins', sans-serif);
+    font-size:     13px;
+    color:         #1a2e1b;
+    outline:       none;
+    transition:    border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    appearance:    none;
+    -webkit-appearance: none;
+}
+
+.cd-ns-input::placeholder {
+    color: #90a4ae;
+}
+
+.cd-ns-input:focus,
+.cd-ns-select:focus {
+    border-color: #2e7d32;
+    background:   #ffffff;
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.cd-ns-input--error,
+.cd-ns-select.cd-ns-input--error {
+    border-color: #c62828 !important;
+    box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.13) !important;
+}
+
+/* Select arrow */
+.cd-ns-select-wrap {
+    position: relative;
+}
+
+.cd-ns-select-wrap::after {
+    content:        '\f078';
+    font-family:    'Font Awesome 6 Free';
+    font-weight:    900;
+    font-size:      10px;
+    color:          #78909c;
+    position:       absolute;
+    right:          14px;
+    top:            50%;
+    transform:      translateY(-50%);
+    pointer-events: none;
+}
+
+/* Side-by-side field pair */
+.cd-ns-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:     12px;
+}
+
+/* Medicine search — inline icon */
+.cd-ns-search-wrap {
+    position: relative;
+}
+
+.cd-ns-search-wrap .cd-ns-search-icon {
+    position:       absolute;
+    left:           13px;
+    top:            50%;
+    transform:      translateY(-50%);
+    font-size:      12px;
+    color:          #90a4ae;
+    pointer-events: none;
+}
+
+.cd-ns-search-wrap .cd-ns-input {
+    padding-left: 36px;
+}
+
+.cd-ns-search-wrap .cd-ns-input:focus ~ .cd-ns-search-icon {
+    color: #2e7d32;
+}
+
+/* Divider */
+.cd-ns-divider {
+    height:     1px;
+    background: #e8f5e9;
+    margin:     20px 0;
+}
+
+/* Sale items summary list */
+.cd-ns-items-list {
+    background:    #f8fdf8;
+    border:        1px solid #d8ecd9;
+    border-radius: var(--radius-md, 10px);
+    padding:       10px 14px;
+    min-height:    60px;
+    font-size:     13px;
+    color:         #546e5a;
+    display:       flex;
+    align-items:   center;
+    justify-content: center;
+    gap:           8px;
+}
+
+.cd-ns-items-list.has-items {
+    display:        block;
+    align-items:    unset;
+    justify-content: unset;
+}
+
+.cd-ns-items-placeholder {
+    color:       #90a4ae;
+    font-size:   13px;
+    display:     flex;
+    align-items: center;
+    gap:         8px;
+}
+
+.cd-ns-items-placeholder i {
+    opacity: 0.55;
+}
+
+/* Total row */
+.cd-ns-total-row {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    padding:         12px 14px;
+    background:      #e8f5e9;
+    border-radius:   var(--radius-md, 10px);
+    margin-top:      12px;
+}
+
+.cd-ns-total-label {
+    font-size:   13px;
+    font-weight: 600;
+    color:       #2e7d32;
+}
+
+.cd-ns-total-value {
+    font-size:   18px;
+    font-weight: 700;
+    color:       #1a2e1b;
+}
+
+
+/* ================================================================
+   MODAL FOOTER — Action buttons
+   ================================================================ */
+.cd-ns-footer {
+    display:         flex;
+    align-items:     center;
+    justify-content: flex-end;
+    gap:             10px;
+    padding:         16px 24px 20px;
+    border-top:      1px solid #e8f5e9;
+    flex-shrink:     0;
+}
+
+.cd-ns-btn-cancel {
+    padding:       9px 20px;
+    border-radius: var(--radius-md, 10px);
+    border:        1px solid #d0e8d1;
+    background:    #ffffff;
+    font-family:   var(--font-family-base, 'Poppins', sans-serif);
+    font-size:     13px;
+    font-weight:   600;
+    color:         #546e5a;
+    cursor:        pointer;
+    transition:    background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.cd-ns-btn-cancel:hover {
+    background:   #f4faf4;
+    border-color: #a5d6a7;
+    color:        #2e7d32;
+}
+
+.cd-ns-btn-submit {
+    padding:       9px 22px;
+    border-radius: var(--radius-md, 10px);
+    border:        none;
+    background:    #2e7d32;
+    font-family:   var(--font-family-base, 'Poppins', sans-serif);
+    font-size:     13px;
+    font-weight:   600;
+    color:         #ffffff;
+    cursor:        pointer;
+    display:       flex;
+    align-items:   center;
+    gap:           8px;
+    box-shadow:    0 2px 8px rgba(46, 125, 50, 0.30);
+    transition:    background 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.cd-ns-btn-submit:hover {
+    background:  #1b5e20;
+    box-shadow:  0 4px 14px rgba(46, 125, 50, 0.38);
+    transform:   translateY(-1px);
+}
+
+.cd-ns-btn-submit:active {
+    transform:  scale(0.97);
+    box-shadow: none;
+}
+
+.cd-ns-btn-submit:disabled {
+    background:  #a5d6a7;
+    box-shadow:  none;
+    cursor:      not-allowed;
+    transform:   none;
+}
+
+.cd-ns-btn-submit:focus-visible,
+.cd-ns-btn-cancel:focus-visible {
+    outline:        2px solid #2e7d32;
+    outline-offset: 2px;
+}
+
+
+/* ================================================================
+   RESPONSIVE — modal full-screen on small mobile
+   ================================================================ */
+@media (max-width: 479.98px) {
+    .cd-ns-backdrop {
+        padding:    0;
+        align-items: flex-end;
+    }
+
+    .cd-ns-dialog {
+        max-width:     100%;
+        border-radius: 16px 16px 0 0;
+        max-height:    92vh;
+    }
+}

@@ -1,0 +1,417 @@
+/* ================================================================
+   PharmaSync — topnav.css
+   Top navigation bar: layout, search, notification button,
+   user profile pill, and dropdown menu.
+   Load order: theme.css → sidebar.css → topnav.css
+   ================================================================ */
+
+
+/* ================================================================
+   1. TOPNAV CONTAINER
+   ================================================================ */
+.topnav {
+    position:      sticky;
+    top:           0;
+    z-index:       var(--z-topnav);
+    height:        var(--topnav-height);
+    background:    var(--topnav-bg);
+    border-bottom: 1px solid #e4f0e5;
+    box-shadow:    0 1px 0 #e4f0e5, 0 2px 12px rgba(13, 31, 16, 0.06);
+    flex-shrink:   0;
+    transition:    box-shadow var(--transition-base);
+}
+
+.topnav--scrolled {
+    box-shadow: 0 1px 0 #d8ecd9, 0 4px 20px rgba(13, 31, 16, 0.11);
+}
+
+.topnav-inner {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    height:          100%;
+    padding:         0 var(--spacing-2xl);
+    gap:             var(--spacing-lg);
+}
+
+
+/* ================================================================
+   2. LEFT SIDE — Hamburger + Page title
+   ================================================================ */
+.topnav-left {
+    display:     flex;
+    align-items: center;
+    gap:         var(--spacing-lg);
+    flex-shrink: 0;
+}
+
+/* Mobile hamburger */
+.topnav-hamburger {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           38px;
+    height:          38px;
+    min-width:       38px;
+    background:      transparent;
+    border:          1px solid var(--topnav-border);
+    border-radius:   var(--radius-md);
+    color:           var(--topnav-text);
+    font-size:       15px;
+    cursor:          pointer;
+    transition:      background    var(--transition-fast),
+                     border-color  var(--transition-fast),
+                     transform     var(--transition-fast);
+}
+
+.topnav-hamburger:hover {
+    background:    var(--topnav-hover-bg);
+    border-color:  var(--search-focus-border);
+}
+
+.topnav-hamburger:active {
+    transform: scale(0.96);
+}
+
+.topnav-hamburger:focus-visible {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: 2px;
+}
+
+/* Page heading */
+.topnav-page-title {
+    display:     flex;
+    align-items: center;
+}
+
+.topnav-heading {
+    font-size:    var(--font-size-xl);
+    font-weight:  var(--font-weight-semibold);
+    color:        var(--topnav-text);
+    margin:       0;
+    white-space:  nowrap;
+    line-height:  1;
+    letter-spacing: -0.01em;
+}
+
+
+/* ================================================================
+   3. RIGHT SIDE — Search + Actions + User
+   ================================================================ */
+.topnav-right {
+    display:         flex;
+    align-items:     center;
+    gap:             var(--spacing-md);
+    flex:            1;
+    justify-content: flex-end;
+    min-width:       0;
+}
+
+
+/* ================================================================
+   4. GLOBAL SEARCH
+   ================================================================ */
+.topnav-search {
+    position:  relative;
+    flex:      1;
+    max-width: 300px;
+}
+
+.topnav-search-icon {
+    position:       absolute;
+    left:           12px;
+    top:            50%;
+    transform:      translateY(-50%);
+    color:          var(--topnav-muted);
+    font-size:      13px;
+    pointer-events: none;
+    transition:     color var(--transition-fast);
+}
+
+.topnav-search-input {
+    width:         100%;
+    height:        38px;
+    padding:       0 14px 0 36px;
+    background:    #f4faf4;
+    border:        1px solid #d0e8d1;
+    border-radius: 20px;
+    font-family:   var(--font-base);
+    font-size:     var(--font-size-sm);
+    color:         var(--topnav-text);
+    outline:       none;
+    transition:    border-color  var(--transition-fast),
+                   box-shadow    var(--transition-fast),
+                   background    var(--transition-fast);
+}
+
+.topnav-search-input::placeholder {
+    color: var(--topnav-muted);
+}
+
+.topnav-search-input:focus {
+    border-color: var(--search-focus-border);
+    background:   #ffffff;
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+.topnav-search-input:focus + .topnav-search-icon,
+.topnav-search:focus-within .topnav-search-icon {
+    color: var(--active-green);
+}
+
+
+/* ================================================================
+   5. ACTION ICON BUTTONS (notifications etc.)
+   ================================================================ */
+.topnav-action-group {
+    display:     flex;
+    align-items: center;
+    gap:         var(--spacing-xs);
+}
+
+.topnav-icon-btn {
+    position:        relative;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           38px;
+    height:          38px;
+    min-width:       38px;
+    background:      #f4faf4;
+    border:          1px solid #d8ecd9;
+    border-radius:   var(--radius-md);
+    color:           var(--topnav-muted);
+    font-size:       15px;
+    cursor:          pointer;
+    transition:      background    var(--transition-fast),
+                     border-color  var(--transition-fast),
+                     color         var(--transition-fast),
+                     transform     var(--transition-fast);
+}
+
+.topnav-icon-btn:hover {
+    background:   #e8f5e9;
+    border-color: var(--active-green);
+    color:        var(--active-green);
+    transform:    translateY(-1px);
+}
+
+.topnav-icon-btn:active {
+    transform: translateY(0) scale(0.96);
+}
+
+.topnav-icon-btn:focus-visible {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: 2px;
+}
+
+/* Badge on icon button */
+.topnav-icon-badge {
+    position:        absolute;
+    top:             5px;
+    right:           5px;
+    min-width:       16px;
+    height:          16px;
+    padding:         0 4px;
+    background:      var(--badge-bg);
+    color:           #ffffff;
+    font-size:       9px;
+    font-weight:     var(--font-weight-bold);
+    border-radius:   var(--radius-circle);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    line-height:     1;
+    border:          1.5px solid #ffffff;
+    pointer-events:  none;
+}
+
+
+/* ================================================================
+   6. USER PROFILE PILL
+   ================================================================ */
+.topnav-user-pill {
+    display:       flex;
+    align-items:   center;
+    gap:           10px;
+    padding:       5px 12px 5px 5px;
+    background:    #f4faf4;
+    border:        1px solid #d0e8d1;
+    border-radius: 24px;
+    cursor:        pointer;
+    position:      relative;
+    user-select:   none;
+    -webkit-user-select: none;
+    transition:    background    var(--transition-fast),
+                   border-color  var(--transition-fast),
+                   box-shadow    var(--transition-fast);
+}
+
+.topnav-user-pill:hover,
+.topnav-user-pill.is-open {
+    background:   #e8f5e9;
+    border-color: #a5d6a7;
+    box-shadow:   0 0 0 3px rgba(46, 125, 50, 0.10);
+}
+
+.topnav-user-pill:focus-visible {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: 2px;
+    border-radius:  24px;
+}
+
+/* Avatar circle */
+.topnav-user-avatar {
+    width:           32px;
+    height:          32px;
+    min-width:       32px;
+    background:      var(--active-green);
+    border-radius:   var(--radius-circle);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    flex-shrink:     0;
+}
+
+.topnav-avatar-initials {
+    font-size:      11px;
+    font-weight:    var(--font-weight-bold);
+    color:          #ffffff;
+    letter-spacing: 0.04em;
+    line-height:    1;
+}
+
+/* Name + role stack */
+.topnav-user-info {
+    display:        flex;
+    flex-direction: column;
+    gap:            1px;
+}
+
+.topnav-user-name {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--topnav-text);
+    white-space: nowrap;
+    line-height: 1.2;
+    display:     block;
+}
+
+.topnav-user-role {
+    font-size:   10px;
+    color:       var(--topnav-muted);
+    white-space: nowrap;
+    line-height: 1.2;
+    display:     block;
+}
+
+/* Chevron */
+.topnav-user-chevron {
+    font-size:   10px;
+    color:       var(--topnav-muted);
+    flex-shrink: 0;
+    transition:  transform var(--transition-fast);
+}
+
+.topnav-user-pill.is-open .topnav-user-chevron {
+    transform: rotate(180deg);
+}
+
+
+/* ================================================================
+   7. USER DROPDOWN MENU
+   ================================================================ */
+.topnav-user-dropdown {
+    position:       absolute;
+    top:            calc(var(--topnav-height) - 8px);
+    right:          var(--spacing-2xl);
+    width:          210px;
+    background:     var(--dropdown-bg);
+    border:         1px solid var(--dropdown-border);
+    border-radius:  var(--radius-lg);
+    box-shadow:     var(--dropdown-shadow);
+    z-index:        var(--z-user-menu);
+    padding:        var(--spacing-sm) 0;
+    opacity:        0;
+    visibility:     hidden;
+    transform:      translateY(-8px) scale(0.97);
+    transform-origin: top right;
+    transition:     opacity     var(--transition-base),
+                    visibility  var(--transition-base),
+                    transform   var(--transition-base);
+}
+
+.topnav-user-dropdown.is-open {
+    opacity:    1;
+    visibility: visible;
+    transform:  translateY(0) scale(1);
+}
+
+.user-dropdown-list {
+    padding: 0;
+    margin:  0;
+}
+
+.user-dropdown-item {
+    display:         flex;
+    align-items:     center;
+    gap:             10px;
+    padding:         9px 16px;
+    font-size:       var(--font-size-sm);
+    font-weight:     var(--font-weight-medium);
+    color:           var(--topnav-text);
+    text-decoration: none;
+    transition:      background var(--transition-fast),
+                     color      var(--transition-fast);
+    cursor:          pointer;
+}
+
+.user-dropdown-item i,
+.user-dropdown-item .fa-solid,
+.user-dropdown-item .fa-regular {
+    width:      16px;
+    font-size:  13px;
+    color:      var(--topnav-muted);
+    flex-shrink: 0;
+    transition: color var(--transition-fast);
+    text-align: center;
+}
+
+.user-dropdown-item:hover {
+    background: var(--dropdown-item-hover);
+    color:      var(--active-green);
+}
+
+.user-dropdown-item:hover i,
+.user-dropdown-item:hover .fa-solid {
+    color: var(--active-green);
+}
+
+.user-dropdown-item--danger {
+    color: var(--dropdown-danger);
+}
+
+.user-dropdown-item--danger i,
+.user-dropdown-item--danger .fa-solid {
+    color: var(--dropdown-danger);
+}
+
+.user-dropdown-item--danger:hover {
+    background: var(--dropdown-danger-hover);
+    color:      var(--dropdown-danger);
+}
+
+.user-dropdown-item--danger:hover i {
+    color: var(--dropdown-danger);
+}
+
+.user-dropdown-divider {
+    height:     1px;
+    background: var(--dropdown-border);
+    margin:     6px 0;
+}
+
+.user-dropdown-item:focus-visible {
+    outline:        2px solid var(--active-green-bright);
+    outline-offset: -2px;
+}

@@ -1,0 +1,360 @@
+/* ================================================================
+   PharmaSync — inventory-modals.css
+   Minimal additions for the three Inventory modals.
+   All base modal chrome (.ps-modal-backdrop, .ps-modal,
+   .ps-modal-header, .ps-modal-body, .ps-modal-footer,
+   .ps-modal-close, .ps-modal-title) comes from components.css.
+   This file ONLY adds modal-size variants and inventory-specific
+   inner components.
+   ================================================================ */
+
+
+/* ================================================================
+   1. MODAL SIZE VARIANTS
+   components.css sets max-width: 520px as the default.
+   We extend with sm and lg variants for our three modals.
+   ================================================================ */
+.ps-modal--sm { max-width: 420px; }
+.ps-modal--md { max-width: 560px; }   /* Add Medicine — default is fine but explicit */
+.ps-modal--lg { max-width: 640px; }   /* Medicine Details */
+
+/* Subtitle line under title (Details modal) */
+.ps-modal-subtitle {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+    margin:     3px 0 0;
+    font-family: var(--font-family-mono);
+    letter-spacing: 0.04em;
+}
+
+
+/* ================================================================
+   2. FORM LAYOUT — ROWS, GROUPS & ALIGNMENT
+   ================================================================ */
+
+/* Two-column row grid — equal columns, tops aligned */
+.ps-modal-body .ps-form-row {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   var(--space-4);
+    align-items:           start;   /* labels with different lengths don't pull inputs down */
+}
+
+/* Every form group stretches to fill its grid cell */
+.ps-modal-body .ps-form-row .ps-form-group {
+    margin-top:  0;          /* gap handles spacing inside a row */
+    display:     flex;
+    flex-direction: column;
+    min-width:   0;          /* prevents number inputs from blowing out the grid column */
+}
+
+/* Inputs and textareas fill the group width consistently */
+.ps-modal-body .ps-form-control {
+    width:     100%;
+    min-width: 0;
+}
+
+/* Vertical spacing between rows and standalone groups */
+.ps-modal-body .ps-form-group + .ps-form-group,
+.ps-modal-body .ps-form-row  + .ps-form-group,
+.ps-modal-body .ps-form-group + .ps-form-row,
+.ps-modal-body .ps-form-row  + .ps-form-row  {
+    margin-top: var(--space-5);
+}
+
+/* Cancel the sibling margin-top for groups sitting inside a two-column row —
+   the grid gap already handles internal spacing */
+.ps-modal-body .ps-form-row .ps-form-group + .ps-form-group {
+    margin-top: 0;
+}
+
+/* Inline validation error message — hidden by default */
+.ps-form-error {
+    display:    none;
+    font-size:  var(--font-size-xs);
+    color:      var(--color-danger);
+    margin-top: var(--space-1);
+}
+
+/* Show error when sibling input has .is-invalid */
+.ps-form-control.is-invalid ~ .ps-form-error,
+.ps-form-control.is-invalid + .ps-form-error {
+    display: block;
+}
+
+/* Invalid input ring */
+.ps-form-control.is-invalid {
+    border-color: var(--color-danger);
+    box-shadow:   0 0 0 3px rgba(198, 40, 40, 0.12);
+}
+
+/* Required asterisk */
+.ps-required {
+    color:       var(--color-danger);
+    margin-left: 2px;
+    font-weight: var(--font-weight-bold);
+}
+
+
+/* ================================================================
+   3. UPDATE STOCK MODAL — Medicine name pill
+   ================================================================ */
+.inv-update-med-pill {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-2);
+    background:    var(--color-primary-pale);
+    border:        1px solid var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding:       var(--space-3) var(--space-4);
+    margin-bottom: var(--space-5);
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-primary-dark);
+}
+
+.inv-update-med-pill i {
+    color:      var(--color-primary);
+    font-size:  14px;
+    flex-shrink: 0;
+}
+
+/* Current stock display */
+.inv-stock-display {
+    display:     flex;
+    align-items: baseline;
+    gap:         var(--space-2);
+    padding:     var(--space-3) var(--space-4);
+    background:  var(--color-gray-50);
+    border:      1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+}
+
+.inv-stock-value {
+    font-size:   var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color:       var(--color-text-primary);
+    line-height: 1;
+}
+
+.inv-stock-unit {
+    font-size:  var(--font-size-sm);
+    color:      var(--color-text-muted);
+}
+
+
+/* ================================================================
+   4. MEDICINE DETAILS MODAL
+   ================================================================ */
+
+/* Status + meta row at the top of the body */
+.inv-detail-status-row {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-4);
+    flex-wrap:     wrap;
+    padding:       var(--space-4) var(--space-5);
+    background:    var(--color-gray-50);
+    border:        1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-6);
+}
+
+.inv-detail-meta {
+    font-size:  var(--font-size-xs);
+    color:      var(--color-text-muted);
+}
+
+.inv-detail-meta strong {
+    color:       var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Sections */
+.inv-detail-section {
+    margin-bottom: var(--space-6);
+}
+
+.inv-detail-section:last-child {
+    margin-bottom: 0;
+}
+
+.inv-detail-section-title {
+    font-size:     var(--font-size-xs);
+    font-weight:   var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color:         var(--color-text-muted);
+    margin:        0 0 var(--space-4);
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-2);
+}
+
+.inv-detail-section-title i {
+    color:     var(--color-primary);
+    font-size: 11px;
+}
+
+/* 2-column grid of label/value pairs */
+.inv-detail-grid {
+    display:               grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:                   var(--space-4) var(--space-6);
+}
+
+.inv-detail-field {
+    display:        flex;
+    flex-direction: column;
+    gap:            4px;
+}
+
+.inv-detail-label {
+    font-size:      var(--font-size-xs);
+    font-weight:    var(--font-weight-medium);
+    color:          var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.inv-detail-value {
+    font-size:   var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color:       var(--color-text-primary);
+    line-height: 1.4;
+    word-break:  break-word;
+}
+
+.inv-detail-mono {
+    font-family: var(--font-family-mono);
+    font-size:   var(--font-size-xs);
+    letter-spacing: 0.05em;
+}
+
+.inv-detail-price {
+    color:     var(--color-primary);
+    font-size: var(--font-size-md);
+}
+
+/* Footer actions alignment in details modal */
+.inv-detail-footer {
+    justify-content: space-between;
+}
+
+
+/* ================================================================
+   5. DELETE CONFIRM MODAL
+   ================================================================ */
+
+.inv-delete-warning {
+    display:       flex;
+    align-items:   flex-start;
+    gap:           var(--space-3);
+    background:    var(--color-danger-bg);
+    border:        1px solid rgba(198, 40, 40, 0.20);
+    border-radius: var(--radius-md);
+    padding:       var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.inv-delete-warning-icon {
+    color:      var(--color-danger);
+    font-size:  16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.inv-delete-warning-text {
+    font-size:   var(--font-size-sm);
+    color:       var(--color-text-primary);
+    line-height: var(--line-height-base);
+    margin:      0;
+}
+
+/* Medicine name pill — reuses update stock pill style with danger tint */
+.inv-delete-med-pill {
+    display:       flex;
+    align-items:   center;
+    gap:           var(--space-2);
+    background:    var(--color-gray-50);
+    border:        1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    padding:       var(--space-3) var(--space-4);
+    font-size:     var(--font-size-sm);
+    font-weight:   var(--font-weight-semibold);
+    color:         var(--color-text-primary);
+}
+
+.inv-delete-med-pill i {
+    color:       var(--color-text-muted);
+    font-size:   14px;
+    flex-shrink: 0;
+}
+
+/* Danger button variant — for delete actions */
+.ps-btn-danger {
+    background:   var(--color-danger);
+    color:        #ffffff;
+    border-color: var(--color-danger);
+}
+
+.ps-btn-danger:hover {
+    background:   #b71c1c;
+    border-color: #b71c1c;
+    color:        #ffffff;
+    box-shadow:   0 4px 14px rgba(198, 40, 40, 0.30);
+}
+
+.ps-btn-danger:active {
+    transform: scale(0.97);
+}
+
+
+/* ================================================================
+   6. RESPONSIVE
+   ================================================================ */
+@media (max-width: 767.98px) {
+
+    /* All modals go edge-to-edge with small margin */
+    .ps-modal--sm,
+    .ps-modal--md,
+    .ps-modal--lg {
+        max-width: calc(100vw - var(--space-8));
+    }
+
+    /* Details grid drops to 1 column */
+    .inv-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Status row stacks */
+    .inv-detail-status-row {
+        flex-direction: column;
+        align-items:    flex-start;
+        gap:            var(--space-2);
+    }
+
+    /* Details footer stacks buttons */
+    .inv-detail-footer {
+        flex-direction:  column-reverse;
+        align-items:     stretch;
+    }
+
+    .inv-detail-footer .ps-btn {
+        justify-content: center;
+        width:           100%;
+    }
+}
+
+@media (max-width: 479.98px) {
+
+    /* Form rows collapse to single column inside modals */
+    .ps-modal-body .ps-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Restore vertical spacing that the grid gap was handling */
+    .ps-modal-body .ps-form-row .ps-form-group + .ps-form-group {
+        margin-top: var(--space-5);
+    }
+}
