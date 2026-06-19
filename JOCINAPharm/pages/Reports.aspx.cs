@@ -60,8 +60,6 @@ namespace JOCINAPharm.pages
             public string  customer_name  { get; set; }
             public DateTime sale_date      { get; set; }
             public decimal subtotal       { get; set; }
-            public decimal tax_rate       { get; set; }
-            public decimal tax_amount     { get; set; }
             public decimal total_amount   { get; set; }
             public string  payment_method { get; set; }
             public string  status         { get; set; }
@@ -83,7 +81,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 1, invoice_number = "INV-0041", customer_name = "Kwame Asante",
                 sale_date = new DateTime(2025, 5, 14), payment_method = "cash", status = "paid",
-                subtotal = 85_000, tax_rate = 2.5m, tax_amount = 2_125, total_amount = 87_125,
+                subtotal = 85_000, total_amount = 85_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Paracetamol 500mg",   unit_price = 3_000, quantity = 20, line_total =  60_000 },
@@ -95,7 +93,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 2, invoice_number = "INV-0040", customer_name = "Walk-in Customer",
                 sale_date = new DateTime(2025, 5, 14), payment_method = "momo", status = "pending",
-                subtotal = 32_000, tax_rate = 2.5m, tax_amount = 800, total_amount = 32_800,
+                subtotal = 32_000, total_amount = 32_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Amoxicillin 500mg",   unit_price = 13_000, quantity = 2, line_total = 26_000 },
@@ -106,7 +104,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 3, invoice_number = "INV-0039", customer_name = "John Boateng",
                 sale_date = new DateTime(2025, 5, 13), payment_method = "card", status = "paid",
-                subtotal = 120_000, tax_rate = 2.5m, tax_amount = 3_000, total_amount = 123_000,
+                subtotal = 120_000, total_amount = 120_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Metformin 850mg",     unit_price = 10_000, quantity = 6, line_total =  60_000 },
@@ -117,7 +115,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 4, invoice_number = "INV-0038", customer_name = "Abena Mensah",
                 sale_date = new DateTime(2025, 5, 13), payment_method = "insurance", status = "cancelled",
-                subtotal = 45_500, tax_rate = 2.5m, tax_amount = 1_137, total_amount = 46_637,
+                subtotal = 45_500, total_amount = 45_500,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Ciprofloxacin 500mg", unit_price = 18_000, quantity = 2, line_total = 36_000 },
@@ -129,7 +127,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 5, invoice_number = "INV-0037", customer_name = "Samuel Darko",
                 sale_date = new DateTime(2025, 5, 12), payment_method = "cash", status = "paid",
-                subtotal = 210_000, tax_rate = 2.5m, tax_amount = 5_250, total_amount = 215_250,
+                subtotal = 210_000, total_amount = 210_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Atorvastatin 20mg",   unit_price = 14_000, quantity = 10, line_total = 140_000 },
@@ -143,7 +141,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 6, invoice_number = "INV-0036", customer_name = "Mary Osei",
                 sale_date = new DateTime(2025, 5, 12), payment_method = "momo", status = "paid",
-                subtotal = 54_000, tax_rate = 2.5m, tax_amount = 1_350, total_amount = 55_350,
+                subtotal = 54_000, total_amount = 54_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Ciprofloxacin 500mg", unit_price = 18_000, quantity = 3, line_total = 54_000 },
@@ -153,7 +151,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 7, invoice_number = "INV-0035", customer_name = "Walk-in Customer",
                 sale_date = new DateTime(2025, 5, 11), payment_method = "cash", status = "paid",
-                subtotal = 21_000, tax_rate = 2.5m, tax_amount = 525, total_amount = 21_525,
+                subtotal = 21_000, total_amount = 21_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Paracetamol 500mg",   unit_price = 3_000, quantity = 7, line_total = 21_000 },
@@ -163,7 +161,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 8, invoice_number = "INV-0034", customer_name = "Kwame Asante",
                 sale_date = new DateTime(2025, 5, 11), payment_method = "card", status = "paid",
-                subtotal = 78_000, tax_rate = 2.5m, tax_amount = 1_950, total_amount = 79_950,
+                subtotal = 78_000, total_amount = 78_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Amoxicillin 500mg",   unit_price = 13_000, quantity = 6, line_total = 78_000 },
@@ -173,7 +171,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 9, invoice_number = "INV-0033", customer_name = "John Boateng",
                 sale_date = new DateTime(2025, 5, 10), payment_method = "insurance", status = "paid",
-                subtotal = 96_000, tax_rate = 2.5m, tax_amount = 2_400, total_amount = 98_400,
+                subtotal = 96_000, total_amount = 96_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Atorvastatin 20mg",   unit_price = 14_000, quantity = 4, line_total = 56_000 },
@@ -185,7 +183,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 10, invoice_number = "INV-0032", customer_name = "Abena Mensah",
                 sale_date = new DateTime(2025, 5, 9), payment_method = "cash", status = "paid",
-                subtotal = 48_000, tax_rate = 2.5m, tax_amount = 1_200, total_amount = 49_200,
+                subtotal = 48_000, total_amount = 48_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Ciprofloxacin 500mg", unit_price = 18_000, quantity = 2, line_total = 36_000 },
@@ -196,7 +194,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 11, invoice_number = "INV-0031", customer_name = "Samuel Darko",
                 sale_date = new DateTime(2025, 5, 9), payment_method = "momo", status = "pending",
-                subtotal = 104_000, tax_rate = 2.5m, tax_amount = 2_600, total_amount = 106_600,
+                subtotal = 104_000, total_amount = 104_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Metformin 850mg",     unit_price = 10_000, quantity = 8,  line_total =  80_000 },
@@ -207,7 +205,7 @@ namespace JOCINAPharm.pages
             {
                 sale_id = 12, invoice_number = "INV-0030", customer_name = "Walk-in Customer",
                 sale_date = new DateTime(2025, 5, 8), payment_method = "cash", status = "paid",
-                subtotal = 36_000, tax_rate = 2.5m, tax_amount = 900, total_amount = 36_900,
+                subtotal = 36_000, total_amount = 36_000,
                 items = new List<SaleItemRow>
                 {
                     new SaleItemRow { medicine_name = "Ibuprofen 400mg",     unit_price = 4_000, quantity = 9, line_total = 36_000 },
@@ -546,8 +544,6 @@ namespace JOCINAPharm.pages
             litModalPaymentMethod.Text  = System.Globalization.CultureInfo.CurrentCulture
                                               .TextInfo.ToTitleCase(sale.payment_method);
             litModalSubtotal.Text       = sale.subtotal.ToString("N0");
-            litModalTaxRate.Text        = sale.tax_rate.ToString("G29");
-            litModalTaxAmount.Text      = sale.tax_amount.ToString("N0");
             litModalTotal.Text          = sale.total_amount.ToString("N0");
 
             // Line items

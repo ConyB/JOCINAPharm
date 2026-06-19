@@ -483,10 +483,6 @@
     color:       var(--color-text-secondary);
 }
 
-.rpt-sales-table .rpt-tax-cell {
-    color:     var(--color-text-muted);
-    font-size: var(--font-size-sm);
-}
 
 
 /* ================================================================

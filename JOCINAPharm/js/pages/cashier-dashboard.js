@@ -389,18 +389,12 @@ window.CashierDashboard = (function () {
             );
         });
 
-        var TAX_RATE   = 2.50;                             // matches sales.tax_rate default
-        var taxAmount  = runningTotal * (TAX_RATE / 100);
-        var grandTotal = runningTotal + taxAmount;
+        var grandTotal = runningTotal;
 
         list.innerHTML = rows.join('') +
             '<div style="display:flex;justify-content:space-between;padding:6px 0 2px;' +
             'font-size:12px;color:#78909c;border-top:1px solid #e8f5e9;margin-top:6px;">' +
-            '<span>Subtotal</span><span>UGX ' + runningTotal.toFixed(2) + '</span></div>' +
-            '<div style="display:flex;justify-content:space-between;padding:2px 0;' +
-            'font-size:12px;color:#78909c;">' +
-            '<span>Tax (' + TAX_RATE.toFixed(1) + '%)</span>' +
-            '<span>UGX ' + taxAmount.toFixed(2) + '</span></div>';
+            '<span>Subtotal</span><span>UGX ' + runningTotal.toFixed(2) + '</span></div>';
 
         if (total) total.textContent = 'UGX ' + grandTotal.toFixed(2);
     }
@@ -496,16 +490,13 @@ window.CashierDashboard = (function () {
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating…';
         }
 
-        var TAX_RATE  = 2.50;
         var subtotal  = _saleItems.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-        var taxAmt    = subtotal * (TAX_RATE / 100);
-        var grandTotal = subtotal + taxAmt;
+        var grandTotal = subtotal;
 
         var qs = '?action=new' +
             '&customer='  + encodeURIComponent(customer) +
             '&payment='   + encodeURIComponent(payment) +
             '&subtotal='  + subtotal.toFixed(2) +
-            '&tax='       + taxAmt.toFixed(2) +
             '&total='     + grandTotal.toFixed(2);
         window.location.href = 'SalesBilling.aspx' + qs;
     }

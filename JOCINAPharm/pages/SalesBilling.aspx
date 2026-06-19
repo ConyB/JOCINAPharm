@@ -503,10 +503,6 @@
                     <span>Subtotal</span>
                     <span id="cartSubtotal">Ugx 0.00</span>
                 </div>
-                <div class="sb-total-row">
-                    <span>Tax (2.5%)</span>
-                    <span id="cartTax">Ugx 0.00</span>
-                </div>
                 <div class="sb-total-row sb-total-row--grand">
                     <span>Total</span>
                     <span id="cartTotal">Ugx 0.00</span>
@@ -578,7 +574,6 @@
                     </table>
                     <div class="sb-receipt-totals">
                         <div><span>Subtotal</span><span id="receiptSubtotal">Ugx 0.00</span></div>
-                        <div><span>Tax (2.5%)</span><span id="receiptTax">Ugx 0.00</span></div>
                         <div class="sb-receipt-grand"><span>TOTAL</span><span id="receiptTotal">Ugx 0.00</span></div>
                     </div>
                     <div class="sb-receipt-footer">
@@ -751,7 +746,6 @@
                                 <th scope="col">Customer</th>
                                 <th scope="col">Items</th>
                                 <th scope="col" class="text-end">Subtotal</th>
-                                <th scope="col" class="text-end">Tax</th>
                                 <th scope="col" class="text-end">Total</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Payment</th>
@@ -765,8 +759,7 @@
                                 <td><span class="sb-invoice-num">INV-0041</span></td>
                                 <td>Kwame Asante</td>
                                 <td>3</td>
-                                <td class="text-end">Ugx 117.56</td>
-                                <td class="text-end">Ugx 2.94</td>
+                                <td class="text-end">Ugx 120.50</td>
                                 <td class="text-end fw-semibold">Ugx 120.50</td>
                                 <td>24 May 2026</td>
                                 <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
@@ -782,8 +775,7 @@
                                 <td><span class="sb-invoice-num">INV-0040</span></td>
                                 <td>Abena Mensah</td>
                                 <td>1</td>
-                                <td class="text-end">Ugx 43.90</td>
-                                <td class="text-end">Ugx 1.10</td>
+                                <td class="text-end">Ugx 45.00</td>
                                 <td class="text-end fw-semibold">Ugx 45.00</td>
                                 <td>24 May 2026</td>
                                 <td><span class="sb-pay-method sb-pay-method--momo">MoMo</span></td>
@@ -799,8 +791,7 @@
                                 <td><span class="sb-invoice-num">INV-0039</span></td>
                                 <td>John Boateng</td>
                                 <td>5</td>
-                                <td class="text-end">Ugx 312.20</td>
-                                <td class="text-end">Ugx 7.80</td>
+                                <td class="text-end">Ugx 320.00</td>
                                 <td class="text-end fw-semibold">Ugx 320.00</td>
                                 <td>24 May 2026</td>
                                 <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>

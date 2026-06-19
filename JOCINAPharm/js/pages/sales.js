@@ -17,7 +17,6 @@ var SalesPOS = (function () {
 
     /* ── State ───────────────────────────────────────────────── */
     var _cart       = [];      // Array of { medicineId, name, unitPrice, qty, lineTotal }
-    var _taxRate    = 0.025;   // 2.5 % — mirrors sales.tax_rate default
     var _lastInvoice = null;   // Invoice data set after a confirmed sale (for receipt)
 
     /* ── DOM references (resolved on DOMContentLoaded) ────────── */
@@ -33,7 +32,6 @@ var SalesPOS = (function () {
             cartEmptyState: document.getElementById('cartEmptyState'),
             cartBadge:      document.getElementById('cartBadge'),
             cartSubtotal:   document.getElementById('cartSubtotal'),
-            cartTax:        document.getElementById('cartTax'),
             cartTotal:      document.getElementById('cartTotal'),
             btnProcessSale: document.getElementById('btnProcessSale'),
             btnClearCart:   document.getElementById('btnClearCart'),
@@ -49,7 +47,6 @@ var SalesPOS = (function () {
             txtMomoRef:     document.getElementById('txtMomoRef'),
             payChange:      document.getElementById('payChange'),
             paySubtotal:    document.getElementById('paySubtotal'),
-            payTax:         document.getElementById('payTax'),
             payTotal:       document.getElementById('payTotal'),
             payMethodGroup: document.getElementById('payMethodGroup'),
             /* Hidden fields for server postback */
@@ -60,7 +57,6 @@ var SalesPOS = (function () {
             hfMomoRef:       document.getElementById('hfMomoRef'),
             hfSaleStatus:    document.getElementById('hfSaleStatus'),
             hfSubtotal:      document.getElementById('hfSubtotal'),
-            hfTaxAmount:     document.getElementById('hfTaxAmount'),
             hfTotalAmount:   document.getElementById('hfTotalAmount'),
             hfSaleNotes:     document.getElementById('hfSaleNotes'),
             btnSubmitSale:   document.getElementById('btnSubmitSale'),
@@ -215,11 +211,9 @@ var SalesPOS = (function () {
 
         /* Totals */
         var subtotal = _cart.reduce(function (s, i) { return s + i.lineTotal; }, 0);
-        var tax      = _round(subtotal * _taxRate);
-        var total    = _round(subtotal + tax);
+        var total    = _round(subtotal);
 
         _dom.cartSubtotal.textContent = _fmt(subtotal);
-        _dom.cartTax.textContent      = _fmt(tax);
         _dom.cartTotal.textContent    = _fmt(total);
 
         /* Build item rows */
@@ -259,11 +253,9 @@ var SalesPOS = (function () {
         if (_cart.length === 0) return;
 
         var subtotal = _cart.reduce(function (s, i) { return s + i.lineTotal; }, 0);
-        var tax      = _round(subtotal * _taxRate);
-        var total    = _round(subtotal + tax);
+        var total    = _round(subtotal);
 
         _dom.paySubtotal.textContent = _fmt(subtotal);
-        _dom.payTax.textContent      = _fmt(tax);
         _dom.payTotal.textContent    = _fmt(total);
 
         /* Reset cash inputs */
@@ -360,7 +352,7 @@ var SalesPOS = (function () {
      */
     function calcChange() {
         var subtotal = _cart.reduce(function (s, i) { return s + i.lineTotal; }, 0);
-        var total    = _round(subtotal + _round(subtotal * _taxRate));
+        var total    = _round(subtotal);
         var received = parseFloat(_dom.txtCashReceived.value) || 0;
         var change   = _round(received - total);
 
@@ -379,8 +371,7 @@ var SalesPOS = (function () {
        ================================================================ */
     function confirmSale() {
         var subtotal = _cart.reduce(function (s, i) { return s + i.lineTotal; }, 0);
-        var tax      = _round(subtotal * _taxRate);
-        var total    = _round(subtotal + tax);
+        var total    = _round(subtotal);
 
         var selectedOption = _dom.payMethodGroup
             ? (_dom.payMethodGroup.querySelector('.pos-pay-method-option.is-selected') || {}).dataset || {}
@@ -415,7 +406,6 @@ var SalesPOS = (function () {
                                       : '';
         _dom.hfSaleStatus.value    = 'paid';
         _dom.hfSubtotal.value      = subtotal.toFixed(2);
-        _dom.hfTaxAmount.value     = tax.toFixed(2);
         _dom.hfTotalAmount.value   = total.toFixed(2);
         _dom.hfSaleNotes.value     = (_dom.txtSaleNotes ? _dom.txtSaleNotes.value.trim() : '');
 
@@ -427,7 +417,6 @@ var SalesPOS = (function () {
             momoRef:      _dom.hfMomoRef.value,
             items:        _cart.slice(),
             subtotal:     subtotal,
-            tax:          tax,
             total:        total,
             cashReceived: parseFloat((_dom.txtCashReceived || {}).value) || 0,
             date:         _today(),
@@ -457,8 +446,7 @@ var SalesPOS = (function () {
                 { name: 'Amoxicillin 500mg',   unitPrice: 13.00, qty: 1, lineTotal: 13.00 },
             ],
             subtotal:     19.00,
-            tax:          _round(19.00 * _taxRate),
-            total:        _round(19.00 + _round(19.00 * _taxRate)),
+            total:        19.00,
             cashReceived: 20.00,
             date:         _today(),
             time:         _nowTime(),
@@ -480,7 +468,6 @@ var SalesPOS = (function () {
         document.getElementById('rcptTime').textContent       = data.time;
         document.getElementById('rcptCustomer').textContent   = data.customerName || 'Walk-in Customer';
         document.getElementById('rcptSubtotal').textContent   = _fmt(data.subtotal);
-        document.getElementById('rcptTax').textContent        = _fmt(data.tax);
         document.getElementById('rcptTotal').textContent      = _fmt(data.total);
 
         var payDisplay = _capitalise(data.payMethod || 'Cash');

@@ -497,16 +497,6 @@ namespace JOCINAPharm.pages
         protected global::System.Web.UI.WebControls.Literal litModalSubtotal;
 
         /// <summary>
-        /// litModalTaxRate control.
-        /// </summary>
-        protected global::System.Web.UI.WebControls.Literal litModalTaxRate;
-
-        /// <summary>
-        /// litModalTaxAmount control.
-        /// </summary>
-        protected global::System.Web.UI.WebControls.Literal litModalTaxAmount;
-
-        /// <summary>
         /// litModalTotal control.
         /// </summary>
         protected global::System.Web.UI.WebControls.Literal litModalTotal;

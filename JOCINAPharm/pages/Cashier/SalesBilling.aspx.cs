@@ -25,7 +25,7 @@ namespace JOCINAPharm.pages.Cashier
             // TODO: Deserialise hfCartJson.Value  → List<SaleItemDto>
             // TODO: Read hfCustomerName.Value     → sale.customer_name
             // TODO: Read hfPaymentMethod.Value    → payment_method
-            // TODO: Read hfSubtotal / Tax / Total → sale financials
+            // TODO: Read hfSubtotal / Total       → sale financials
             // TODO: Call SalesData.CreateSale(...)
             // TODO: Return new invoice_number to JS via a hidden label or
             //       RegisterStartupScript for receipt display

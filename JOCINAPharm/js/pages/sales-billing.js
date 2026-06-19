@@ -22,7 +22,6 @@ window.SB = window.SB || {};
     var _cart        = [];          // { id, code, name, price, qty, stock, unit }
     var _invoiceNum  = null;        // currently-viewed invoice number
     var _lastInvoice = null;        // last processed sale object (for print)
-    var _TAX_RATE    = 0.025;       // 2.5% — matches DB default tax_rate
     var _nextInvNum  = 42;          // simulated next invoice counter (INV-0042…)
 
     /* Demo invoice data (mirrors DB seed rows for INV-0039–0041) */
@@ -39,8 +38,7 @@ window.SB = window.SB || {};
                 { name: 'Ibuprofen 400mg',      qty: 1, unitPrice: 4.00,  lineTotal: 4.00  },
                 { name: 'Omeprazole 20mg',      qty: 1, unitPrice: 8.00,  lineTotal: 8.00  },
             ],
-            subtotal:    117.56,
-            taxAmount:   2.94,
+            subtotal:    120.50,
             totalAmount: 120.50,
         },
         'INV-0040': {
@@ -53,8 +51,7 @@ window.SB = window.SB || {};
             items: [
                 { name: 'Ciprofloxacin 500mg', qty: 1, unitPrice: 18.00, lineTotal: 18.00 },
             ],
-            subtotal:    43.90,
-            taxAmount:   1.10,
+            subtotal:    45.00,
             totalAmount: 45.00,
         },
         'INV-0039': {
@@ -71,8 +68,7 @@ window.SB = window.SB || {};
                 { name: 'Atorvastatin 20mg',    qty: 1, unitPrice: 14.00, lineTotal: 14.00 },
                 { name: 'Paracetamol 500mg',    qty: 2, unitPrice: 3.00,  lineTotal: 6.00  },
             ],
-            subtotal:    312.20,
-            taxAmount:   7.80,
+            subtotal:    320.00,
             totalAmount: 320.00,
         },
     };
@@ -169,7 +165,6 @@ window.SB = window.SB || {};
         var emptyEl    = document.getElementById('cartEmpty');
         var countEl    = document.getElementById('cartCount');
         var subtotalEl = document.getElementById('cartSubtotal');
-        var taxEl      = document.getElementById('cartTax');
         var totalEl    = document.getElementById('cartTotal');
         var clearBtn   = document.getElementById('clearCartBtn');
         var processBtn = document.getElementById('processSaleBtn');
@@ -180,8 +175,7 @@ window.SB = window.SB || {};
         var subtotal = _cart.reduce(function (sum, i) {
             return sum + (i.price * i.qty);
         }, 0);
-        var tax   = subtotal * _TAX_RATE;
-        var total = subtotal + tax;
+        var total = subtotal;
         var count = _cart.reduce(function (sum, i) { return sum + i.qty; }, 0);
 
         // Update count badge
@@ -227,7 +221,6 @@ window.SB = window.SB || {};
 
         // Update totals
         subtotalEl.textContent = 'Ugx ' + subtotal.toFixed(2);
-        taxEl.textContent      = 'Ugx ' + tax.toFixed(2);
         totalEl.textContent    = 'Ugx ' + total.toFixed(2);
     }
 
@@ -242,8 +235,7 @@ window.SB = window.SB || {};
         }
 
         var subtotal   = _cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-        var tax        = subtotal * _TAX_RATE;
-        var total      = subtotal + tax;
+        var total      = subtotal;
         var itemCount  = _cart.reduce(function (s, i) { return s + i.qty; }, 0);
         var customer   = (document.getElementById('customerName').value.trim()) || 'Walk-in Customer';
         var paySelect  = document.getElementById('paymentMethod');
@@ -298,7 +290,7 @@ window.SB = window.SB || {};
     /* Compute and display change when cash received is entered */
     SB.calcChange = function () {
         var subtotal  = _cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-        var total     = +(subtotal + subtotal * _TAX_RATE).toFixed(2);
+        var total     = +subtotal.toFixed(2);
         var received  = parseFloat((document.getElementById('sbCashReceived') || {}).value) || 0;
         var change    = +(received - total).toFixed(2);
         var changeRow = document.getElementById('sbChangeRow');
@@ -334,7 +326,7 @@ window.SB = window.SB || {};
         var cashReceived = 0;
         if (payValue === 'cash') {
             var subtotalCheck = _cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-            var totalCheck    = +(subtotalCheck + subtotalCheck * _TAX_RATE).toFixed(2);
+            var totalCheck    = +subtotalCheck.toFixed(2);
             cashReceived = parseFloat((document.getElementById('sbCashReceived') || {}).value) || 0;
             if (cashReceived < totalCheck) {
                 PharmaSync.Toast.show('Cash received is less than the total amount.', 'warning');
@@ -347,8 +339,7 @@ window.SB = window.SB || {};
             : '';
 
         var subtotal    = _cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-        var tax         = subtotal * _TAX_RATE;
-        var total       = subtotal + tax;
+        var total       = subtotal;
         var itemCount   = _cart.reduce(function (s, i) { return s + i.qty; }, 0);
 
         var invNum  = 'INV-' + String(_nextInvNum++).padStart(4, '0');
@@ -367,8 +358,8 @@ window.SB = window.SB || {};
         //      data-price/data-stock snapshots).
         //   3. INSERTs one row into `sales`
         //      (invoice_number, customer_id, customer_name, cashier_id,
-        //       payment_method, subtotal, tax_rate, tax_amount,
-        //       total_amount, status, sale_date, sale_time).
+        //       payment_method, subtotal, total_amount, status,
+        //       sale_date, sale_time).
         //   4. INSERTs one row per cart item into `sale_items`
         //      (sale_id, medicine_id, medicine_name, unit_price,
         //       quantity, line_total) — trg_deduct_stock_on_sale will
@@ -384,8 +375,6 @@ window.SB = window.SB || {};
             cashReceived:  cashReceived,
             status:        status,
             subtotal:      +subtotal.toFixed(2),
-            taxRate:       _TAX_RATE * 100,
-            taxAmount:     +tax.toFixed(2),
             totalAmount:   +total.toFixed(2),
             items: _cart.map(function (i) {
                 return {
@@ -420,7 +409,6 @@ window.SB = window.SB || {};
                 };
             }),
             subtotal:    +subtotal.toFixed(2),
-            taxAmount:   +tax.toFixed(2),
             totalAmount: +total.toFixed(2),
         };
 
@@ -666,7 +654,6 @@ window.SB = window.SB || {};
         }
 
         _setText('receiptSubtotal', 'Ugx ' + inv.subtotal.toFixed(2));
-        _setText('receiptTax',      'Ugx ' + inv.taxAmount.toFixed(2));
         _setText('receiptTotal',    'Ugx ' + inv.totalAmount.toFixed(2));
 
         var statusEl = document.getElementById('receiptStatus');

@@ -288,10 +288,6 @@
                         <span class="pos-summary-label">Subtotal</span>
                         <span class="pos-summary-val" id="cartSubtotal">UGX 0.00</span>
                     </div>
-                    <div class="pos-summary-row">
-                        <span class="pos-summary-label">Tax (2.5%)</span>
-                        <span class="pos-summary-val" id="cartTax">UGX 0.00</span>
-                    </div>
                     <div class="pos-summary-row pos-summary-total-row">
                         <span class="pos-summary-total-label">Total</span>
                         <span class="pos-summary-total-val" id="cartTotal">UGX 0.00</span>
@@ -348,10 +344,6 @@
                     <div class="pos-pay-summary-row">
                         <span>Subtotal</span>
                         <span id="paySubtotal">UGX 0.00</span>
-                    </div>
-                    <div class="pos-pay-summary-row">
-                        <span>Tax (2.5%)</span>
-                        <span id="payTax">UGX 0.00</span>
                     </div>
                     <div class="pos-pay-summary-row pos-pay-summary-total">
                         <span>Total</span>
@@ -507,9 +499,6 @@
                         <div class="pos-receipt-total-row">
                             <span>Subtotal</span><span id="rcptSubtotal">UGX 0.00</span>
                         </div>
-                        <div class="pos-receipt-total-row">
-                            <span>Tax (2.5%)</span><span id="rcptTax">UGX 0.00</span>
-                        </div>
                         <div class="pos-receipt-total-row pos-receipt-grand-total">
                             <span>TOTAL</span><span id="rcptTotal">UGX 0.00</span>
                         </div>
@@ -553,7 +542,6 @@
     <asp:HiddenField ID="hfMomoRef"       runat="server" ClientIDMode="Static" />
     <asp:HiddenField ID="hfSaleStatus"    runat="server" ClientIDMode="Static" />
     <asp:HiddenField ID="hfSubtotal"      runat="server" ClientIDMode="Static" />
-    <asp:HiddenField ID="hfTaxAmount"     runat="server" ClientIDMode="Static" />
     <asp:HiddenField ID="hfTotalAmount"   runat="server" ClientIDMode="Static" />
     <asp:HiddenField ID="hfSaleNotes"     runat="server" ClientIDMode="Static" />
 

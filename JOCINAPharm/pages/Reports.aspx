@@ -388,7 +388,6 @@
                         <th scope="col">Customer</th>
                         <th scope="col">Date</th>
                         <th scope="col" class="text-end">Subtotal</th>
-                        <th scope="col" class="text-end">Tax</th>
                         <th scope="col" class="text-end">Total</th>
                         <th scope="col" class="text-center">Payment</th>
                         <th scope="col" class="text-center">Status</th>
@@ -406,7 +405,6 @@
                                 <td><%# Eval("customer_name") %></td>
                                 <td class="rpt-date-cell"><%# Eval("sale_date", "{0:dd MMM yyyy}") %></td>
                                 <td class="text-end">Ugx <%# Eval("subtotal", "{0:N0}") %></td>
-                                <td class="text-end rpt-tax-cell">Ugx <%# Eval("tax_amount", "{0:N0}") %></td>
                                 <td class="text-end rpt-revenue-value">Ugx <%# Eval("total_amount", "{0:N0}") %></td>
                                 <td class="text-center">
                                     <span class="ps-badge ps-badge-info">
@@ -439,8 +437,7 @@
                             <td>Mary Nakato</td>
                             <td class="rpt-date-cell">14 May 2025</td>
                             <td class="text-end">Ugx 85,000</td>
-                            <td class="text-end rpt-tax-cell">Ugx 2,125</td>
-                            <td class="text-end rpt-revenue-value">Ugx 87,125</td>
+                            <td class="text-end rpt-revenue-value">Ugx 85,000</td>
                             <td class="text-center"><span class="ps-badge ps-badge-info">cash</span></td>
                             <td class="text-center"><span class="ps-badge ps-badge-success">paid</span></td>
                             <td class="text-center">
@@ -454,8 +451,7 @@
                             <td>Walk-in Customer</td>
                             <td class="rpt-date-cell">14 May 2025</td>
                             <td class="text-end">Ugx 32,000</td>
-                            <td class="text-end rpt-tax-cell">Ugx 800</td>
-                            <td class="text-end rpt-revenue-value">Ugx 32,800</td>
+                            <td class="text-end rpt-revenue-value">Ugx 32,000</td>
                             <td class="text-center"><span class="ps-badge ps-badge-info">momo</span></td>
                             <td class="text-center"><span class="ps-badge ps-badge-warning">pending</span></td>
                             <td class="text-center">
@@ -469,8 +465,7 @@
                             <td>John Ssemanda</td>
                             <td class="rpt-date-cell">13 May 2025</td>
                             <td class="text-end">Ugx 120,000</td>
-                            <td class="text-end rpt-tax-cell">Ugx 3,000</td>
-                            <td class="text-end rpt-revenue-value">Ugx 123,000</td>
+                            <td class="text-end rpt-revenue-value">Ugx 120,000</td>
                             <td class="text-center"><span class="ps-badge ps-badge-info">card</span></td>
                             <td class="text-center"><span class="ps-badge ps-badge-success">paid</span></td>
                             <td class="text-center">
@@ -484,8 +479,7 @@
                             <td>Grace Apio</td>
                             <td class="rpt-date-cell">13 May 2025</td>
                             <td class="text-end">Ugx 45,500</td>
-                            <td class="text-end rpt-tax-cell">Ugx 1,137</td>
-                            <td class="text-end rpt-revenue-value">Ugx 46,637</td>
+                            <td class="text-end rpt-revenue-value">Ugx 45,500</td>
                             <td class="text-center"><span class="ps-badge ps-badge-info">insurance</span></td>
                             <td class="text-center"><span class="ps-badge ps-badge-danger">cancelled</span></td>
                             <td class="text-center">
@@ -499,8 +493,7 @@
                             <td>David Okello</td>
                             <td class="rpt-date-cell">12 May 2025</td>
                             <td class="text-end">Ugx 210,000</td>
-                            <td class="text-end rpt-tax-cell">Ugx 5,250</td>
-                            <td class="text-end rpt-revenue-value">Ugx 215,250</td>
+                            <td class="text-end rpt-revenue-value">Ugx 210,000</td>
                             <td class="text-center"><span class="ps-badge ps-badge-info">cash</span></td>
                             <td class="text-center"><span class="ps-badge ps-badge-success">paid</span></td>
                             <td class="text-center">
@@ -733,12 +726,6 @@
                         <span class="rpt-sale-summary-label">Subtotal</span>
                         <span class="rpt-sale-summary-value">
                             Ugx <asp:Literal ID="litModalSubtotal" runat="server" />
-                        </span>
-                    </div>
-                    <div class="rpt-sale-summary-item">
-                        <span class="rpt-sale-summary-label">Tax (<asp:Literal ID="litModalTaxRate" runat="server" Text="2.5" />%)</span>
-                        <span class="rpt-sale-summary-value">
-                            Ugx <asp:Literal ID="litModalTaxAmount" runat="server" />
                         </span>
                     </div>
                     <div class="rpt-sale-summary-item rpt-sale-summary-item--total">
