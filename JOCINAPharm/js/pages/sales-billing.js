@@ -219,9 +219,10 @@ window.SB = window.SB || {};
             });
         }
 
-        // Update totals
-        subtotalEl.textContent = 'Ugx ' + subtotal.toFixed(2);
-        totalEl.textContent    = 'Ugx ' + total.toFixed(2);
+        // Update totals (guard each element so a missing node never
+        // halts the chain and leaves a stale value behind)
+        if (subtotalEl) subtotalEl.textContent = 'Ugx ' + subtotal.toFixed(2);
+        if (totalEl)    totalEl.textContent    = 'Ugx ' + total.toFixed(2);
     }
 
 

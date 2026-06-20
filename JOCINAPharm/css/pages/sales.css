@@ -846,6 +846,12 @@
     display:         flex;
     align-items:     center;
     justify-content: center;
+    /* Visibility on this page is driven by toggling inline `display`
+       (see sales.js). Explicitly override the opacity/visibility that
+       components.css applies for its class-based (.is-open) modals,
+       otherwise the dialog stays invisible while scrolling is locked. */
+    opacity:         1;
+    visibility:      visible;
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     animation:       backdropIn 0.22s ease both;
