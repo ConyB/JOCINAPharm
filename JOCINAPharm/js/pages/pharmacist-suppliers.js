@@ -20,23 +20,14 @@ window.PharmaSync = window.PharmaSync || {};
 PharmaSync.Suppliers = (function () {
 
     /*
-     * Placeholder supplier data keyed by supplier id.
-     * Replace with a server-side JSON endpoint when backend is wired.
+     * Hardcoded sample supplier data has been removed.
+     * The Edit modal is now populated from the data-* attributes that the
+     * server-rendered Repeater card emits (see _fillEdit). No client-side
+     * dataset is required.
      *
      * NOTE: ClientIDMode="Static" renders each control's HTML id equal to
      * its server-side ID attribute (e.g. ID="txtAddSupplierName" -> id="txtAddSupplierName").
      */
-    /*
-     * Placeholder data keyed by supplier_id.
-     * Card 4 corrected to match DB seed (CardioMed GH / SUP-004).
-     * Replace with a server-side JSON endpoint when backend is wired.
-     */
-    var _data = {
-        '1': { supplierCode: 'SUP-001', name: 'PharmaCo Ltd',  contactPerson: 'Kofi Adu',    category: 'General Medicines', email: 'kofi@pharmaco.com',  phone: '0244-123-456', status: 'active' },
-        '2': { supplierCode: 'SUP-002', name: 'MediSupply GH', contactPerson: 'Ama Sarpong', category: 'Antibiotics',       email: 'ama@medisupply.gh',  phone: '0200-789-012', status: 'active' },
-        '3': { supplierCode: 'SUP-003', name: 'DiaCare Pharma',contactPerson: 'Yaw Mensah',  category: 'Diabetes',          email: 'yaw@diacare.com',    phone: '0557-345-678', status: 'active' },
-        '4': { supplierCode: 'SUP-004', name: 'CardioMed GH',  contactPerson: 'Efua Owusu',  category: 'Cardiac',           email: 'efua@cardiomed.com', phone: '0244-567-890', status: 'active' }
-    };
 
 
     /* ================================================================
@@ -92,18 +83,18 @@ PharmaSync.Suppliers = (function () {
     }
 
 
-    /* ── Populate Edit modal ──────────────────────────────────────── */
-    function _fillEdit(supplierId) {
-        var d = _data[String(supplierId)];
-        if (!d) return;
-        _setVal('hdnEditSupplierId',    supplierId);
-        _setVal('txtEditSupplierCode',  d.supplierCode);
-        _setVal('txtEditSupplierName',  d.name);
-        _setVal('txtEditContactPerson', d.contactPerson);
-        _setVal('txtEditCategory',      d.category);
-        _setVal('txtEditEmail',         d.email);
-        _setVal('txtEditPhone',         d.phone);
-        _setDdl('ddlEditStatus',        d.status);
+    /* ── Populate Edit modal from the card's data-* attributes ─────── */
+    function _fillEdit(btn) {
+        if (!btn) return;
+        var d = btn.dataset;
+        _setVal('hdnEditSupplierId',    d.supplierId || '');
+        _setVal('txtEditSupplierCode',  d.code       || '');
+        _setVal('txtEditSupplierName',  d.name       || '');
+        _setVal('txtEditContactPerson', d.contact    || '');
+        _setVal('txtEditCategory',      d.category   || '');
+        _setVal('txtEditEmail',         d.email      || '');
+        _setVal('txtEditPhone',         d.phone      || '');
+        _setDdl('ddlEditStatus',        d.status     || 'active');
     }
 
     function _setVal(id, val) {
@@ -179,10 +170,10 @@ PharmaSync.Suppliers = (function () {
             btn.addEventListener('click', function () { _open('addSupplierModal'); });
         });
 
-        /* Open Edit modal and pre-fill */
+        /* Open Edit modal and pre-fill from the card's data-* attributes */
         document.querySelectorAll('.supp-btn-edit').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                _fillEdit(this.getAttribute('data-supplier-id'));
+                _fillEdit(this);
                 _open('editSupplierModal');
             });
         });
@@ -209,6 +200,9 @@ PharmaSync.Suppliers = (function () {
         /* Live search */
         var si = document.getElementById('supplierSearchInput');
         if (si) si.addEventListener('input', _applySearch);
+
+        /* Reflect current card count (shows empty state when there are none) */
+        _applySearch();
 
         /* Clear validation highlight on input */
         document.querySelectorAll('.ps-form-control').forEach(function (ctrl) {

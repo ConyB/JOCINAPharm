@@ -13,7 +13,7 @@
         <div class="page-header-left">
             <h2 class="page-section-title">Suppliers</h2>
             <p class="page-section-sub">
-                <asp:Label ID="lblActiveCount" runat="server" Text="4"></asp:Label> active suppliers
+                <asp:Label ID="lblActiveCount" runat="server" Text="0"></asp:Label> active suppliers
             </p>
         </div>
         <div class="page-header-actions">
@@ -43,191 +43,61 @@
 
 
     <%-- ── SUPPLIER CARDS GRID ───────────────────────────────────── --%>
+    <%-- Hardcoded sample cards removed. Cards are now data-bound via the
+         Repeater below; the data source will be wired in the backend phase. --%>
     <div class="supp-card-grid" id="supplierCardGrid">
 
-        <%-- PharmaCo Ltd --%>
-        <div class="supp-card" data-supplier-id="1" data-status="active">
-            <div class="supp-card-header">
-                <div class="supp-card-avatar">
-                    <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
-                </div>
-                <div class="supp-card-title-wrap">
-                    <h3 class="supp-card-name">PharmaCo Ltd</h3>
-                    <span class="supp-card-category">General Medicines</span>
-                </div>
-                <span class="ps-badge ps-badge-success">active</span>
-            </div>
-            <div class="supp-card-body">
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    Contact Person: <strong>Kofi Adu</strong>
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    kofi@pharmaco.com
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                    0244-123-456
-                </p>
-            </div>
-            <div class="supp-card-divider"></div>
-            <div class="supp-card-footer">
-                <div class="supp-card-stats">
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Last Order</span>
-                        <span class="supp-stat-value">2025-04-28</span>
-                    </div>
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Total Orders</span>
-                        <span class="supp-stat-value supp-stat-value--primary">42</span>
-                    </div>
-                </div>
-                <button class="ps-btn ps-btn-outline ps-btn-sm supp-btn-edit"
-                        type="button"
-                        data-supplier-id="1">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
-                </button>
-            </div>
-        </div>
+        <asp:Repeater ID="rptSuppliers" runat="server">
+            <ItemTemplate>
 
-        <%-- MediSupply GH --%>
-        <div class="supp-card" data-supplier-id="2" data-status="active">
-            <div class="supp-card-header">
-                <div class="supp-card-avatar">
-                    <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
-                </div>
-                <div class="supp-card-title-wrap">
-                    <h3 class="supp-card-name">MediSupply GH</h3>
-                    <span class="supp-card-category">Antibiotics</span>
-                </div>
-                <span class="ps-badge ps-badge-success">active</span>
-            </div>
-            <div class="supp-card-body">
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    Contact Person: <strong>Ama Sarpong</strong>
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    ama@medisupply.gh
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                    0200-789-012
-                </p>
-            </div>
-            <div class="supp-card-divider"></div>
-            <div class="supp-card-footer">
-                <div class="supp-card-stats">
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Last Order</span>
-                        <span class="supp-stat-value">2025-04-20</span>
+                <div class="supp-card"
+                     data-supplier-id='<%# Eval("supplier_id") %>'
+                     data-status='<%# Server.HtmlEncode((string)Eval("status")) %>'>
+                    <div class="supp-card-header">
+                        <div class="supp-card-avatar">
+                            <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+                        </div>
+                        <div class="supp-card-title-wrap">
+                            <h3 class="supp-card-name"><%# Server.HtmlEncode((string)Eval("company_name")) %></h3>
+                            <span class="supp-card-category"><%# Server.HtmlEncode((string)(Eval("category") ?? "General")) %></span>
+                        </div>
+                        <span class='<%# (string)Eval("status") == "active" ? "ps-badge ps-badge-success" : "ps-badge ps-badge-neutral" %>'>
+                            <%# Server.HtmlEncode((string)Eval("status")) %>
+                        </span>
                     </div>
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Total Orders</span>
-                        <span class="supp-stat-value supp-stat-value--primary">28</span>
+                    <div class="supp-card-body">
+                        <p class="supp-contact-row">
+                            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                            Contact Person: <strong><%# Server.HtmlEncode((string)(Eval("contact_person") ?? "—")) %></strong>
+                        </p>
+                        <p class="supp-contact-row">
+                            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                            <%# Server.HtmlEncode((string)(Eval("email") ?? "—")) %>
+                        </p>
+                        <p class="supp-contact-row">
+                            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                            <%# Server.HtmlEncode((string)(Eval("phone") ?? "—")) %>
+                        </p>
+                    </div>
+                    <div class="supp-card-divider"></div>
+                    <div class="supp-card-footer">
+                        <button class="ps-btn ps-btn-outline ps-btn-sm supp-btn-edit"
+                                type="button"
+                                data-supplier-id='<%#  Eval("supplier_id") %>'
+                                data-code='<%#         Server.HtmlEncode((string)Eval("supplier_code")) %>'
+                                data-name='<%#         Server.HtmlEncode((string)Eval("company_name")) %>'
+                                data-contact='<%#      Server.HtmlEncode((string)(Eval("contact_person") ?? "")) %>'
+                                data-category='<%#     Server.HtmlEncode((string)(Eval("category")       ?? "")) %>'
+                                data-email='<%#        Server.HtmlEncode((string)(Eval("email")          ?? "")) %>'
+                                data-phone='<%#        Server.HtmlEncode((string)(Eval("phone")          ?? "")) %>'
+                                data-status='<%#       Server.HtmlEncode((string)Eval("status")) %>'>
+                            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
+                        </button>
                     </div>
                 </div>
-                <button class="ps-btn ps-btn-outline ps-btn-sm supp-btn-edit"
-                        type="button"
-                        data-supplier-id="2">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
-                </button>
-            </div>
-        </div>
 
-        <%-- DiaCare Pharma --%>
-        <div class="supp-card" data-supplier-id="3" data-status="active">
-            <div class="supp-card-header">
-                <div class="supp-card-avatar">
-                    <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
-                </div>
-                <div class="supp-card-title-wrap">
-                    <h3 class="supp-card-name">DiaCare Pharma</h3>
-                    <span class="supp-card-category">Diabetes</span>
-                </div>
-                <span class="ps-badge ps-badge-success">active</span>
-            </div>
-            <div class="supp-card-body">
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    Contact Person: <strong>Yaw Mensah</strong>
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    yaw@diacare.com
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                    0557-345-678
-                </p>
-            </div>
-            <div class="supp-card-divider"></div>
-            <div class="supp-card-footer">
-                <div class="supp-card-stats">
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Last Order</span>
-                        <span class="supp-stat-value">2025-03-15</span>
-                    </div>
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Total Orders</span>
-                        <span class="supp-stat-value supp-stat-value--primary">17</span>
-                    </div>
-                </div>
-                <button class="ps-btn ps-btn-outline ps-btn-sm supp-btn-edit"
-                        type="button"
-                        data-supplier-id="3">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
-                </button>
-            </div>
-        </div>
-
-        <%-- CardioMed GH --%>
-        <div class="supp-card" data-supplier-id="4" data-status="active">
-            <div class="supp-card-header">
-                <div class="supp-card-avatar">
-                    <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
-                </div>
-                <div class="supp-card-title-wrap">
-                    <h3 class="supp-card-name">CardioMed GH</h3>
-                    <span class="supp-card-category">Cardiac</span>
-                </div>
-                <span class="ps-badge ps-badge-success">active</span>
-            </div>
-            <div class="supp-card-body">
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    Contact Person: <strong>Efua Owusu</strong>
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                    efua@cardiomed.com
-                </p>
-                <p class="supp-contact-row">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                    0244-567-890
-                </p>
-            </div>
-            <div class="supp-card-divider"></div>
-            <div class="supp-card-footer">
-                <div class="supp-card-stats">
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Last Order</span>
-                        <span class="supp-stat-value">2025-04-10</span>
-                    </div>
-                    <div class="supp-stat">
-                        <span class="supp-stat-label">Total Orders</span>
-                        <span class="supp-stat-value supp-stat-value--primary">31</span>
-                    </div>
-                </div>
-                <button class="ps-btn ps-btn-outline ps-btn-sm supp-btn-edit"
-                        type="button"
-                        data-supplier-id="4">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit
-                </button>
-            </div>
-        </div>
+            </ItemTemplate>
+        </asp:Repeater>
 
     </div><%-- /.supp-card-grid --%>
 

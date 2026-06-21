@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace JOCINAPharm.pages.Pharmacist
 {
@@ -11,7 +7,24 @@ namespace JOCINAPharm.pages.Pharmacist
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+                LoadSuppliers();
+        }
 
+        // ================================================================
+        // Binds the supplier cards.
+        // Hardcoded sample cards have been removed from the markup; cards
+        // are now data-bound. Database binding will be added in the
+        // backend-integration phase.
+        // ================================================================
+        private void LoadSuppliers()
+        {
+            // TODO: Load suppliers from the database and bind them here.
+            rptSuppliers.DataSource = null;
+            rptSuppliers.DataBind();
+
+            // TODO: Replace with the active supplier count from the database.
+            lblActiveCount.Text = "0";
         }
     }
 }
