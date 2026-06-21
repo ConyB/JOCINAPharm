@@ -510,9 +510,14 @@ GO
 -- Role values MUST be lowercase to satisfy chk_user_role
 -- ('admin', 'pharmacist', 'cashier').
 --
--- Passwords are stored as SHA-256 hex (same scheme as the
--- original admin seed). Plain-text credentials, for DEV testing
--- ONLY, are documented here:
+-- Passwords are stored as SALTED PBKDF2-HMAC-SHA256 hashes
+-- (NOT plain text, NOT unsalted SHA-256). Each value has the
+-- format:   iterations.base64(salt).base64(derivedKey)
+-- and is verified in the ASP.NET layer by PasswordHasher.Verify
+-- (Login.aspx.cs) using Rfc2898DeriveBytes with the same
+-- iteration count and a constant-time comparison.
+--
+-- Plain-text credentials, for DEV testing ONLY:
 --     admin      / admin123
 --     pharmacist / pharmacist123
 --     cashier    / cashier123
@@ -520,32 +525,31 @@ GO
 -- Each INSERT is guarded by NOT EXISTS so the script is
 -- re-runnable and never creates duplicate accounts.
 --
--- TODO (SECURITY — required before production deployment):
---   Unsalted SHA-256 is NOT production-grade. Replace with a
---   salted, slow password hash (BCrypt / PBKDF2 / ASP.NET
---   Identity) generated in the ASP.NET application layer, then
---   re-seed these accounts using the new hash format.
+-- TODO (SECURITY — review before production deployment):
+--   Iteration count is 100,000. Re-baseline periodically as
+--   hardware improves, and force a password reset / re-hash for
+--   any accounts created with a lower work factor.
 -- ============================================================
 
 -- Admin — admin / admin123
 IF NOT EXISTS (SELECT 1 FROM users WHERE username = 'admin')
     INSERT INTO users (full_name, username, password_hash, role, avatar_initials)
     VALUES ('Admin', 'admin',
-            '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', -- SHA256('admin123')
+            '100000.UhuHW8r1qDhsIFrFY2PinQ==.a4VnQEbyXR/K8nsHJ+WncgZtvGsZ+8tt4os+IUnBfYk=', -- PBKDF2('admin123')
             'admin', 'AD');
 
 -- Pharmacist — pharmacist / pharmacist123
 IF NOT EXISTS (SELECT 1 FROM users WHERE username = 'pharmacist')
     INSERT INTO users (full_name, username, password_hash, role, avatar_initials)
     VALUES ('Pharmacist', 'pharmacist',
-            '64ebd689c7105960f79409d18408b9788122cdb02965c1674703a0383c5c9c69', -- SHA256('pharmacist123')
+            '100000.g6JcYlRGIi8ivIXQo27nZA==.j7h8AIFJORYDc6lFBth4UIFsX/bJtr76bfXK7ZBYnPM=', -- PBKDF2('pharmacist123')
             'pharmacist', 'PH');
 
 -- Cashier — cashier / cashier123
 IF NOT EXISTS (SELECT 1 FROM users WHERE username = 'cashier')
     INSERT INTO users (full_name, username, password_hash, role, avatar_initials)
     VALUES ('Cashier', 'cashier',
-            'b4c94003c562bb0d89535eca77f07284fe560fd48a7cc1ed99f0a56263d616ba', -- SHA256('cashier123')
+            '100000.Cv19DL/vQjO0vaVhZFiA/g==.khQYjLelTjYgtmhDdUtsNvZLjyQP9In5eiNjtEoZYuk=', -- PBKDF2('cashier123')
             'cashier', 'CA');
 GO
 

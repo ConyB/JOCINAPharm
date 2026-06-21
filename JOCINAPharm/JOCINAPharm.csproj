@@ -122,6 +122,7 @@
     <Content Include="js\sidebar.js" />
     <Content Include="js\pages\suppliers.js" />
     <Content Include="js\toastr.min.js" />
+    <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
     <Content Include="pages\Cashier\CashierDashboard.aspx" />
@@ -172,6 +173,10 @@
     <Compile Include="Dashboard_Pharmacist.Master.designer.cs">
       <DependentUpon>Dashboard_Pharmacist.Master</DependentUpon>
     </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Security\AuthHelper.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
