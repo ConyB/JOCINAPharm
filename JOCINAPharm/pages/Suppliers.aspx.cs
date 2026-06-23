@@ -26,9 +26,9 @@ namespace JOCINAPharm.pages
             try
             {
                 string search = txtSearch.Text == null ? string.Empty : txtSearch.Text.Trim();
+                string filter = ddlStatusFilter.SelectedValue;
 
-                List<Supplier> suppliers = _repo.GetActive(search);
-                int activeCount = _repo.GetActiveCount();
+                List<Supplier> suppliers = _repo.GetByFilter(search, filter);
 
                 rptSuppliers.DataSource = suppliers;
                 rptSuppliers.DataBind();
@@ -37,9 +37,7 @@ namespace JOCINAPharm.pages
                 pnlSupplierCards.Visible = hasRows;
                 pnlEmpty.Visible = !hasRows;
 
-                lblSupplierCount.InnerText = activeCount == 1
-                    ? "1 active supplier"
-                    : activeCount + " active suppliers";
+                lblSupplierCount.InnerText = BuildCountLabel(suppliers.Count, filter);
             }
             catch (Exception ex)
             {
@@ -56,6 +54,24 @@ namespace JOCINAPharm.pages
         protected void txtSearch_TextChanged(object sender, EventArgs e)
         {
             LoadSuppliers();
+        }
+
+        protected void ddlStatusFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadSuppliers();
+        }
+
+        // Builds the header subtitle to match the current status filter.
+        private static string BuildCountLabel(int count, string filter)
+        {
+            string noun;
+            switch ((filter ?? string.Empty).Trim().ToLowerInvariant())
+            {
+                case "inactive": noun = count == 1 ? "inactive supplier" : "inactive suppliers"; break;
+                case "all":      noun = count == 1 ? "supplier" : "suppliers"; break;
+                default:         noun = count == 1 ? "active supplier" : "active suppliers"; break;
+            }
+            return count + " " + noun;
         }
 
         // ================================================================
@@ -80,9 +96,10 @@ namespace JOCINAPharm.pages
                 category       = txtCategory.Text,
                 email          = txtEmail.Text,
                 phone          = txtPhone.Text,
-                // ddlStatus is only meaningful in edit mode; Insert defaults
-                // a blank/active value to 'active'.
-                status         = isEdit ? ddlStatus.SelectedValue : "active",
+                // Read status from the hidden field (source of truth), NOT the
+                // out-of-panel dropdown whose SelectedValue is unreliable on
+                // postback. Insert is always 'active'.
+                status         = isEdit ? NormalizeStatus(hfStatus.Value) : "active",
             };
 
             try
@@ -168,9 +185,13 @@ namespace JOCINAPharm.pages
         private void ShowToast(string message, string type)
         {
             string safe = HttpUtility.JavaScriptStringEncode(message ?? string.Empty);
+
+            // Poll briefly until PharmaSync.Toast is defined, so the toast is
+            // robust regardless of where the master page loads app.js.
             string script =
-                "if(window.PharmaSync&&PharmaSync.Toast){PharmaSync.Toast.show('"
-                + safe + "','" + type + "');}";
+                "(function(){var n=0;function t(){" +
+                "if(window.PharmaSync&&window.PharmaSync.Toast){PharmaSync.Toast.show('" + safe + "','" + type + "');}" +
+                "else if(n++<100){setTimeout(t,50);}}t();})();";
 
             ScriptManager.RegisterStartupScript(
                 this, GetType(), "supplierToast_" + Guid.NewGuid().ToString("N"), script, true);
@@ -188,6 +209,17 @@ namespace JOCINAPharm.pages
         {
             hfModalAction.Value = string.Empty;
             hfEditSupplierId.Value = "0";
+        }
+
+        // Defensive guard: only 'active' / 'inactive' are valid (matches the
+        // DB CHECK constraint). Anything else falls back to 'active' so a
+        // stale/blank hidden value can never silently retire a supplier.
+        private static string NormalizeStatus(string value)
+        {
+            return string.Equals((value ?? string.Empty).Trim(), "inactive",
+                StringComparison.OrdinalIgnoreCase)
+                ? "inactive"
+                : "active";
         }
     }
 }

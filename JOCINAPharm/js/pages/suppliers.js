@@ -66,9 +66,11 @@ PharmaSync.Suppliers = (function () {
         _val(_cid.phone,    d.phone    || '');
         _val(_cid.editId,   d.id       || '0');
 
-        // Set status dropdown
+        // Set status dropdown AND the authoritative hidden field (the latter
+        // is what the server reads — see hfStatus in Suppliers.aspx).
         var ddl = document.getElementById(_cid.statusDdl);
         if (ddl) ddl.value = d.status || 'active';
+        _val(_cid.statusHf, d.status || 'active');
 
         // Show status panel and Delete button
         _showPanel(_cid.statusPanel, true);
@@ -100,6 +102,25 @@ PharmaSync.Suppliers = (function () {
     }
 
     // ----------------------------------------------------------------
+    // STATUS SYNC — mirror the dropdown selection into the hidden field
+    // that the server actually reads. Wired via ddlStatus' onchange.
+    // ----------------------------------------------------------------
+    function syncStatus(val) {
+        _val(_cid.statusHf, val || 'active');
+    }
+
+    // Guaranteed sync point: called from the Save button's OnClientClick,
+    // immediately before the postback. Reads the dropdown's CURRENT value
+    // straight from the DOM into the authoritative hidden field, so the
+    // saved status never depends on the dropdown's onchange having fired.
+    function prepareSave() {
+        _resolve();
+        var ddl = document.getElementById(_cid.statusDdl);
+        if (ddl) _val(_cid.statusHf, ddl.value || 'active');
+        return true;
+    }
+
+    // ----------------------------------------------------------------
     // CLOSE
     // ----------------------------------------------------------------
     function closeModal() {
@@ -126,6 +147,7 @@ PharmaSync.Suppliers = (function () {
             phone:       _find('txtPhone'),
             statusPanel: _find('pnlStatusField'),
             statusDdl:   _find('ddlStatus'),
+            statusHf:    _find('hfStatus'),
             deletePanel: _find('pnlDeleteBtn'),
             editId:      _find('hfEditSupplierId'),
             deleteId:    _find('hfDeleteSupplierId'),
@@ -184,6 +206,11 @@ PharmaSync.Suppliers = (function () {
         _val(_cid.editId,   '0');
         _val(_cid.deleteId, '0');
         _val(_cid.action,   '');
+        // Reset status to the default so a stale value can't leak between
+        // edits (this was the cause of cards disappearing after an update).
+        _val(_cid.statusHf, 'active');
+        var ddlReset = document.getElementById(_cid.statusDdl);
+        if (ddlReset) ddlReset.value = 'active';
         // Clear validation states
         document.querySelectorAll('.sup-input.is-invalid')
             .forEach(function (el) { el.classList.remove('is-invalid'); });
@@ -279,6 +306,8 @@ PharmaSync.Suppliers = (function () {
         openAddModal:      openAddModal,
         openEditFromCard:  openEditFromCard,
         confirmDelete:     confirmDelete,
+        syncStatus:        syncStatus,
+        prepareSave:       prepareSave,
         closeModal:        closeModal,
         initClientSearch:  initClientSearch,
     };

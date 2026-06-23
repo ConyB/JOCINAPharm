@@ -78,6 +78,15 @@ namespace JOCINAPharm.pages
         protected global::System.Web.UI.WebControls.TextBox txtSearch;
 
         /// <summary>
+        /// ddlStatusFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusFilter;
+
+        /// <summary>
         /// pnlSupplierCards control.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,15 @@ namespace JOCINAPharm.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfModalAction;
+
+        /// <summary>
+        /// hfStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfStatus;
 
         /// <summary>
         /// txtSupplierCode control.

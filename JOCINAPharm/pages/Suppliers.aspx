@@ -73,6 +73,19 @@
                         AutoPostBack="true"
                         OnTextChanged="txtSearch_TextChanged"
                         aria-label="Search suppliers" />
+                    <%-- Status filter — lets Admin view inactive (soft-deleted)
+                         suppliers and reactivate them via Edit. --%>
+                    <asp:DropDownList
+                        ID="ddlStatusFilter"
+                        runat="server"
+                        CssClass="suppliers-filter-select"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlStatusFilter_SelectedIndexChanged"
+                        aria-label="Filter suppliers by status">
+                        <asp:ListItem Value="active"   Text="Active"   Selected="True" />
+                        <asp:ListItem Value="inactive" Text="Inactive" />
+                        <asp:ListItem Value="all"      Text="All"      />
+                    </asp:DropDownList>
                 </div>
             </div>
 
@@ -173,6 +186,11 @@
             <asp:HiddenField ID="hfEditSupplierId"   runat="server" Value="0" />
             <asp:HiddenField ID="hfDeleteSupplierId" runat="server" Value="0" />
             <asp:HiddenField ID="hfModalAction"      runat="server" Value="" />
+            <%-- Authoritative status carrier. The status DropDownList sits
+                 outside the UpdatePanel and its SelectedValue is unreliable on
+                 postback; this hidden field (inside the panel) is the source of
+                 truth, kept in sync by suppliers.js. --%>
+            <asp:HiddenField ID="hfStatus"           runat="server" Value="active" />
 
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -315,7 +333,8 @@
                     <asp:DropDownList
                         ID="ddlStatus"
                         runat="server"
-                        CssClass="sup-input sup-select">
+                        CssClass="sup-input sup-select"
+                        onchange="Suppliers.syncStatus(this.value)">
                         <asp:ListItem Value="active"   Text="Active"   />
                         <asp:ListItem Value="inactive" Text="Inactive" />
                     </asp:DropDownList>
@@ -351,6 +370,7 @@
                         Text="Add Supplier"
                         CssClass="sup-btn-save"
                         ValidationGroup="vgSupplier"
+                        OnClientClick="Suppliers.prepareSave();"
                         OnClick="btnSaveSupplier_Click"
                         UseSubmitBehavior="true" />
                 </div>

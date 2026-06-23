@@ -67,6 +67,61 @@ namespace JOCINAPharm.Data
         }
 
         // ----------------------------------------------------------------
+        // READ — suppliers filtered by status ("active" | "inactive" | "all")
+        // and an optional search term. Used by the Admin page so inactive
+        // (soft-deleted) suppliers can be found and reactivated.
+        // The @statusFilter value is constrained by the caller to the three
+        // known tokens, and compared as a parameter — no dynamic SQL.
+        // ----------------------------------------------------------------
+        public List<Supplier> GetByFilter(string search, string statusFilter)
+        {
+            const string sql = @"
+                SELECT supplier_id, supplier_code, company_name, contact_person,
+                       category, email, phone, status
+                FROM   suppliers
+                WHERE  (@statusFilter = 'all' OR status = @statusFilter)
+                  AND (@search IS NULL OR @search = ''
+                       OR supplier_code  LIKE '%' + @search + '%'
+                       OR company_name   LIKE '%' + @search + '%'
+                       OR contact_person LIKE '%' + @search + '%'
+                       OR category       LIKE '%' + @search + '%'
+                       OR email          LIKE '%' + @search + '%'
+                       OR phone          LIKE '%' + @search + '%')
+                ORDER BY company_name;";
+
+            var list = new List<Supplier>();
+
+            using (SqlConnection conn = Db.CreateConnection())
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.Add("@search", SqlDbType.NVarChar, 200).Value =
+                    (object)(search ?? string.Empty);
+                cmd.Parameters.Add("@statusFilter", SqlDbType.VarChar, 10).Value =
+                    NormalizeFilter(statusFilter);
+
+                conn.Open();
+                using (SqlDataReader r = cmd.ExecuteReader())
+                {
+                    while (r.Read())
+                        list.Add(Map(r));
+                }
+            }
+
+            return list;
+        }
+
+        // Constrains the status filter to a known-safe token.
+        private static string NormalizeFilter(string statusFilter)
+        {
+            switch ((statusFilter ?? string.Empty).Trim().ToLowerInvariant())
+            {
+                case "inactive": return "inactive";
+                case "all":      return "all";
+                default:         return "active"; // safe default
+            }
+        }
+
+        // ----------------------------------------------------------------
         // READ — count of active suppliers (for the header subtitle).
         // ----------------------------------------------------------------
         public int GetActiveCount()
@@ -126,7 +181,7 @@ namespace JOCINAPharm.Data
         {
             const string sql = @"
                 UPDATE suppliers
-                SET supplier_code  = @code,
+                SET supplier_code  = COALESCE(NULLIF(@code, ''), supplier_code),
                     company_name   = @company,
                     contact_person = @contact,
                     category       = @category,
