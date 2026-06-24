@@ -4,7 +4,7 @@
 
 <%-- ── Page-level CSS ─────────────────────────────────────────── --%>
 <asp:Content ID="HeadStyles" ContentPlaceHolderID="HeadStyles" runat="server">
-    <link href="../../css/pages/cashier-customers.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/cashier-customers.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <%-- ── Main Content ────────────────────────────────────────────── --%>

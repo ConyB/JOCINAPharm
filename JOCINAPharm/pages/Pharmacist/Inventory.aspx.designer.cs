@@ -177,15 +177,6 @@ namespace JOCINAPharm.pages.Pharmacist
         protected global::System.Web.UI.WebControls.TextBox addExpiryDate;
 
         /// <summary>
-        /// addSupplier control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList addSupplier;
-
-        /// <summary>
         /// addBatchNumber control.
         /// </summary>
         /// <remarks>
@@ -193,6 +184,15 @@ namespace JOCINAPharm.pages.Pharmacist
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox addBatchNumber;
+
+        /// <summary>
+        /// addSupplier control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList addSupplier;
 
         /// <summary>
         /// addReorderLevel control.

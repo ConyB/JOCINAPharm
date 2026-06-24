@@ -7,7 +7,7 @@
 </asp:Content>
 
 <asp:Content ID="HeadStylesContent" ContentPlaceHolderID="HeadStyles" runat="server">
-    <link href="../../css/pages/pharmacist-inventory.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/pharmacist-inventory.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -19,7 +19,8 @@
         <div class="page-header-left">
             <h2 class="page-section-title">Inventory</h2>
             <p class="page-section-sub" id="inventorySubtitle" runat="server">
-                8 medicines in stock
+                <%-- TODO: Set from DB summary in Page_Load --%>
+                0 medicines in stock
             </p>
         </div>
         <div class="page-header-actions">
@@ -47,7 +48,7 @@
                     <i class="fa-solid fa-capsules" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value" id="kpiTotalMedicines" runat="server">8</p>
+            <p class="kpi-card-value" id="kpiTotalMedicines" runat="server">0</p>
             <div class="kpi-card-footer">
                 <span>All SKUs in system</span>
             </div>
@@ -60,7 +61,7 @@
                     <i class="fa-solid fa-box-open" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value" id="kpiInStock" runat="server">3</p>
+            <p class="kpi-card-value" id="kpiInStock" runat="server">0</p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
                     <i class="fa-solid fa-arrow-up" aria-hidden="true"></i> Good
@@ -75,7 +76,7 @@
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value" id="kpiLowStock" runat="server">4</p>
+            <p class="kpi-card-value" id="kpiLowStock" runat="server">0</p>
             <div class="kpi-card-footer">
                 <span>Below reorder level</span>
             </div>
@@ -88,7 +89,7 @@
                     <i class="fa-solid fa-ban" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value" id="kpiOutOfStock" runat="server">1</p>
+            <p class="kpi-card-value" id="kpiOutOfStock" runat="server">0</p>
             <div class="kpi-card-footer">
                 <span>Needs reordering</span>
             </div>
@@ -101,7 +102,7 @@
                     <i class="fa-solid fa-clock" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value" id="kpiNearExpiry" runat="server">3</p>
+            <p class="kpi-card-value" id="kpiNearExpiry" runat="server">0</p>
             <div class="kpi-card-footer">
                 <span>Within 90 days</span>
             </div>
@@ -114,7 +115,7 @@
                     <i class="fa-solid fa-coins" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value kpi-card-value--sm" id="kpiStockValue" runat="server">UGX 2,841,500</p>
+            <p class="kpi-card-value kpi-card-value--sm" id="kpiStockValue" runat="server">UGX 0</p>
             <div class="kpi-card-footer">
                 <span>At selling price</span>
             </div>
@@ -147,7 +148,7 @@
         <div class="ps-card-header">
             <div>
                 <h3 class="ps-card-title">Medicine Stock</h3>
-                <p class="ps-card-subtitle" id="tblSubtitle" runat="server">Showing all 8 medicines</p>
+                <p class="ps-card-subtitle" id="tblSubtitle" runat="server">Showing 0 medicines</p>
             </div>
             <div class="ps-card-header-actions">
                 <%-- Stock status filter --%>
@@ -199,239 +200,21 @@
                         </tr>
                     </thead>
                     <tbody id="tblInventoryBody">
-                        <%-- ── Placeholder rows for UI preview ── --%>
-                        <tr data-reorder-level="100">
-                            <td class="inv-code">MED-001</td>
-                            <td class="inv-name"><strong>Paracetamol 500mg</strong></td>
-                            <td>Analgesics</td>
-                            <td data-supplier-id="1">PharmaCo Ltd</td>
-                            <td class="inv-batch">BCH-2024-001</td>
-                            <td class="text-right">450 Tabs</td>
-                            <td class="text-right">UGX 1,500</td>
-                            <td class="text-right inv-sell-price">UGX 3,000</td>
-                            <td class="inv-expiry">2026-08-01</td>
-                            <td><span class="ps-badge ps-badge-success inv-status-badge">In Stock</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="1"
-                                        aria-label="Edit Paracetamol 500mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="1"
-                                        aria-label="Adjust stock for Paracetamol 500mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="1"
-                                        aria-label="Delete Paracetamol 500mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="50">
-                            <td class="inv-code">MED-002</td>
-                            <td class="inv-name"><strong>Amoxicillin 500mg</strong></td>
-                            <td>Antibiotics</td>
-                            <td data-supplier-id="2">MediSupply GH</td>
-                            <td class="inv-batch">BCH-2024-002</td>
-                            <td class="text-right">12 Caps</td>
-                            <td class="text-right">UGX 8,000</td>
-                            <td class="text-right inv-sell-price">UGX 13,000</td>
-                            <td class="inv-expiry inv-expiry--warn">2025-12-01</td>
-                            <td><span class="ps-badge ps-badge-warning inv-status-badge">Low</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="2"
-                                        aria-label="Edit Amoxicillin 500mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="2"
-                                        aria-label="Adjust stock for Amoxicillin 500mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="2"
-                                        aria-label="Delete Amoxicillin 500mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="100">
-                            <td class="inv-code">MED-003</td>
-                            <td class="inv-name"><strong>Ibuprofen 400mg</strong></td>
-                            <td>Analgesics</td>
-                            <td data-supplier-id="1">PharmaCo Ltd</td>
-                            <td class="inv-batch">BCH-2024-003</td>
-                            <td class="text-right">200 Tabs</td>
-                            <td class="text-right">UGX 2,000</td>
-                            <td class="text-right inv-sell-price">UGX 4,000</td>
-                            <td class="inv-expiry">2026-05-15</td>
-                            <td><span class="ps-badge ps-badge-success inv-status-badge">In Stock</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="3"
-                                        aria-label="Edit Ibuprofen 400mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="3"
-                                        aria-label="Adjust stock for Ibuprofen 400mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="3"
-                                        aria-label="Delete Ibuprofen 400mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="100">
-                            <td class="inv-code">MED-004</td>
-                            <td class="inv-name"><strong>Metformin 850mg</strong></td>
-                            <td>Diabetes</td>
-                            <td data-supplier-id="3">DiaCare Pharma</td>
-                            <td class="inv-batch">BCH-2024-004</td>
-                            <td class="text-right">8 Tabs</td>
-                            <td class="text-right">UGX 5,000</td>
-                            <td class="text-right inv-sell-price">UGX 10,000</td>
-                            <td class="inv-expiry inv-expiry--critical">2026-02-28</td>
-                            <td><span class="ps-badge inv-badge-critical inv-status-badge">Critical</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="4"
-                                        aria-label="Edit Metformin 850mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="4"
-                                        aria-label="Adjust stock for Metformin 850mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="4"
-                                        aria-label="Delete Metformin 850mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="60">
-                            <td class="inv-code">MED-005</td>
-                            <td class="inv-name"><strong>Lisinopril 10mg</strong></td>
-                            <td>Cardiac</td>
-                            <td data-supplier-id="4">CardioMed GH</td>
-                            <td class="inv-batch">BCH-2024-005</td>
-                            <td class="text-right">5 Tabs</td>
-                            <td class="text-right">UGX 7,000</td>
-                            <td class="text-right inv-sell-price">UGX 12,000</td>
-                            <td class="inv-expiry inv-expiry--critical">2025-11-30</td>
-                            <td><span class="ps-badge inv-badge-critical inv-status-badge">Critical</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="5"
-                                        aria-label="Edit Lisinopril 10mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="5"
-                                        aria-label="Adjust stock for Lisinopril 10mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="5"
-                                        aria-label="Delete Lisinopril 10mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="80">
-                            <td class="inv-code">MED-006</td>
-                            <td class="inv-name"><strong>Omeprazole 20mg</strong></td>
-                            <td>Gastro</td>
-                            <td data-supplier-id="1">PharmaCo Ltd</td>
-                            <td class="inv-batch">BCH-2024-006</td>
-                            <td class="text-right">120 Caps</td>
-                            <td class="text-right">UGX 4,000</td>
-                            <td class="text-right inv-sell-price">UGX 8,000</td>
-                            <td class="inv-expiry">2026-09-10</td>
-                            <td><span class="ps-badge ps-badge-success inv-status-badge">In Stock</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="6"
-                                        aria-label="Edit Omeprazole 20mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="6"
-                                        aria-label="Adjust stock for Omeprazole 20mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="6"
-                                        aria-label="Delete Omeprazole 20mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="80">
-                            <td class="inv-code">MED-007</td>
-                            <td class="inv-name"><strong>Atorvastatin 20mg</strong></td>
-                            <td>Cholesterol</td>
-                            <td data-supplier-id="4">CardioMed GH</td>
-                            <td class="inv-batch">BCH-2024-007</td>
-                            <td class="text-right">15 Tabs</td>
-                            <td class="text-right">UGX 9,000</td>
-                            <td class="text-right inv-sell-price">UGX 14,000</td>
-                            <td class="inv-expiry inv-expiry--warn">2026-03-20</td>
-                            <td><span class="ps-badge ps-badge-warning inv-status-badge">Low</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="7"
-                                        aria-label="Edit Atorvastatin 20mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="7"
-                                        aria-label="Adjust stock for Atorvastatin 20mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="7"
-                                        aria-label="Delete Atorvastatin 20mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr data-reorder-level="60">
-                            <td class="inv-code">MED-008</td>
-                            <td class="inv-name"><strong>Ciprofloxacin 500mg</strong></td>
-                            <td>Antibiotics</td>
-                            <td data-supplier-id="2">MediSupply GH</td>
-                            <td class="inv-batch">BCH-2024-008</td>
-                            <td class="text-right">80 Tabs</td>
-                            <td class="text-right">UGX 10,000</td>
-                            <td class="text-right inv-sell-price">UGX 18,000</td>
-                            <td class="inv-expiry">2026-07-01</td>
-                            <td><span class="ps-badge ps-badge-success inv-status-badge">In Stock</span></td>
-                            <td class="td-actions">
-                                <button type="button" class="inv-action-btn inv-action-edit"
-                                        title="Edit medicine" data-id="8"
-                                        aria-label="Edit Ciprofloxacin 500mg">
-                                    <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-adjust"
-                                        title="Adjust stock" data-id="8"
-                                        aria-label="Adjust stock for Ciprofloxacin 500mg">
-                                    <i class="fa-solid fa-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="inv-action-btn inv-action-delete"
-                                        title="Delete medicine" data-id="8"
-                                        aria-label="Delete Ciprofloxacin 500mg">
-                                    <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <%-- TODO: Bind inventory rows from the database (Repeater/GridView).
+                             Demo/placeholder rows were removed during hardcoded-data cleanup.
+                             Server-rendered rows MUST keep the markup contract that
+                             pharmacist-inventory.js relies on:
+                               • <td class="inv-code">         → medicine code
+                               • <td class="inv-name"><strong> → medicine name
+                               • cells[2]                      → category text (filter)
+                               • <td data-supplier-id="N">     → supplier id + name
+                               • <td class="inv-batch">        → batch number
+                               • cells[5]                      → "<qty> <unit>" e.g. "450 Tabs"
+                               • cells[6] / .inv-sell-price    → cost / selling price
+                               • <td class="inv-expiry">       → expiry date
+                               • .inv-status-badge             → status text (filter)
+                               • action buttons data-id="N"    → medicine id
+                               • <tr data-reorder-level="N">   → reorder level --%>
                     </tbody>
                 </table>
             </div><%-- /.ps-table-wrapper --%>
@@ -449,7 +232,8 @@
 
         <div class="ps-card-footer inv-table-footer">
             <p class="inv-table-count" id="invTableCount" aria-live="polite">
-                Showing <strong>8</strong> of <strong>8</strong> medicines
+                <%-- Updated by pharmacist-inventory.js from the rendered row count --%>
+                Showing <strong>0</strong> of <strong>0</strong> medicines
             </p>
         </div>
 
@@ -734,12 +518,11 @@
                     <label class="ps-form-label" for="editSupplier">
                         Supplier <span class="inv-required" aria-hidden="true">*</span>
                     </label>
+                    <%-- TODO: Populate options from the database to mirror the addSupplier
+                         dropdown (SELECT supplier_id, company_name FROM suppliers WHERE status='active').
+                         Hardcoded demo suppliers were removed during cleanup. --%>
                     <select id="editSupplier" class="ps-form-control">
                         <option value="">-- Select Supplier --</option>
-                        <option value="1">PharmaCo Ltd</option>
-                        <option value="2">MediSupply GH</option>
-                        <option value="3">DiaCare Pharma</option>
-                        <option value="4">CardioMed GH</option>
                     </select>
                     <span class="inv-field-error" id="errEditSupplier" role="alert"></span>
                 </div>
@@ -879,5 +662,5 @@
 
 </asp:Content>
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="../../js/pages/pharmacist-inventory.js"></script>
+    <script src="<%=ResolveUrl("~/js/pages/pharmacist-inventory.js") %>"></script>
 </asp:Content>

@@ -87,6 +87,42 @@ namespace JOCINAPharm.pages
         protected global::System.Web.UI.WebControls.TextBox txtSearch;
 
         /// <summary>
+        /// ddlSeverity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSeverity;
+
+        /// <summary>
+        /// ddlCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
+
+        /// <summary>
+        /// ddlAcknowledged control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAcknowledged;
+
+        /// <summary>
+        /// lbtnClearFilters control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbtnClearFilters;
+
+        /// <summary>
         /// pnlCritical control.
         /// </summary>
         /// <remarks>
@@ -211,25 +247,5 @@ namespace JOCINAPharm.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnAlertData;
-
-        /// <summary>
-        /// ddlSeverity control.
-        /// </summary>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSeverity;
-
-        /// <summary>
-        /// ddlCategory control.
-        /// </summary>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
-
-        /// <summary>
-        /// ddlAcknowledged control.
-        /// </summary>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAcknowledged;
-
-        /// <summary>
-        /// lbtnClearFilters control.
-        /// </summary>
-        protected global::System.Web.UI.WebControls.LinkButton lbtnClearFilters;
     }
 }

@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Dashboard_Cashier.Master" CodeBehind="CashierDashboard.aspx.cs" Inherits="JOCINAPharm.pages.Cashier.Dashboard" %>
 
 <asp:Content ID="HeadStyles" ContentPlaceHolderID="HeadStyles" runat="server">
-    <link href="../../css/pages/cashier-dashboard.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/cashier-dashboard.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -379,5 +379,5 @@
 </asp:Content>
 
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="../../js/pages/cashier-dashboard.js"></script>
+    <script src="<%=ResolveUrl("~/js/pages/cashier-dashboard.js") %>"></script>
 </asp:Content>

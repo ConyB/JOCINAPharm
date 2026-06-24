@@ -226,7 +226,8 @@
             <%-- Medicine name pill (populated by JS) --%>
             <div class="inv-update-med-pill">
                 <i class="fa-solid fa-box" aria-hidden="true"></i>
-                <span id="updateMedName">Paracetamol 500mg</span>
+                <%-- Populated by inventory-modals.js when the modal opens --%>
+                <span id="updateMedName">—</span>
             </div>
 
             <%-- Hidden: medicine_id carried through postback --%>
@@ -324,7 +325,8 @@
                        aria-hidden="true"></i>
                     Medicine Details
                 </h2>
-                <p class="ps-modal-subtitle" id="detailsMedCode">MED-001</p>
+                <%-- Populated by inventory-modals.js when the modal opens --%>
+                <p class="ps-modal-subtitle" id="detailsMedCode">—</p>
             </div>
             <button type="button"
                     class="ps-modal-close"
@@ -339,7 +341,8 @@
 
             <%-- Status banner row --%>
             <div class="inv-detail-status-row">
-                <span id="detailStatusBadge" class="ps-badge ps-badge-success">In Stock</span>
+                <%-- Badge text/class set by inventory-modals.js when the modal opens --%>
+                <span id="detailStatusBadge" class="ps-badge ps-badge-neutral">—</span>
                 <span class="inv-detail-meta">
                     Added: <strong id="detailCreatedAt">—</strong>
                 </span>

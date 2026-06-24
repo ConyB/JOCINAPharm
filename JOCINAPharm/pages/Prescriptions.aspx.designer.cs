@@ -15,6 +15,60 @@ namespace JOCINAPharm.pages
     {
 
         /// <summary>
+        /// lblTotalRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalRx;
+
+        /// <summary>
+        /// lblPendingRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPendingRx;
+
+        /// <summary>
+        /// lblDispensedRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDispensedRx;
+
+        /// <summary>
+        /// lblCancelledRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCancelledRx;
+
+        /// <summary>
+        /// lblTodayRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTodayRx;
+
+        /// <summary>
+        /// lblUniquePatientsRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUniquePatientsRx;
+
+        /// <summary>
         /// lblPendingCount control.
         /// </summary>
         /// <remarks>

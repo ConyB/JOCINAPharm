@@ -2,7 +2,7 @@
 
 <asp:Content ID="PageTitle"      ContentPlaceHolderID="PageTitle"      runat="server">Dashboard</asp:Content>
 <asp:Content ID="HeadStyles"     ContentPlaceHolderID="HeadStyles"     runat="server">
-    <link href="../css/pages/dashboard.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/dashboard.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="MainContent"    ContentPlaceHolderID="MainContent"    runat="server">
@@ -452,5 +452,5 @@
      SCRIPT — Minimal dashboard-level JS
      ============================================================ --%>
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="../js/pages/dashboard.js"></script>
+    <script src="<%=ResolveUrl("~/js/pages/dashboard.js") %>"></script>
 </asp:Content>

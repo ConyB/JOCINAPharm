@@ -33,6 +33,15 @@ namespace JOCINAPharm.pages.Cashier
         protected global::System.Web.UI.WebControls.TextBox txtMedicineSearch;
 
         /// <summary>
+        /// ddlCustomer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCustomer;
+
+        /// <summary>
         /// txtCustomerName control.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace JOCINAPharm.pages.Cashier
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfCartJson;
+
+        /// <summary>
+        /// hfCustomerId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfCustomerId;
 
         /// <summary>
         /// hfCustomerName control.
@@ -69,6 +87,24 @@ namespace JOCINAPharm.pages.Cashier
         protected global::System.Web.UI.WebControls.HiddenField hfPaymentMethod;
 
         /// <summary>
+        /// hfMomoRef control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfMomoRef;
+
+        /// <summary>
+        /// hfSaleStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfSaleStatus;
+
+        /// <summary>
         /// hfSubtotal control.
         /// </summary>
         /// <remarks>
@@ -85,6 +121,15 @@ namespace JOCINAPharm.pages.Cashier
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfTotalAmount;
+
+        /// <summary>
+        /// hfSaleNotes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfSaleNotes;
 
         /// <summary>
         /// btnSubmitSale control.

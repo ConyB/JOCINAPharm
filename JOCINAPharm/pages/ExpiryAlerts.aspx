@@ -8,7 +8,7 @@
      PAGE-LEVEL CSS
      ================================================================ --%>
 <asp:Content ID="HeadStylesContent" ContentPlaceHolderID="HeadStyles" runat="server">
-    <link href="../css/pages/expiry-alerts.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/expiry-alerts.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <%-- ================================================================
@@ -737,5 +737,5 @@
      PAGE-LEVEL JAVASCRIPT
      ================================================================ --%>
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="../js/pages/expiry-alerts.js"></script>
+    <script src="<%=ResolveUrl("~/js/pages/expiry-alerts.js") %>"></script>
 </asp:Content>

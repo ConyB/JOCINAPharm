@@ -7,7 +7,7 @@
 
 <%-- Page-specific stylesheet --%>
 <asp:Content ContentPlaceHolderID="HeadStyles" runat="server">
-    <link href="../../css/pages/sales.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/sales.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <%-- ============================================================
@@ -557,5 +557,5 @@
 
 <%-- Page-specific script --%>
 <asp:Content ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="../../js/pages/sales.js"></script>
+    <script src="<%=ResolveUrl("~/js/pages/sales.js") %>"></script>
 </asp:Content>

@@ -89,5 +89,5 @@
 </asp:Content>
 
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="<%= ResolveUrl("~/js/pages/pharmacist-suppliers.js") %>"></script>
+    <script src="<%=ResolveUrl("~/js/pages/pharmacist-suppliers.js") %>"></script>
 </asp:Content>

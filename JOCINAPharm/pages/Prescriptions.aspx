@@ -8,7 +8,7 @@
      HEAD STYLES — Page-level CSS
      ================================================================ --%>
 <asp:Content ID="HeadStylesContent" ContentPlaceHolderID="HeadStyles" runat="server">
-    <link href="../css/pages/prescriptions.css" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/css/pages/prescriptions.css") %>" rel="stylesheet" />
 </asp:Content>
 
 <%-- ================================================================
@@ -1055,5 +1055,5 @@
      PAGE-LEVEL SCRIPTS
      ================================================================ --%>
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="../js/pages/prescriptions.js"></script>
+    <script src="<%=ResolveUrl("~/js/pages/prescriptions.js") %>"></script>
 </asp:Content>
