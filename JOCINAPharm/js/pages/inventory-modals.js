@@ -175,6 +175,15 @@ PharmaSync.Inventory = (function () {
      * @param {number}        currentStock  - Current quantity_in_stock
      */
     function openUpdateModal(medicineId, medicineName, currentStock) {
+        // Allow being called with the button element (inline onclick passes
+        // `this`); read the values off its data-* attributes in that case.
+        if (medicineId && medicineId.nodeType === 1) {
+            var b = medicineId;
+            medicineId   = b.dataset.id    || '';
+            medicineName = b.dataset.name  || '';
+            currentStock = b.dataset.stock != null ? b.dataset.stock : 0;
+        }
+
         // Populate display fields
         var nameEl  = document.getElementById('updateMedName');
         var stockEl = document.getElementById('updateCurrentStock');
@@ -258,6 +267,29 @@ PharmaSync.Inventory = (function () {
      */
     function openDetailsModal(med) {
         if (!med) return;
+
+        // Allow being called with the button element (inline onclick passes
+        // `this`); build the medicine object from its data-* attributes.
+        if (med.nodeType === 1) {
+            var b = med;
+            med = {
+                medicine_id:    b.dataset.id            || '',
+                medicine_code:  b.dataset.code          || b.dataset.id || '',
+                medicine_name:  b.dataset.name          || '—',
+                category:       b.dataset.category      || '—',
+                unit:           b.dataset.unit          || '—',
+                stock_quantity: b.dataset.stock         || 0,
+                reorder_level:  b.dataset.reorder       || 0,
+                cost_price:     b.dataset.cost          || 0,
+                selling_price:  b.dataset.price         || 0,
+                expiry_date:    b.dataset.expiry        || null,
+                supplier_name:  b.dataset.supplierName  || '—',
+                supplier_id:    b.dataset.supplierId    || null,
+                status:         b.dataset.status        || '—',
+                created_at:     b.dataset.created       || null,
+                updated_at:     b.dataset.updated       || null
+            };
+        }
 
         // Populate all display spans
         _setText('detailsMedCode', med.medicine_code || '—');
@@ -355,6 +387,26 @@ PharmaSync.Inventory = (function () {
     function openEditModal(med) {
         if (!med) return;
 
+        // Allow being called with the button element (inline onclick passes
+        // `this`); build the medicine object from its data-* attributes.
+        if (med.nodeType === 1) {
+            var b = med;
+            med = {
+                medicine_id:    b.dataset.id          || '',
+                medicine_name:  b.dataset.name        || '',
+                category:       b.dataset.category    || '',
+                unit:           b.dataset.unit        || '',
+                batch_no:       b.dataset.batch       || '',
+                stock_quantity: b.dataset.stock       || 0,
+                reorder_level:  b.dataset.reorder     || 50,
+                cost_price:     b.dataset.cost        || 0,
+                selling_price:  b.dataset.price       || 0,
+                expiry_date:    b.dataset.expiry      || '',
+                supplier_id:    b.dataset.supplierId  || '',
+                status:         b.dataset.status      || 'In Stock'
+            };
+        }
+
         _setVal('hfEditMedId',      med.medicine_id   || '');
         _setVal('editMedName',      med.medicine_name || '');
         _setVal('editMedCategory',  med.category      || '');
@@ -365,7 +417,12 @@ PharmaSync.Inventory = (function () {
         _setVal('editMedSell',      med.selling_price != null ? Number(med.selling_price).toFixed(2) : '0.00');
         _setVal('editMedExpiry',    med.expiry_date   || '');
         _setVal('editMedReorder',   med.reorder_level != null ? med.reorder_level : '50');
-        _setVal('editMedSupplier',  med.supplier_name || '');
+
+        // Supplier dropdown — options carry value=supplier_id, so match by id.
+        var supplierDdl = document.getElementById('editMedSupplier');
+        if (supplierDdl) {
+            supplierDdl.value = med.supplier_id != null ? String(med.supplier_id) : '';
+        }
 
         // Status dropdown
         var statusDdl = document.getElementById('editMedStatus');
@@ -441,6 +498,14 @@ PharmaSync.Inventory = (function () {
      * @param {string} medicineName - Display name for confirmation pill
      */
     function openDeleteConfirm(medicineId, medicineName) {
+        // Allow being called with the button element (inline onclick passes
+        // `this`); read the values off its data-* attributes in that case.
+        if (medicineId && medicineId.nodeType === 1) {
+            var b = medicineId;
+            medicineId   = b.dataset.id   || '';
+            medicineName = b.dataset.name || 'this medicine';
+        }
+
         var nameEl   = document.getElementById('deleteMedName');
         var hiddenId = document.getElementById('hfDeleteMedId');
 
@@ -448,6 +513,43 @@ PharmaSync.Inventory = (function () {
         if (hiddenId) hiddenId.value     = medicineId   || '';
 
         openModal('modalDeleteConfirm');
+    }
+
+
+    /* ============================================================
+       SEARCH (debounced server-side, with instant client filter)
+       Wired from the search box: onkeyup="...debouncedSearch(this.value)"
+       ============================================================ */
+
+    var _searchTimer = null;
+
+    /**
+     * Instantly hide non-matching rows for responsive feedback while the
+     * server postback (the authoritative search) is in flight.
+     * @param {string} query — lowercased search text
+     */
+    function _clientFilterRows(query) {
+        var rows = document.querySelectorAll('#inventoryTbody tr');
+        rows.forEach(function (row) {
+            var match = !query || row.textContent.toLowerCase().indexOf(query) !== -1;
+            row.style.display = match ? '' : 'none';
+        });
+    }
+
+    /**
+     * Debounce the search box: filter rows client-side immediately, then
+     * fire the server postback after 400 ms idle to load matching DB rows.
+     * @param {string} value
+     */
+    function debouncedSearch(value) {
+        var query = (value || '').toLowerCase().trim();
+        clearTimeout(_searchTimer);
+        _searchTimer = setTimeout(function () {
+            _clientFilterRows(query);
+            if (typeof __doPostBack === 'function') {
+                __doPostBack('btnSearch', '');
+            }
+        }, 400);
     }
 
 
@@ -466,109 +568,28 @@ PharmaSync.Inventory = (function () {
         validateUpdateForm:          validateUpdateForm,
         openDetailsModal:            openDetailsModal,
         openDeleteConfirm:           openDeleteConfirm,
+        debouncedSearch:             debouncedSearch,
     };
 
 }());
 
 
 /* ================================================================
-   DOM READY — Wire up buttons via EVENT DELEGATION.
-   Using delegation on stable parent elements means:
-   - No per-button addEventListener that stacks on re-render
-   - Works automatically for rows added after page load
-   - Completely eliminates the double-dialog bug caused by having
-     both an onclick attribute AND an addEventListener on the same button
+   DOM READY — Wire up the "+ Add Medicine" header button.
+   The table action buttons (View / Edit / Update / Delete) are wired
+   via inline onclick="PharmaSync.Inventory.open*(this)" in the rows
+   rendered server-side, so no delegation is needed for them.
    ================================================================ */
 document.addEventListener('DOMContentLoaded', function () {
 
     // ── "+ Add Medicine" header button ───────────────────────────
-    // Using delegation on document so it works regardless of
-    // where the button sits in the DOM.
+    // Delegated on document so it works regardless of where it sits.
     document.addEventListener('click', function (e) {
         var btn = e.target.closest('#btnOpenAddModal');
         if (btn) {
             e.preventDefault();
             PharmaSync.Inventory.openAddModal();
         }
-    });
-
-    // ── Inventory table: EDIT (update stock) button ──────────────
-    // Buttons must have class="btn-edit" and data attributes:
-    //   data-id="1"
-    //   data-name="Paracetamol 500mg"
-    //   data-stock="340"
-    // Example:
-    //   <button class="btn-edit"
-    //           data-id='<%# Eval("medicine_id") %>'
-    //           data-name='<%# Eval("medicine_name") %>'
-    //           data-stock='<%# Eval("stock_quantity") %>'>
-    document.addEventListener('click', function (e) {
-        var btn = e.target.closest('.btn-edit');
-        if (!btn) return;
-        e.preventDefault();
-        e.stopPropagation();
-
-                PharmaSync.Inventory.openEditModal({
-            medicine_id:    btn.dataset.id           || '',
-            medicine_name:  btn.dataset.name         || '',
-            category:       btn.dataset.category     || '',
-            unit:           btn.dataset.unit         || '',
-            batch_no:       btn.dataset.batch        || '',
-            stock_quantity: btn.dataset.stock        || 0,
-            reorder_level:  btn.dataset.reorder      || 50,
-            cost_price:     btn.dataset.cost         || 0,
-            selling_price:  btn.dataset.price        || 0,
-            expiry_date:    btn.dataset.expiry       || '',
-            supplier_name:  btn.dataset.supplierName || '',
-            status:         btn.dataset.status       || 'In Stock',
-        });
-    });
-
-    // ── Inventory table: VIEW DETAILS button ─────────────────────
-    // Buttons must have class="btn-view" and data attributes for
-    // every field shown in the details modal:
-    //   data-id, data-code, data-name, data-category, data-unit,
-    //   data-stock, data-reorder, data-cost, data-price,
-    //   data-expiry, data-supplier-name, data-supplier-id,
-    //   data-status, data-created, data-updated
-    document.addEventListener('click', function (e) {
-        var btn = e.target.closest('.btn-view');
-        if (!btn) return;
-        e.preventDefault();
-        e.stopPropagation();
-
-        PharmaSync.Inventory.openDetailsModal({
-            medicine_id:    btn.dataset.id            || '',
-            medicine_code:  btn.dataset.code          || btn.dataset.id || '',
-            medicine_name:  btn.dataset.name          || '—',
-            category:       btn.dataset.category      || '—',
-            unit:           btn.dataset.unit          || '—',
-            stock_quantity: btn.dataset.stock         || 0,
-            reorder_level:  btn.dataset.reorder       || 0,
-            cost_price:     btn.dataset.cost          || 0,
-            selling_price:  btn.dataset.price         || 0,
-            expiry_date:    btn.dataset.expiry        || null,
-            supplier_name:  btn.dataset.supplierName  || '—',
-            supplier_id:    btn.dataset.supplierId    || null,
-            status:         btn.dataset.status        || '—',
-            created_at:     btn.dataset.created       || null,
-            updated_at:     btn.dataset.updated       || null,
-        });
-    });
-
-    // ── Inventory table: DELETE button ───────────────────────────
-    // Buttons must have class="btn-delete" and:
-    //   data-id="MED-001"  data-name="Paracetamol 500mg"
-    document.addEventListener('click', function (e) {
-        var btn = e.target.closest('.btn-delete');
-        if (!btn) return;
-        e.preventDefault();
-        e.stopPropagation();
-
-        PharmaSync.Inventory.openDeleteConfirm(
-            btn.dataset.id   || '',
-            btn.dataset.name || 'this medicine'
-        );
     });
 
 });

@@ -50,7 +50,7 @@
             <%-- Search --%>
             <div class="ps-search-wrap">
                 <i class="fa-solid fa-magnifying-glass ps-search-icon"></i>
-                <asp:TextBox ID="txtSearch" runat="server" CssClass="ps-search-input"
+                <asp:TextBox ID="txtSearch" runat="server" onkeyup="PharmaSync.Inventory.debouncedSearch(this.value)" CssClass="ps-search-input"
                     placeholder="Search medicines..." ClientIDMode="Static" />
             </div>
 
@@ -77,20 +77,7 @@
                         </tr>
                     </thead>
                     <tbody id="inventoryTbody">
-
-                        <%-- TODO: Bind inventory rows from the database (Repeater/GridView).
-                             Demo/placeholder rows were removed during hardcoded-data cleanup.
-                             Server-rendered rows MUST emit the same data-* attributes the
-                             modal JS relies on (see InventoryModals.ascx / inventory-modals.js):
-                               btn-view  → data-id, data-code, data-name, data-category, data-unit,
-                                           data-stock, data-reorder, data-cost, data-price, data-expiry,
-                                           data-supplier-name, data-supplier-id, data-status,
-                                           data-created, data-updated
-                               btn-edit  → data-id, data-name, data-category, data-unit, data-batch,
-                                           data-stock, data-reorder, data-cost, data-price, data-expiry,
-                                           data-supplier-name, data-status
-                               btn-delete→ data-id, data-name --%>
-
+                       <asp:Literal ID="litInventoryRows" runat="server" />
                     </tbody>
                 </table>
             </div>
@@ -101,19 +88,19 @@
         <%-- Pagination --%>
         <div class="ps-card-footer">
             <div class="ps-pagination">
-                <%-- TODO: Populate pagination summary from the database row count --%>
-                <span class="ps-pagination-info">Showing <strong>0</strong>–<strong>0</strong> of <strong>0</strong> medicines</span>
-                <div class="ps-pagination-pages">
-                    <%-- TODO: Generate page buttons dynamically from the total record count --%>
-                    <button class="ps-page-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
-                    <button class="ps-page-btn active">1</button>
-                    <button class="ps-page-btn" disabled><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
+                <asp:Literal ID="litPagination" runat="server" />
             </div>
         </div>
 
     </div>
     <%-- /ps-card (inventory table) --%>
+    <%-- Hidden postback triggers for search and pagination --%>
+    <asp:Button ID="btnSearch"   runat="server" Style="display:none;"
+        OnClick="btnSearch_Click"   CausesValidation="false" />
+    <asp:Button ID="btnPagePrev" runat="server" Style="display:none;"
+        OnClick="btnPagePrev_Click" CausesValidation="false" />
+    <asp:Button ID="btnPageNext" runat="server" Style="display:none;"
+        OnClick="btnPageNext_Click" CausesValidation="false" />
 
 </asp:Content>
 
@@ -122,6 +109,5 @@
      PAGE SCRIPTS
      ================================================================ --%>
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="ScriptContent" runat="server">
-    <script src="<%=ResolveUrl("~/js/pages/inventory.js") %>"></script>
     <script src="<%=ResolveUrl("~/js/pages/inventory-modals.js") %>"></script>
 </asp:Content>

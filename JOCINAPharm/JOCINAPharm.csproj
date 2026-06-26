@@ -106,7 +106,6 @@
     <Content Include="js\pages\dashboard.js" />
     <Content Include="js\pages\expiry-alerts.js" />
     <Content Include="js\pages\inventory-modals.js" />
-    <Content Include="js\pages\inventory.js" />
     <Content Include="js\jquery-3.7.0.min.js" />
     <Content Include="js\pages\pharmacist-customers.js" />
     <Content Include="js\pages\pharmacist-dashboard.js" />
@@ -176,6 +175,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="DAL\InventoryDAL.cs" />
     <Compile Include="Security\AuthHelper.cs" />
     <Compile Include="Data\Db.cs" />
     <Compile Include="Data\SupplierRepository.cs" />
