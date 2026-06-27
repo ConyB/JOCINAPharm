@@ -117,7 +117,8 @@
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="kpi-card-value" id="kpiWatchCount" runat="server">6</p>
+            <%-- TODO: Set count from database (server-side) --%>
+            <p class="kpi-card-value" id="kpiWatchCount" runat="server">0</p>
             <div class="kpi-card-footer">
                 <span>&gt; 90 days remaining</span>
             </div>
@@ -159,7 +160,7 @@
                         id="tab-all" data-severity="all"
                         onclick="ExpiryAlerts.switchTab('all')">
                     All Alerts
-                    <span class="expiry-tab-count" id="tabCountAll">8</span>
+                    <span class="expiry-tab-count" id="tabCountAll">0</span>
                 </button>
                 <button class="expiry-tab expiry-tab--critical"
                         role="tab" aria-selected="false" aria-controls="tabpanel-critical"
@@ -189,7 +190,7 @@
                         onclick="ExpiryAlerts.switchTab('Watch')">
                     <i class="fa-regular fa-clock" aria-hidden="true"></i>
                     Watch
-                    <span class="expiry-tab-count expiry-tab-count--watch" id="tabCountWatch">6</span>
+                    <span class="expiry-tab-count expiry-tab-count--watch" id="tabCountWatch">0</span>
                 </button>
             </div>
 
@@ -227,12 +228,7 @@
                         aria-label="Filter by category"
                         onchange="ExpiryAlerts.applyFilters()">
                     <option value="">All Categories</option>
-                    <option value="Analgesics">Analgesics</option>
-                    <option value="Antibiotics">Antibiotics</option>
-                    <option value="Cardiac">Cardiac</option>
-                    <option value="Cholesterol">Cholesterol</option>
-                    <option value="Diabetes">Diabetes</option>
-                    <option value="Gastro">Gastro</option>
+                    <%-- TODO: Populate category options from database (distinct categories) --%>
                 </select>
 
                 <%-- Supplier filter --%>
@@ -240,10 +236,7 @@
                         aria-label="Filter by supplier"
                         onchange="ExpiryAlerts.applyFilters()">
                     <option value="">All Suppliers</option>
-                    <option value="PharmaCo Ltd">PharmaCo Ltd</option>
-                    <option value="MediSupply GH">MediSupply GH</option>
-                    <option value="DiaCare Pharma">DiaCare Pharma</option>
-                    <option value="CardioMed GH">CardioMed GH</option>
+                    <%-- TODO: Populate supplier options from database (distinct suppliers) --%>
                 </select>
 
                 <%-- Acknowledged filter --%>
@@ -301,263 +294,15 @@
                     </tr>
                 </thead>
                 <tbody id="expiryTableBody">
-                    <%-- ── PLACEHOLDER DATA (replace with Repeater / GridView binding) ── --%>
-                    <%-- Row: Watch --%>
-                    <tr data-severity="Watch" data-category="Analgesics" data-supplier="PharmaCo Ltd" data-ack="0" data-days="424" data-id="1">
-                        <td><span class="expiry-code">MED-001</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Paracetamol 500mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Analgesics</span></td>
-                        <td><span class="expiry-stock">450 Tabs</span></td>
-                        <td><span class="expiry-date-text">2026-08-01</span></td>
-                        <td><span class="ps-badge ps-badge-success expiry-days-badge">424 days</span></td>
-                        <td class="expiry-supplier-cell">PharmaCo Ltd</td>
-                        <td class="expiry-value-cell">UGX 675,000</td>
-                        <td><span class="ps-badge ps-badge-success">Watch</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="1"
-                                        onclick="ExpiryAlerts.acknowledge(this, 1)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(1)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Watch --%>
-                    <tr data-severity="Watch" data-category="Antibiotics" data-supplier="MediSupply GH" data-ack="0" data-days="425" data-id="2">
-                        <td><span class="expiry-code">MED-002</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Amoxicillin 500mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Antibiotics</span></td>
-                        <td><span class="expiry-stock">12 Caps</span></td>
-                        <td><span class="expiry-date-text">2025-12-01</span></td>
-                        <td><span class="ps-badge ps-badge-success expiry-days-badge">214 days</span></td>
-                        <td class="expiry-supplier-cell">MediSupply GH</td>
-                        <td class="expiry-value-cell">UGX 156,000</td>
-                        <td><span class="ps-badge ps-badge-success">Watch</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="2"
-                                        onclick="ExpiryAlerts.acknowledge(this, 2)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(2)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Watch --%>
-                    <tr data-severity="Watch" data-category="Analgesics" data-supplier="PharmaCo Ltd" data-ack="0" data-days="344" data-id="3">
-                        <td><span class="expiry-code">MED-003</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Ibuprofen 400mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Analgesics</span></td>
-                        <td><span class="expiry-stock">200 Tabs</span></td>
-                        <td><span class="expiry-date-text">2026-05-15</span></td>
-                        <td><span class="ps-badge ps-badge-success expiry-days-badge">346 days</span></td>
-                        <td class="expiry-supplier-cell">PharmaCo Ltd</td>
-                        <td class="expiry-value-cell">UGX 800,000</td>
-                        <td><span class="ps-badge ps-badge-success">Watch</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="3"
-                                        onclick="ExpiryAlerts.acknowledge(this, 3)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(3)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Warning --%>
-                    <tr data-severity="Warning" data-category="Diabetes" data-supplier="DiaCare Pharma" data-ack="0" data-days="73" data-id="4">
-                        <td><span class="expiry-code">MED-004</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Metformin 850mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Diabetes</span></td>
-                        <td><span class="expiry-stock expiry-stock--low">8 Tabs</span></td>
-                        <td><span class="expiry-date-text">2026-02-28</span></td>
-                        <td><span class="ps-badge ps-badge-warning expiry-days-badge">73 days</span></td>
-                        <td class="expiry-supplier-cell">DiaCare Pharma</td>
-                        <td class="expiry-value-cell">UGX 80,000</td>
-                        <td><span class="ps-badge ps-badge-warning">Warning</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="4"
-                                        onclick="ExpiryAlerts.acknowledge(this, 4)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(4)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Watch --%>
-                    <tr data-severity="Watch" data-category="Cardiac" data-supplier="CardioMed GH" data-ack="0" data-days="213" data-id="5">
-                        <td><span class="expiry-code">MED-005</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Lisinopril 10mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Cardiac</span></td>
-                        <td><span class="expiry-stock expiry-stock--low">5 Tabs</span></td>
-                        <td><span class="expiry-date-text">2025-11-30</span></td>
-                        <td><span class="ps-badge ps-badge-success expiry-days-badge">213 days</span></td>
-                        <td class="expiry-supplier-cell">CardioMed GH</td>
-                        <td class="expiry-value-cell">UGX 60,000</td>
-                        <td><span class="ps-badge ps-badge-success">Watch</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="5"
-                                        onclick="ExpiryAlerts.acknowledge(this, 5)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(5)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Watch --%>
-                    <tr data-severity="Watch" data-category="Gastro" data-supplier="PharmaCo Ltd" data-ack="0" data-days="467" data-id="6">
-                        <td><span class="expiry-code">MED-006</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Omeprazole 20mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Gastro</span></td>
-                        <td><span class="expiry-stock">120 Caps</span></td>
-                        <td><span class="expiry-date-text">2026-09-10</span></td>
-                        <td><span class="ps-badge ps-badge-success expiry-days-badge">467 days</span></td>
-                        <td class="expiry-supplier-cell">PharmaCo Ltd</td>
-                        <td class="expiry-value-cell">UGX 960,000</td>
-                        <td><span class="ps-badge ps-badge-success">Watch</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="6"
-                                        onclick="ExpiryAlerts.acknowledge(this, 6)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(6)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Warning --%>
-                    <tr data-severity="Warning" data-category="Cholesterol" data-supplier="CardioMed GH" data-ack="0" data-days="84" data-id="7">
-                        <td><span class="expiry-code">MED-007</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Atorvastatin 20mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Cholesterol</span></td>
-                        <td><span class="expiry-stock expiry-stock--low">15 Tabs</span></td>
-                        <td><span class="expiry-date-text">2026-03-20</span></td>
-                        <td><span class="ps-badge ps-badge-warning expiry-days-badge">84 days</span></td>
-                        <td class="expiry-supplier-cell">CardioMed GH</td>
-                        <td class="expiry-value-cell">UGX 210,000</td>
-                        <td><span class="ps-badge ps-badge-warning">Warning</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="7"
-                                        onclick="ExpiryAlerts.acknowledge(this, 7)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(7)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <%-- Row: Watch --%>
-                    <tr data-severity="Watch" data-category="Antibiotics" data-supplier="MediSupply GH" data-ack="0" data-days="393" data-id="8">
-                        <td><span class="expiry-code">MED-008</span></td>
-                        <td>
-                            <div class="expiry-medicine-cell">
-                                <span class="expiry-medicine-name">Ciprofloxacin 500mg</span>
-                            </div>
-                        </td>
-                        <td><span class="ps-badge ps-badge-neutral">Antibiotics</span></td>
-                        <td><span class="expiry-stock">80 Tabs</span></td>
-                        <td><span class="expiry-date-text">2026-07-01</span></td>
-                        <td><span class="ps-badge ps-badge-success expiry-days-badge">393 days</span></td>
-                        <td class="expiry-supplier-cell">MediSupply GH</td>
-                        <td class="expiry-value-cell">UGX 1,440,000</td>
-                        <td><span class="ps-badge ps-badge-success">Watch</span></td>
-                        <td class="td-actions">
-                            <div class="expiry-action-group">
-                                <button type="button" class="ps-btn ps-btn-secondary ps-btn-sm expiry-ack-btn"
-                                        data-id="8"
-                                        onclick="ExpiryAlerts.acknowledge(this, 8)"
-                                        title="Acknowledge alert">
-                                    Acknowledge
-                                </button>
-                                <button type="button" class="ps-btn ps-btn-icon ps-btn-ghost"
-                                        onclick="ExpiryAlerts.openDetails(8)"
-                                        title="View details">
-                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <%-- END PLACEHOLDER ROWS — replace with server-side data binding --%>
+                    <%-- TODO: Bind expiry alert rows from database (Repeater / GridView).
+                         Each rendered <tr> must keep the data-* attributes the client
+                         script reads in _snapshotRows():
+                           data-severity, data-category, data-supplier,
+                           data-ack, data-days, data-id
+                         and the cell classes: .expiry-code, .expiry-medicine-name,
+                           .expiry-stock, .expiry-date-text, .expiry-supplier-cell,
+                           .expiry-value-cell
+                         Hardcoded sample rows removed during cleanup phase. --%>
                 </tbody>
             </table>
 
@@ -575,7 +320,7 @@
 
         <%-- ── TABLE FOOTER / PAGINATION ──────────────────────────── --%>
         <div class="ps-pagination" id="expiryPagination">
-            <span class="ps-pagination-info" id="expiryPaginationInfo">Showing 1–8 of 8 alerts</span>
+            <span class="ps-pagination-info" id="expiryPaginationInfo">Showing 0 of 0 alerts</span>
             <div class="ps-pagination-controls">
                 <button class="ps-page-btn" id="btnPrevPage"
                         disabled aria-label="Previous page"
@@ -618,8 +363,8 @@
                 <%-- Severity header band --%>
                 <div class="expiry-detail-severity" id="detailSeverityBand">
                     <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-                    <span id="detailSeverityLabel">Watch Alert</span>
-                    <span class="expiry-detail-days" id="detailDaysLabel">213 days remaining</span>
+                    <span id="detailSeverityLabel">—</span>
+                    <span class="expiry-detail-days" id="detailDaysLabel">—</span>
                 </div>
 
                 <%-- Medicine info grid --%>

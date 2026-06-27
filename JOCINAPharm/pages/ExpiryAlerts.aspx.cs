@@ -85,15 +85,10 @@ namespace JOCINAPharm.pages
                 }
             }
 
-            // Fallback: derive from sample data
+            // TODO: Categories are loaded from the database above.
+            // When the DB is unavailable, leave the list empty (no sample data).
             if (categories == null)
-            {
                 categories = new List<string>();
-                foreach (var r in GetSampleAlerts())
-                    if (!categories.Contains(r.Category))
-                        categories.Add(r.Category);
-                categories.Sort();
-            }
 
             ddlCategory.Items.Clear();
             ddlCategory.Items.Add(new ListItem("All Categories", ""));
@@ -181,26 +176,10 @@ namespace JOCINAPharm.pages
                 }
             }
 
-            // Fallback: use sample data when DB is not yet connected
+            // TODO: Alert data is loaded from the database above.
+            // When the DB is unavailable, render an empty result set (no sample data).
             if (data == null)
-            {
-                data = GetSampleAlerts();
-
-                if (!string.IsNullOrEmpty(sevFilter))
-                    data = data.FindAll(r => r.Severity == sevFilter);
-                if (!string.IsNullOrEmpty(catFilter))
-                    data = data.FindAll(r => r.Category == catFilter);
-                if (ackFilter == "0")
-                    data = data.FindAll(r => !r.Acknowledged);
-                else if (ackFilter == "1")
-                    data = data.FindAll(r => r.Acknowledged);
-                if (!string.IsNullOrEmpty(search))
-                    data = data.FindAll(r =>
-                        (r.MedicineName ?? "").IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        (r.Category     ?? "").IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        (r.SupplierName ?? "").IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        (r.BatchNumber  ?? "").IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0);
-            }
+                data = new List<AlertRow>();
 
             // Bucket by severity
             var critical = data.FindAll(r => r.Severity == "Critical");
@@ -307,54 +286,6 @@ namespace JOCINAPharm.pages
 
                 if (success) LoadAlertData();
             }
-        }
-
-        // ============================================================
-        // SAMPLE DATA — fallback when DB is not yet connected
-        // Severity and DaysLeft values reflect current date (2026-06-16).
-        // ============================================================
-
-        private List<AlertRow> GetSampleAlerts()
-        {
-            return new List<AlertRow>
-            {
-                new AlertRow { AlertId=1, MedicineCode="MED-005", MedicineName="Lisinopril 10mg",
-                    Category="Cardiac",     BatchNumber="BCH-2024-005", StockDisplay="5 Tabs",
-                    ExpiryDate=new DateTime(2025,11,30), DaysLeft=-199,
-                    SupplierName="CardioMed GH",  Acknowledged=false,
-                    CreatedAt=DateTime.Today, Severity="Critical" },
-
-                new AlertRow { AlertId=2, MedicineCode="MED-002", MedicineName="Amoxicillin 500mg",
-                    Category="Antibiotics", BatchNumber="BCH-2024-002", StockDisplay="12 Caps",
-                    ExpiryDate=new DateTime(2025,12,1),  DaysLeft=-197,
-                    SupplierName="MediSupply GH", Acknowledged=false,
-                    CreatedAt=DateTime.Today, Severity="Critical" },
-
-                new AlertRow { AlertId=3, MedicineCode="MED-004", MedicineName="Metformin 850mg",
-                    Category="Diabetes",    BatchNumber="BCH-2024-004", StockDisplay="8 Tabs",
-                    ExpiryDate=new DateTime(2026,2,28),  DaysLeft=-108,
-                    SupplierName="DiaCare Pharma", Acknowledged=false,
-                    CreatedAt=DateTime.Today, Severity="Critical" },
-
-                new AlertRow { AlertId=4, MedicineCode="MED-007", MedicineName="Atorvastatin 20mg",
-                    Category="Cholesterol", BatchNumber="BCH-2024-007", StockDisplay="15 Tabs",
-                    ExpiryDate=new DateTime(2026,3,20),  DaysLeft=-88,
-                    SupplierName="CardioMed GH",  Acknowledged=false,
-                    CreatedAt=DateTime.Today, Severity="Critical" },
-
-                new AlertRow { AlertId=5, MedicineCode="MED-003", MedicineName="Ibuprofen 400mg",
-                    Category="Analgesics",  BatchNumber="BCH-2024-003", StockDisplay="200 Tabs",
-                    ExpiryDate=new DateTime(2026,5,15),  DaysLeft=-32,
-                    SupplierName="PharmaCo Ltd",  Acknowledged=true,
-                    AcknowledgedAt=DateTime.Today.AddDays(-2),
-                    CreatedAt=DateTime.Today, Severity="Critical" },
-
-                new AlertRow { AlertId=6, MedicineCode="MED-008", MedicineName="Ciprofloxacin 500mg",
-                    Category="Antibiotics", BatchNumber="BCH-2024-008", StockDisplay="80 Tabs",
-                    ExpiryDate=new DateTime(2026,7,1),   DaysLeft=15,
-                    SupplierName="MediSupply GH", Acknowledged=false,
-                    CreatedAt=DateTime.Today, Severity="Critical" },
-            };
         }
 
         // ============================================================

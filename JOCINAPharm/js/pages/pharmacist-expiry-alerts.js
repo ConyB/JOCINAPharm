@@ -426,33 +426,11 @@ PharmaSync.ExpiryAlerts = (function () {
        DETAIL MODAL
        ================================================================ */
 
-    /* Lookup table for inline placeholder data — matches seed data */
-    var _detailData = {
-        1: { code:'MED-001', name:'Paracetamol 500mg', category:'Analgesics', unit:'Tabs',
-             stock:450, cost:1.50, selling:3.00, expiry:'2026-08-01', days:424,
-             severity:'Watch', supplier:'PharmaCo Ltd', created:'2025-05-01' },
-        2: { code:'MED-002', name:'Amoxicillin 500mg', category:'Antibiotics', unit:'Caps',
-             stock:12,  cost:8.00, selling:13.00, expiry:'2025-12-01', days:214,
-             severity:'Watch', supplier:'MediSupply GH', created:'2025-05-01' },
-        3: { code:'MED-003', name:'Ibuprofen 400mg',   category:'Analgesics', unit:'Tabs',
-             stock:200, cost:2.00, selling:4.00,  expiry:'2026-05-15', days:346,
-             severity:'Watch', supplier:'PharmaCo Ltd', created:'2025-05-01' },
-        4: { code:'MED-004', name:'Metformin 850mg',   category:'Diabetes',   unit:'Tabs',
-             stock:8,   cost:5.00, selling:10.00, expiry:'2026-02-28', days:73,
-             severity:'Warning', supplier:'DiaCare Pharma', created:'2025-05-01' },
-        5: { code:'MED-005', name:'Lisinopril 10mg',   category:'Cardiac',    unit:'Tabs',
-             stock:5,   cost:7.00, selling:12.00, expiry:'2025-11-30', days:213,
-             severity:'Watch', supplier:'CardioMed GH', created:'2025-05-01' },
-        6: { code:'MED-006', name:'Omeprazole 20mg',   category:'Gastro',     unit:'Caps',
-             stock:120, cost:4.00, selling:8.00,  expiry:'2026-09-10', days:467,
-             severity:'Watch', supplier:'PharmaCo Ltd', created:'2025-05-01' },
-        7: { code:'MED-007', name:'Atorvastatin 20mg', category:'Cholesterol','unit':'Tabs',
-             stock:15,  cost:9.00, selling:14.00, expiry:'2026-03-20', days:84,
-             severity:'Warning', supplier:'CardioMed GH', created:'2025-05-01' },
-        8: { code:'MED-008', name:'Ciprofloxacin 500mg', category:'Antibiotics', unit:'Tabs',
-             stock:80,  cost:10.00, selling:18.00, expiry:'2026-07-01', days:393,
-             severity:'Watch', supplier:'MediSupply GH', created:'2025-05-01' }
-    };
+    /* Detail lookup, keyed by alert/medicine id.
+       TODO: Populate dynamically from server-rendered data (e.g. a hidden-field
+       JSON payload like the Admin page's hdnAlertData) once backend is wired.
+       Hardcoded sample records removed during cleanup phase. */
+    var _detailData = {};
 
     function openDetails(id) {
         _activeDetailId = id;
