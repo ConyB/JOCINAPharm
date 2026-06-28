@@ -246,8 +246,30 @@ PharmaSync.ExpiryAlerts = (function () {
      * @param {number} alertId
      */
     function openDetailModal(alertId) {
+        // Guard: alertId may be null, empty string, or NaN if the row has
+        // no expiry_alerts entry yet (LEFT JOIN produced a NULL alert_id).
+        if (alertId === null || alertId === undefined ||
+            alertId === '' || isNaN(Number(alertId))) {
+            console.warn('[ExpiryAlerts] openDetailModal called with invalid alertId:', alertId);
+            if (window.PharmaSync && PharmaSync.Toast) {
+                PharmaSync.Toast.show(
+                    'No alert record for this medicine yet. Try refreshing the page.',
+                    'warning'
+                );
+            }
+            return;
+        }
+        alertId = Number(alertId);
+
         var backdrop = document.getElementById('modalDetailBackdrop');
         if (!backdrop) return;
+
+        // Re-load from the hidden field every time.
+        // RegisterStartupScript fires immediately after page HTML is written,
+        // which can be before DOMContentLoaded re-runs init() after a postback,
+        // leaving _alertData still empty []. Calling _loadAlertData() here
+        // guarantees the data is always available when the modal needs it.
+        _loadAlertData();
 
         var row = null;
         for (var i = 0; i < _alertData.length; i++) {

@@ -151,6 +151,7 @@
     <Compile Include="controls\InventoryModals.ascx.designer.cs">
       <DependentUpon>InventoryModals.ascx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\ExpiryAlertDAL.cs" />
     <Compile Include="Dashboard.Master.cs">
       <DependentUpon>Dashboard.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

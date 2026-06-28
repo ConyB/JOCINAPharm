@@ -33,31 +33,62 @@ CREATE TABLE suppliers (
 GO
 
 -- ============================================================
+-- 1B. CATEGORIES (medicine classification)
+--     Reconciled from live DB (was created out-of-band; not in
+--     the original script). Referenced by medicines.category_id
+--     and InventoryDAL (GetActiveCategories, category backfill).
+--     Must be created BEFORE medicines (FK dependency).
+-- ============================================================
+CREATE TABLE categories (
+    category_id     INT IDENTITY(1,1) PRIMARY KEY,
+    category_name   VARCHAR(100) NOT NULL,
+    description     NVARCHAR(500),
+    is_active       BIT          NOT NULL DEFAULT 1,
+    created_at      DATETIME2    NOT NULL DEFAULT SYSDATETIME(),
+
+    CONSTRAINT uq_category_name UNIQUE (category_name)
+);
+GO
+
+-- ============================================================
 -- 2. MEDICINES (INVENTORY)
 -- ============================================================
 CREATE TABLE medicines (
     medicine_id     INT IDENTITY(1,1) PRIMARY KEY,
     medicine_code   VARCHAR(20)  NOT NULL,                    -- e.g. MED-001
     medicine_name   VARCHAR(200) NOT NULL,                    -- e.g. Paracetamol 500mg
-    category        VARCHAR(100),                             -- Analgesics, Antibiotics, Diabetes ...
+    category        VARCHAR(100),                             -- legacy free-text category (kept; see category_id)
     unit            VARCHAR(50),                              -- Tabs / Caps / Bottle
     stock_quantity  INT          NOT NULL DEFAULT 0,
     reorder_level   INT          NOT NULL DEFAULT 50,         -- threshold for low-stock alert
     cost_price      DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     selling_price   DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    batch_number    VARCHAR(50),                              -- e.g. BCH-2024-001
+    batch_number    NVARCHAR(100),                            -- widened from VARCHAR(50) to match live DB
     expiry_date     DATE,
     supplier_id     INT,
     status          VARCHAR(20)  NOT NULL DEFAULT 'In Stock'
                         CONSTRAINT chk_medicine_status CHECK (status IN ('In Stock', 'Low', 'Critical', 'Out of Stock')),
     created_at      DATETIME2    NOT NULL DEFAULT SYSDATETIME(),
     updated_at      DATETIME2    NOT NULL DEFAULT SYSDATETIME(),
+    -- ── Columns below added to the live DB after the original schema ──
+    --    (reconciled here so a fresh deploy matches production):
+    category_id     INT,                                      -- FK → categories; nullable (legacy rows use the varchar 'category')
+    is_active       BIT          NOT NULL DEFAULT 1,          -- soft-delete flag used by InventoryDAL
+    generic_name    NVARCHAR(200),                            -- generic / INN name
 
     CONSTRAINT uq_medicine_code UNIQUE (medicine_code),
 
     CONSTRAINT fk_medicine_supplier
         FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
         ON DELETE SET NULL ON UPDATE CASCADE
+
+    -- NOTE: a FK medicines.category_id → categories.category_id is RECOMMENDED
+    --       but NOT added here because its existence in the live DB is unverified.
+    --       The app works without it (InventoryDAL uses a LEFT JOIN + subquery).
+    --       Verify against live; if absent, consider adding:
+    --   ALTER TABLE medicines ADD CONSTRAINT fk_medicine_category
+    --       FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    --       ON DELETE SET NULL ON UPDATE CASCADE;
 );
 GO
 
@@ -247,6 +278,57 @@ ALTER TABLE sales
     ADD CONSTRAINT fk_sale_cashier
         FOREIGN KEY (cashier_id) REFERENCES users(user_id)
         ON DELETE SET NULL ON UPDATE CASCADE;
+GO
+
+-- ============================================================
+-- 11. PURCHASES (stock-in / purchase-order headers)
+--     Reconciled from live DB (created out-of-band; not in the
+--     original script). Created AFTER users because it FKs users.
+--     NOTE: FK referential actions (ON DELETE/UPDATE) were not
+--           captured from live — declared as default NO ACTION.
+--           Verify against production if cascade behavior matters.
+-- ============================================================
+CREATE TABLE purchases (
+    purchase_id   INT IDENTITY(1,1) PRIMARY KEY,
+    purchase_code VARCHAR(20)   NOT NULL,                 -- e.g. PUR-001
+    supplier_id   INT,
+    ordered_by    INT,                                    -- users.user_id who raised the purchase
+    purchase_date DATE          NOT NULL DEFAULT CONVERT(date, SYSDATETIME()),
+    total_amount  DECIMAL(10,2) NOT NULL DEFAULT 0.00,    -- precision not captured from live; (10,2) per schema convention
+    status        VARCHAR(20)   NOT NULL DEFAULT 'received',
+    notes         NVARCHAR(MAX),
+
+    CONSTRAINT uq_purchase_code UNIQUE (purchase_code),
+
+    CONSTRAINT fk_purchase_supplier
+        FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id),
+
+    CONSTRAINT fk_purchase_user
+        FOREIGN KEY (ordered_by) REFERENCES users(user_id)
+);
+GO
+
+-- ============================================================
+-- 12. PURCHASE ITEMS (line items per purchase)
+--     Reconciled from live DB. FK referential actions not
+--     captured — declared as default NO ACTION; verify if needed.
+-- ============================================================
+CREATE TABLE purchase_items (
+    item_id       INT IDENTITY(1,1) PRIMARY KEY,
+    purchase_id   INT           NOT NULL,
+    medicine_id   INT,                                    -- nullable: line may reference a free-typed medicine_name
+    medicine_name NVARCHAR(200) NOT NULL,
+    quantity      INT           NOT NULL DEFAULT 1,
+    unit_cost     DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    line_total    DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    batch_number  NVARCHAR(100),
+
+    CONSTRAINT fk_pi_purchase
+        FOREIGN KEY (purchase_id) REFERENCES purchases(purchase_id),
+
+    CONSTRAINT fk_pi_medicine
+        FOREIGN KEY (medicine_id) REFERENCES medicines(medicine_id)
+);
 GO
 
 -- ============================================================

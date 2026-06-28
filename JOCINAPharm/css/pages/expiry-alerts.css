@@ -324,6 +324,14 @@
     color:      var(--color-success)    !important;
 }
 
+/* Expired badge — stronger contrast than critical to signal past-date */
+.ea-days-badge--expired {
+    background:    var(--color-danger)    !important;
+    color:         #fff                   !important;
+    font-weight:   var(--font-weight-bold);
+    letter-spacing: 0.04em;
+}
+
 /* Acknowledged row — subtle dimming */
 .ea-row-acknowledged td {
     opacity: 0.60;

@@ -1,21 +1,27 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
+using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using JOCINAPharm.DAL;
+using JOCINAPharm.Security;
 
 namespace JOCINAPharm.pages
 {
     public partial class ExpiryAlerts : System.Web.UI.Page
     {
-        private static string ConnStr =>
-            ConfigurationManager.ConnectionStrings["PharmaDBConnection"]?.ConnectionString;
+        // Cached role for this request — read once, used in helpers below.
+        private string _currentRole;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Belt-and-suspenders: Global.asax already enforces this, but
+            // RequireAdmin() provides an explicit redirect with a clear code path.
+            AuthHelper.RequireAdmin(Session, Response);
+
+            _currentRole = AuthHelper.CurrentRole(Session);
+
             if (!IsPostBack)
             {
                 PopulateCategoryFilter();
@@ -34,10 +40,10 @@ namespace JOCINAPharm.pages
 
         protected void lbtnClearFilters_Click(object sender, EventArgs e)
         {
-            ddlSeverity.SelectedIndex     = 0;
-            ddlCategory.SelectedIndex     = 0;
+            ddlSeverity.SelectedIndex = 0;
+            ddlCategory.SelectedIndex = 0;
             ddlAcknowledged.SelectedIndex = 0;
-            txtSearch.Text                = string.Empty;
+            txtSearch.Text = string.Empty;
             LoadAlertData();
         }
 
@@ -45,301 +51,243 @@ namespace JOCINAPharm.pages
         {
             LoadAlertData();
             ScriptManager.RegisterStartupScript(this, GetType(), "refreshToast",
-                "if(PharmaSync.Toast)PharmaSync.Toast.show('Alert data refreshed.','success');", true);
+                "if(PharmaSync&&PharmaSync.Toast)PharmaSync.Toast.show('Alert data refreshed.','success');",
+                addScriptTags: true);
+        }
+
+        // ============================================================
+        // CATEGORY FILTER POPULATION
+        // ============================================================
+
+        private void PopulateCategoryFilter()
+        {
+            List<string> categories = ExpiryAlertDAL.GetDistinctCategories();
+
+            ddlCategory.Items.Clear();
+            ddlCategory.Items.Add(new ListItem("All Categories", ""));
+            foreach (string cat in categories)
+                ddlCategory.Items.Add(new ListItem(cat, cat));
         }
 
         // ============================================================
         // DATA LOAD & BIND
         // ============================================================
 
-        private void PopulateCategoryFilter()
-        {
-            List<string> categories = null;
-
-            if (!string.IsNullOrEmpty(ConnStr))
-            {
-                try
-                {
-                    const string sql = @"
-                        SELECT DISTINCT category
-                        FROM   vw_expiry_tracking
-                        WHERE  category IS NOT NULL
-                        ORDER  BY category ASC";
-
-                    using (var conn = new SqlConnection(ConnStr))
-                    using (var cmd  = new SqlCommand(sql, conn))
-                    {
-                        conn.Open();
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            categories = new List<string>();
-                            while (rdr.Read())
-                                categories.Add(rdr.GetString(0));
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(
-                        "[ExpiryAlerts] PopulateCategoryFilter DB error: " + ex.Message);
-                }
-            }
-
-            // TODO: Categories are loaded from the database above.
-            // When the DB is unavailable, leave the list empty (no sample data).
-            if (categories == null)
-                categories = new List<string>();
-
-            ddlCategory.Items.Clear();
-            ddlCategory.Items.Add(new ListItem("All Categories", ""));
-            foreach (var cat in categories)
-                ddlCategory.Items.Add(new ListItem(cat, cat));
-        }
-
         private void LoadAlertData()
         {
+            // Re-read role each postback in case session was tampered with.
+            _currentRole = AuthHelper.CurrentRole(Session);
+
             string sevFilter = ddlSeverity.SelectedValue;
             string catFilter = ddlCategory.SelectedValue;
-            string ackFilter = ddlAcknowledged.SelectedValue;
-            string search    = (txtSearch.Text ?? string.Empty).Trim();
+            string ackFilter = ddlAcknowledged.SelectedValue;   // "" | "1" | "0"
+            string search = (txtSearch.Text ?? string.Empty).Trim();
 
-            List<AlertRow> data = null;
+            // Single DAL call — fully filtered and ordered by expiry_date ASC.
+            List<ExpiryAlertRow> data =
+                ExpiryAlertDAL.GetFilteredAlerts(sevFilter, catFilter, ackFilter, search);
 
-            if (!string.IsNullOrEmpty(ConnStr))
-            {
-                try
-                {
-                    // Note: vw_expiry_tracking LEFT JOINs expiry_alerts, so alert_id
-                    // can be NULL for medicines with no expiry_alerts row (PATCH 5 not yet run).
-                    const string sql = @"
-                        SELECT medicine_id, medicine_code, medicine_name, category,
-                               batch_number, stock_display, expiry_date, days_left,
-                               supplier_name, severity, alert_id, acknowledged,
-                               acknowledged_at, alert_created_at
-                        FROM   vw_expiry_tracking
-                        WHERE  (@Severity = '' OR severity     = @Severity)
-                          AND  (@Category = '' OR category     = @Category)
-                          AND  (@Ack      = '' OR acknowledged = CAST(@Ack AS BIT))
-                          AND  (@Search   = '' OR medicine_name LIKE '%' + @Search + '%'
-                                              OR  category      LIKE '%' + @Search + '%'
-                                              OR  supplier_name LIKE '%' + @Search + '%'
-                                              OR  batch_number  LIKE '%' + @Search + '%')
-                        ORDER  BY expiry_date ASC";
-
-                    using (var conn = new SqlConnection(ConnStr))
-                    using (var cmd  = new SqlCommand(sql, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Severity", sevFilter);
-                        cmd.Parameters.AddWithValue("@Category", catFilter);
-                        cmd.Parameters.AddWithValue("@Ack",      ackFilter);
-                        cmd.Parameters.AddWithValue("@Search",   search);
-
-                        conn.Open();
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            data = new List<AlertRow>();
-                            while (rdr.Read())
-                            {
-                                data.Add(new AlertRow
-                                {
-                                    AlertId       = rdr["alert_id"] == DBNull.Value
-                                                  ? (int?)null
-                                                  : rdr.GetInt32(rdr.GetOrdinal("alert_id")),
-                                    MedicineId    = rdr.GetInt32(rdr.GetOrdinal("medicine_id")),
-                                    MedicineCode  = rdr["medicine_code"]  as string ?? "",
-                                    MedicineName  = rdr["medicine_name"]  as string ?? "",
-                                    Category      = rdr["category"]       as string ?? "",
-                                    BatchNumber   = rdr["batch_number"]   as string,
-                                    StockDisplay  = rdr["stock_display"]  as string ?? "",
-                                    ExpiryDate    = rdr.GetDateTime(rdr.GetOrdinal("expiry_date")),
-                                    DaysLeft      = rdr.GetInt32(rdr.GetOrdinal("days_left")),
-                                    SupplierName  = rdr["supplier_name"]  as string ?? "",
-                                    Severity      = rdr["severity"]       as string ?? "Watch",
-                                    Acknowledged  = rdr["acknowledged"] != DBNull.Value
-                                                  && (bool)rdr["acknowledged"],
-                                    AcknowledgedAt = rdr["acknowledged_at"] == DBNull.Value
-                                                   ? (DateTime?)null
-                                                   : rdr.GetDateTime(rdr.GetOrdinal("acknowledged_at")),
-                                    CreatedAt     = rdr["alert_created_at"] == DBNull.Value
-                                                  ? DateTime.Today
-                                                  : rdr.GetDateTime(rdr.GetOrdinal("alert_created_at")),
-                                });
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(
-                        "[ExpiryAlerts] LoadAlertData DB error (using sample data): " + ex.Message);
-                    data = null;
-                }
-            }
-
-            // TODO: Alert data is loaded from the database above.
-            // When the DB is unavailable, render an empty result set (no sample data).
-            if (data == null)
-                data = new List<AlertRow>();
-
-            // Bucket by severity
+            // Bucket by severity tier for the four separate repeater sections.
             var critical = data.FindAll(r => r.Severity == "Critical");
-            var urgent   = data.FindAll(r => r.Severity == "Urgent");
-            var warning  = data.FindAll(r => r.Severity == "Warning");
-            var watch    = data.FindAll(r => r.Severity == "Watch");
+            var urgent = data.FindAll(r => r.Severity == "Urgent");
+            var warning = data.FindAll(r => r.Severity == "Warning");
+            var watch = data.FindAll(r => r.Severity == "Watch");
 
-            // KPI counts
+            // ── KPI count labels (top stat cards) ────────────────────
             lblCriticalCount.Text = critical.Count.ToString();
-            lblUrgentCount.Text   = urgent.Count.ToString();
-            lblWarningCount.Text  = warning.Count.ToString();
-            lblWatchCount.Text    = watch.Count.ToString();
+            lblUrgentCount.Text = urgent.Count.ToString();
+            lblWarningCount.Text = warning.Count.ToString();
+            lblWatchCount.Text = watch.Count.ToString();
 
-            // Section header badges
+            // ── Section header count badges ───────────────────────────
             lblCriticalBadge.Text = critical.Count.ToString();
-            lblUrgentBadge.Text   = urgent.Count.ToString();
-            lblWarningBadge.Text  = warning.Count.ToString();
-            lblWatchBadge.Text    = watch.Count.ToString();
+            lblUrgentBadge.Text = urgent.Count.ToString();
+            lblWarningBadge.Text = warning.Count.ToString();
+            lblWatchBadge.Text = watch.Count.ToString();
 
-            // Page subtitle
+            // ── Page subtitle ─────────────────────────────────────────
             int needAttention = critical.Count + urgent.Count + warning.Count;
             litAlertSummary.Text = needAttention > 0
                 ? needAttention + " item" + (needAttention > 1 ? "s" : "") + " need attention"
                 : "All medicines are within safe expiry range";
 
-            // Bind repeater sections — hide panel when empty
+            // ── Repeater sections — hide panel when empty ─────────────
             BindSection(rptCritical, pnlCritical, critical);
-            BindSection(rptUrgent,   pnlUrgent,   urgent);
-            BindSection(rptWarning,  pnlWarning,  warning);
-            BindSection(rptWatch,    pnlWatch,    watch);
+            BindSection(rptUrgent, pnlUrgent, urgent);
+            BindSection(rptWarning, pnlWarning, warning);
+            BindSection(rptWatch, pnlWatch, watch);
 
-            bool allEmpty = critical.Count == 0 && urgent.Count == 0
-                         && warning.Count == 0  && watch.Count == 0;
-            pnlEmpty.Visible = allEmpty;
+            pnlEmpty.Visible = (data.Count == 0);
 
-            // Serialize the currently-loaded (filtered) set for the detail modal.
-            // The modal searches this array by alertId, which is always present in the
-            // visible set because the user clicked a row that was rendered.
+            // ── JSON payload for the client-side detail modal ─────────
+            // Serialised server-side; JS looks up rows by alertId without
+            // a round-trip. HtmlEncode is NOT applied here — the hidden
+            // field value is read via .value in JS, not injected as HTML.
             hdnAlertData.Value = SerializeToJson(data);
         }
 
-        private void BindSection(Repeater rpt, Panel pnl, List<AlertRow> data)
+        private static void BindSection(Repeater rpt, Panel pnl, List<ExpiryAlertRow> data)
         {
             if (data.Count == 0) { pnl.Visible = false; return; }
-            pnl.Visible    = true;
+            pnl.Visible = true;
             rpt.DataSource = data;
             rpt.DataBind();
         }
 
         // ============================================================
-        // REPEATER COMMAND HANDLER
+        // REPEATER ITEM COMMAND HANDLER
         // ============================================================
 
         protected void rptAlerts_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            // AlertId is nullable when vw_expiry_tracking's LEFT JOIN finds no matching
-            // expiry_alerts row (PATCH 5 backfill not yet applied to this medicine).
+            // alertId is nullable — the LEFT JOIN on expiry_alerts produces a NULL
+            // alert_id for medicines added after the last nightly backfill.
             if (!int.TryParse(e.CommandArgument?.ToString(), out int alertId))
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "noAlertToast",
-                    "if(PharmaSync.Toast)PharmaSync.Toast.show('No alert record found. Try refreshing the page.','warning');", true);
+                RegisterToast("No alert record found. Try refreshing the page.", "warning", "noAlertToast");
                 return;
             }
 
-            if (e.CommandName == "ViewDetails")
+            switch (e.CommandName)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "openModal",
-                    $"PharmaSync.ExpiryAlerts.openDetailModal({alertId});", true);
-            }
-            else if (e.CommandName == "Acknowledge")
-            {
-                bool success = false;
+                case "ViewDetails":
+                    // The modal is driven by the JSON already in hdnAlertData —
+                    // no extra DB round-trip needed.
+                    ScriptManager.RegisterStartupScript(this, GetType(), "openModal",
+                        $"PharmaSync.ExpiryAlerts.openDetailModal({alertId});",
+                        addScriptTags: true);
+                    break;
 
-                if (!string.IsNullOrEmpty(ConnStr))
-                {
-                    try
+                case "Acknowledge":
+                    // ROLE GUARD: only Admins may acknowledge on this page.
+                    // Pharmacists see a read-only version at ~/pages/Pharmacist/ExpiryAlerts.aspx.
+                    if (!AuthHelper.IsInRole(Session, AuthHelper.RoleAdmin))
                     {
-                        using (var conn = new SqlConnection(ConnStr))
-                        using (var cmd  = new SqlCommand("usp_AcknowledgeExpiryAlert", conn))
-                        {
-                            cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.AddWithValue("@AlertId", alertId);
-                            conn.Open();
-                            cmd.ExecuteNonQuery();
-                            success = true;
-                        }
+                        RegisterToast("You do not have permission to acknowledge alerts.", "error", "ackDenyToast");
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(
-                            "[ExpiryAlerts] Acknowledge DB error: " + ex.Message);
-                    }
-                }
-                else
-                {
-                    success = true; // DB not yet wired — simulate success in fallback mode
-                }
 
-                string toast = success
-                    ? "if(PharmaSync.Toast)PharmaSync.Toast.show('Alert acknowledged.','success');"
-                    : "if(PharmaSync.Toast)PharmaSync.Toast.show('Could not acknowledge alert. Please try again.','error');";
+                    bool ok = ExpiryAlertDAL.AcknowledgeAlert(alertId);
+                    RegisterToast(
+                        ok ? "Alert acknowledged."
+                            : "Could not acknowledge alert. Please try again.",
+                        ok ? "success" : "error",
+                        "ackToast");
 
-                ScriptManager.RegisterStartupScript(this, GetType(), "ackToast", toast, true);
-
-                if (success) LoadAlertData();
+                    if (ok) LoadAlertData();
+                    break;
             }
         }
 
         // ============================================================
-        // JSON SERIALIZER for hdnAlertData (feeds the detail modal JS)
-        // JavaScriptSerializer handles all special chars correctly.
+        // MARKUP HELPER METHODS
+        // Called from repeater ItemTemplates via <%# ... %>
         // ============================================================
 
-        private string SerializeToJson(List<AlertRow> rows)
+        /// <summary>
+        /// Returns the correct CSS class for the days-left badge.
+        /// Expired medicines (DaysLeft ≤ 0) get a distinct "expired" modifier
+        /// that maps to --color-danger in the existing CSS.
+        /// </summary>
+        protected string DaysBadgeClass(object daysLeftObj)
         {
-            var list = new List<object>();
-            foreach (var r in rows)
+            if (daysLeftObj == null || daysLeftObj == DBNull.Value)
+                return "ps-badge ea-days-badge ea-days-badge--watch";
+
+            int days = Convert.ToInt32(daysLeftObj);
+            if (days <= 0) return "ps-badge ea-days-badge ea-days-badge--critical ea-days-badge--expired";
+            if (days <= 30) return "ps-badge ea-days-badge ea-days-badge--critical";
+            if (days <= 60) return "ps-badge ea-days-badge ea-days-badge--urgent";
+            if (days <= 90) return "ps-badge ea-days-badge ea-days-badge--warning";
+            return "ps-badge ea-days-badge ea-days-badge--watch";
+        }
+
+        /// <summary>
+        /// Returns the display text for the days-left badge.
+        /// Shows "EXPIRED" for medicines that have already passed their expiry date,
+        /// and "X days" (or "Today") for medicines that are still current.
+        /// </summary>
+        protected string DaysBadgeText(object daysLeftObj)
+        {
+            if (daysLeftObj == null || daysLeftObj == DBNull.Value)
+                return "—";
+
+            int days = Convert.ToInt32(daysLeftObj);
+            if (days < 0) return "EXPIRED";
+            if (days == 0) return "Today";
+            return days + " days";
+        }
+
+        /// <summary>
+        /// Safe null/DBNull handler for BatchNumber.
+        /// Eval() in Web Forms data-binding returns DBNull.Value (not null)
+        /// when the DB column is NULL, so the C# ?? operator doesn't catch it.
+        /// </summary>
+        protected string SafeBatch(object batchObj)
+        {
+            if (batchObj == null || batchObj == DBNull.Value)
+                return "—";
+            string s = batchObj.ToString().Trim();
+            return string.IsNullOrEmpty(s) ? "—" : HttpUtility.HtmlEncode(s);
+        }
+
+        /// <summary>
+        /// Encodes medicine/category/supplier text for safe HTML output in table cells.
+        /// Guards against any stray markup in free-text DB columns.
+        /// </summary>
+        protected string SafeText(object textObj)
+        {
+            if (textObj == null || textObj == DBNull.Value)
+                return "—";
+            string s = textObj.ToString().Trim();
+            return string.IsNullOrEmpty(s) ? "—" : HttpUtility.HtmlEncode(s);
+        }
+
+        // ============================================================
+        // JSON SERIALISER — feeds hdnAlertData (consumed by modal JS)
+        // JavaScriptSerializer is available in .NET 4.8 without extra packages.
+        // ============================================================
+
+        private static string SerializeToJson(List<ExpiryAlertRow> rows)
+        {
+            var list = new List<object>(rows.Count);
+            foreach (ExpiryAlertRow r in rows)
             {
                 list.Add(new
                 {
-                    alertId        = (object)r.AlertId ?? "null",
-                    medicineCode   = r.MedicineCode,
-                    medicineName   = r.MedicineName,
-                    category       = r.Category,
-                    batchNumber    = r.BatchNumber ?? "—",
-                    stockDisplay   = r.StockDisplay,
-                    expiryDate     = r.ExpiryDate.ToString("yyyy-MM-dd"),
-                    daysLeft       = r.DaysLeft,
-                    supplierName   = r.SupplierName,
-                    acknowledged   = r.Acknowledged,
+                    // alertId as numeric null — JS modal checks for null before use.
+                    alertId = r.AlertId.HasValue ? (object)r.AlertId.Value : null,
+                    medicineCode = r.MedicineCode,
+                    medicineName = r.MedicineName,
+                    category = r.Category,
+                    batchNumber = string.IsNullOrWhiteSpace(r.BatchNumber) ? "—" : r.BatchNumber,
+                    stockDisplay = r.StockDisplay,
+                    expiryDate = r.ExpiryDate.ToString("yyyy-MM-dd"),
+                    daysLeft = r.DaysLeft,
+                    supplierName = r.SupplierName,
+                    acknowledged = r.Acknowledged,
                     acknowledgedAt = r.AcknowledgedAt.HasValue
                                    ? r.AcknowledgedAt.Value.ToString("yyyy-MM-dd HH:mm")
-                                   : "",
-                    createdAt      = r.CreatedAt.ToString("yyyy-MM-dd"),
-                    severity       = r.Severity,
+                                   : string.Empty,
+                    createdAt = r.CreatedAt.ToString("yyyy-MM-dd"),
+                    severity = r.Severity,
                 });
             }
             return new JavaScriptSerializer().Serialize(list);
         }
 
         // ============================================================
-        // DATA MODEL — mirrors vw_expiry_tracking + expiry_alerts cols
+        // UTILITY
         // ============================================================
 
-        private class AlertRow
+        private void RegisterToast(string message, string type, string key)
         {
-            public int?      AlertId        { get; set; }  // nullable: LEFT JOIN may produce NULL
-            public int       MedicineId     { get; set; }
-            public string    MedicineCode   { get; set; }
-            public string    MedicineName   { get; set; }
-            public string    Category       { get; set; }
-            public string    BatchNumber    { get; set; }
-            public string    StockDisplay   { get; set; }
-            public DateTime  ExpiryDate     { get; set; }
-            public int       DaysLeft       { get; set; }
-            public string    SupplierName   { get; set; }
-            public bool      Acknowledged   { get; set; }
-            public DateTime? AcknowledgedAt { get; set; }
-            public DateTime  CreatedAt      { get; set; }
-            public string    Severity       { get; set; }
+            // Sanitise message for inline JS string — no user-controlled data
+            // flows into this method, but defence-in-depth is cheap.
+            string safe = message.Replace("'", "\\'");
+            ScriptManager.RegisterStartupScript(this, GetType(), key,
+                $"if(PharmaSync&&PharmaSync.Toast)PharmaSync.Toast.show('{safe}','{type}');",
+                addScriptTags: true);
         }
     }
 }

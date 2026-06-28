@@ -253,40 +253,39 @@
                         <ItemTemplate>
                             <tr class='<%# (bool)Eval("Acknowledged") ? "ea-row-acknowledged" : "" %>'>
                                 <td class="ea-col-id">
-                                    <span class="ea-medicine-code"><%# Eval("MedicineCode") %></span>
+                                    <span class="ea-medicine-code"><%# SafeText(Eval("MedicineCode")) %></span>
                                 </td>
                                 <td class="ea-col-name">
-                                    <span class="ea-medicine-name"><%# Eval("MedicineName") %></span>
+                                    <span class="ea-medicine-name"><%# SafeText(Eval("MedicineName")) %></span>
                                 </td>
                                 <td>
                                     <span class="ps-badge ps-badge-neutral ea-cat-badge">
-                                        <%# Eval("Category") %>
+                                        <%# SafeText(Eval("Category")) %>
                                     </span>
                                 </td>
                                 <td class="ea-col-stock">
-                                    <%# Eval("StockDisplay") %>
+                                    <%# SafeText(Eval("StockDisplay")) %>
                                 </td>
                                 <td class="ea-col-date">
                                     <%# Eval("ExpiryDate", "{0:yyyy-MM-dd}") %>
                                 </td>
                                 <td>
-                                    <span class="ps-badge ea-days-badge ea-days-badge--critical">
-                                        <%# Eval("DaysLeft") %> days
+                                    <span class='<%# DaysBadgeClass(Eval("DaysLeft")) %>'>
+                                        <%# DaysBadgeText(Eval("DaysLeft")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-supplier"><%# Eval("SupplierName") %></td>
+                                <td class="ea-col-supplier"><%# SafeText(Eval("SupplierName")) %></td>
                                 <td class="ea-col-batch">
-                                    <span class="ea-batch-code"><%# Eval("BatchNumber") ?? "—" %></span>
+                                    <span class="ea-batch-code"><%# SafeBatch(Eval("BatchNumber")) %></span>
                                 </td>
                                 <td class="td-actions text-end">
-                                    <asp:LinkButton
-                                        runat="server"
-                                        CommandName="ViewDetails"
-                                        CommandArgument='<%# Eval("AlertId") %>'
-                                        CssClass="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
-                                        ToolTip="View details">
+                                    <%-- ViewDetails: pure JS call — no postback --%>
+                                    <button type="button"
+                                        class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
+                                        title="View details"
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </asp:LinkButton>
+                                    </button>
                                     <asp:LinkButton
                                         runat="server"
                                         CommandName="Acknowledge"
@@ -359,36 +358,35 @@
                         <ItemTemplate>
                             <tr class='<%# (bool)Eval("Acknowledged") ? "ea-row-acknowledged" : "" %>'>
                                 <td class="ea-col-id">
-                                    <span class="ea-medicine-code"><%# Eval("MedicineCode") %></span>
+                                    <span class="ea-medicine-code"><%# SafeText(Eval("MedicineCode")) %></span>
                                 </td>
                                 <td class="ea-col-name">
-                                    <span class="ea-medicine-name"><%# Eval("MedicineName") %></span>
+                                    <span class="ea-medicine-name"><%# SafeText(Eval("MedicineName")) %></span>
                                 </td>
                                 <td>
                                     <span class="ps-badge ps-badge-neutral ea-cat-badge">
-                                        <%# Eval("Category") %>
+                                        <%# SafeText(Eval("Category")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-stock"><%# Eval("StockDisplay") %></td>
+                                <td class="ea-col-stock"><%# SafeText(Eval("StockDisplay")) %></td>
                                 <td class="ea-col-date"><%# Eval("ExpiryDate", "{0:yyyy-MM-dd}") %></td>
                                 <td>
-                                    <span class="ps-badge ea-days-badge ea-days-badge--urgent">
-                                        <%# Eval("DaysLeft") %> days
+                                    <span class='<%# DaysBadgeClass(Eval("DaysLeft")) %>'>
+                                        <%# DaysBadgeText(Eval("DaysLeft")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-supplier"><%# Eval("SupplierName") %></td>
+                                <td class="ea-col-supplier"><%# SafeText(Eval("SupplierName")) %></td>
                                 <td class="ea-col-batch">
-                                    <span class="ea-batch-code"><%# Eval("BatchNumber") ?? "—" %></span>
+                                    <span class="ea-batch-code"><%# SafeBatch(Eval("BatchNumber")) %></span>
                                 </td>
                                 <td class="td-actions text-end">
-                                    <asp:LinkButton
-                                        runat="server"
-                                        CommandName="ViewDetails"
-                                        CommandArgument='<%# Eval("AlertId") %>'
-                                        CssClass="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
-                                        ToolTip="View details">
+                                    <%-- ViewDetails: pure JS call — no postback --%>
+                                    <button type="button"
+                                        class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
+                                        title="View details"
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </asp:LinkButton>
+                                    </button>
                                     <asp:LinkButton
                                         runat="server"
                                         CommandName="Acknowledge"
@@ -461,36 +459,35 @@
                         <ItemTemplate>
                             <tr class='<%# (bool)Eval("Acknowledged") ? "ea-row-acknowledged" : "" %>'>
                                 <td class="ea-col-id">
-                                    <span class="ea-medicine-code"><%# Eval("MedicineCode") %></span>
+                                    <span class="ea-medicine-code"><%# SafeText(Eval("MedicineCode")) %></span>
                                 </td>
                                 <td class="ea-col-name">
-                                    <span class="ea-medicine-name"><%# Eval("MedicineName") %></span>
+                                    <span class="ea-medicine-name"><%# SafeText(Eval("MedicineName")) %></span>
                                 </td>
                                 <td>
                                     <span class="ps-badge ps-badge-neutral ea-cat-badge">
-                                        <%# Eval("Category") %>
+                                        <%# SafeText(Eval("Category")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-stock"><%# Eval("StockDisplay") %></td>
+                                <td class="ea-col-stock"><%# SafeText(Eval("StockDisplay")) %></td>
                                 <td class="ea-col-date"><%# Eval("ExpiryDate", "{0:yyyy-MM-dd}") %></td>
                                 <td>
-                                    <span class="ps-badge ea-days-badge ea-days-badge--warning">
-                                        <%# Eval("DaysLeft") %> days
+                                    <span class='<%# DaysBadgeClass(Eval("DaysLeft")) %>'>
+                                        <%# DaysBadgeText(Eval("DaysLeft")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-supplier"><%# Eval("SupplierName") %></td>
+                                <td class="ea-col-supplier"><%# SafeText(Eval("SupplierName")) %></td>
                                 <td class="ea-col-batch">
-                                    <span class="ea-batch-code"><%# Eval("BatchNumber") ?? "—" %></span>
+                                    <span class="ea-batch-code"><%# SafeBatch(Eval("BatchNumber")) %></span>
                                 </td>
                                 <td class="td-actions text-end">
-                                    <asp:LinkButton
-                                        runat="server"
-                                        CommandName="ViewDetails"
-                                        CommandArgument='<%# Eval("AlertId") %>'
-                                        CssClass="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
-                                        ToolTip="View details">
+                                    <%-- ViewDetails: pure JS call — no postback --%>
+                                    <button type="button"
+                                        class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
+                                        title="View details"
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </asp:LinkButton>
+                                    </button>
                                     <asp:LinkButton
                                         runat="server"
                                         CommandName="Acknowledge"
@@ -563,36 +560,35 @@
                         <ItemTemplate>
                             <tr class='<%# (bool)Eval("Acknowledged") ? "ea-row-acknowledged" : "" %>'>
                                 <td class="ea-col-id">
-                                    <span class="ea-medicine-code"><%# Eval("MedicineCode") %></span>
+                                    <span class="ea-medicine-code"><%# SafeText(Eval("MedicineCode")) %></span>
                                 </td>
                                 <td class="ea-col-name">
-                                    <span class="ea-medicine-name"><%# Eval("MedicineName") %></span>
+                                    <span class="ea-medicine-name"><%# SafeText(Eval("MedicineName")) %></span>
                                 </td>
                                 <td>
                                     <span class="ps-badge ps-badge-neutral ea-cat-badge">
-                                        <%# Eval("Category") %>
+                                        <%# SafeText(Eval("Category")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-stock"><%# Eval("StockDisplay") %></td>
+                                <td class="ea-col-stock"><%# SafeText(Eval("StockDisplay")) %></td>
                                 <td class="ea-col-date"><%# Eval("ExpiryDate", "{0:yyyy-MM-dd}") %></td>
                                 <td>
-                                    <span class="ps-badge ea-days-badge ea-days-badge--watch">
-                                        <%# Eval("DaysLeft") %> days
+                                    <span class='<%# DaysBadgeClass(Eval("DaysLeft")) %>'>
+                                        <%# DaysBadgeText(Eval("DaysLeft")) %>
                                     </span>
                                 </td>
-                                <td class="ea-col-supplier"><%# Eval("SupplierName") %></td>
+                                <td class="ea-col-supplier"><%# SafeText(Eval("SupplierName")) %></td>
                                 <td class="ea-col-batch">
-                                    <span class="ea-batch-code"><%# Eval("BatchNumber") ?? "—" %></span>
+                                    <span class="ea-batch-code"><%# SafeBatch(Eval("BatchNumber")) %></span>
                                 </td>
                                 <td class="td-actions text-end">
-                                    <asp:LinkButton
-                                        runat="server"
-                                        CommandName="ViewDetails"
-                                        CommandArgument='<%# Eval("AlertId") %>'
-                                        CssClass="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
-                                        ToolTip="View details">
+                                    <%-- ViewDetails: pure JS call — no postback --%>
+                                    <button type="button"
+                                        class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
+                                        title="View details"
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </asp:LinkButton>
+                                    </button>
                                     <asp:LinkButton
                                         runat="server"
                                         CommandName="Acknowledge"
