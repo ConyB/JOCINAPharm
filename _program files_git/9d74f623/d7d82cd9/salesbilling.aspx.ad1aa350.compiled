@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/C:/Program Files/Git/pages/Cashier/SalesBilling.aspx" hash="ffffffef965fa287" filehash="a08624c8d9fd879d" flags="110000" assembly="App_Web_fmdzfww4" type="ASP.pages_cashier_salesbilling_aspx">
+    <filedeps>
+        <filedep name="/C:/Program Files/Git/Dashboard_Cashier.Master" />
+        <filedep name="/C:/Program Files/Git/pages/Cashier/SalesBilling.aspx" />
+    </filedeps>
+</preserve>

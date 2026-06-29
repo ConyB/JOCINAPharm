@@ -662,3 +662,35 @@ INSERT INTO customers (customer_code, full_name, phone, email, gender, known_all
 ('CUS-004', 'Mary Osei',    '0244-700-800', 'mary.o@gmail.com', 'Female', 'None',        5, '2025-04-28'),
 ('CUS-005', 'Samuel Darko', '0200-900-100', 'sam.d@yahoo.com',  'Male',   'None',       15, '2025-04-27');
 GO
+
+-- ============================================================
+-- MIGRATION (Phase 3 — Customers backend)
+-- Additive, idempotent. Adds address / city / is_active to the
+-- customers table to support the spec's Address field and
+-- soft-delete (is_active=0), aligning customers with the
+-- users.is_active / suppliers soft-delete convention already in
+-- the system. No columns are renamed; all existing FKs, indexes
+-- and the trg_update_customer_visit trigger are preserved.
+-- ============================================================
+IF NOT EXISTS (SELECT 1 FROM sys.columns
+               WHERE object_id = OBJECT_ID('dbo.customers') AND name = 'address')
+    ALTER TABLE dbo.customers ADD address NVARCHAR(300) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns
+               WHERE object_id = OBJECT_ID('dbo.customers') AND name = 'city')
+    ALTER TABLE dbo.customers ADD city NVARCHAR(100) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns
+               WHERE object_id = OBJECT_ID('dbo.customers') AND name = 'is_active')
+    ALTER TABLE dbo.customers
+        ADD is_active BIT NOT NULL CONSTRAINT df_customers_is_active DEFAULT 1;
+GO
+
+-- Supports the default active-customer listing + name search path.
+IF NOT EXISTS (SELECT 1 FROM sys.indexes
+               WHERE name = 'idx_customers_active_name'
+                 AND object_id = OBJECT_ID('dbo.customers'))
+    CREATE INDEX idx_customers_active_name ON dbo.customers(is_active, full_name);
+GO

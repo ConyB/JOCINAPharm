@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/C:/Program Files/Git/pages/Cashier/CashierDashboard.aspx" hash="ffffffef965fa287" filehash="5f79d99f784c2cb3" flags="110000" assembly="App_Web_fmdzfww4" type="ASP.pages_cashier_cashierdashboard_aspx">
+    <filedeps>
+        <filedep name="/C:/Program Files/Git/Dashboard_Cashier.Master" />
+        <filedep name="/C:/Program Files/Git/pages/Cashier/CashierDashboard.aspx" />
+    </filedeps>
+</preserve>

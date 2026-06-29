@@ -245,21 +245,23 @@ PharmaSync.ExpiryAlerts = (function () {
      * Also accessible via ExpiryAlerts.openDetailModal(id) from any button.
      * @param {number} alertId
      */
-    function openDetailModal(alertId) {
-        // Guard: alertId may be null, empty string, or NaN if the row has
-        // no expiry_alerts entry yet (LEFT JOIN produced a NULL alert_id).
-        if (alertId === null || alertId === undefined ||
-            alertId === '' || isNaN(Number(alertId))) {
-            console.warn('[ExpiryAlerts] openDetailModal called with invalid alertId:', alertId);
+    function openDetailModal(medicineId) {
+        // Keyed by medicine_id (always present) rather than the nullable
+        // alert_id, so View Details works even for medicines that have no
+        // expiry_alerts row yet (the vw_expiry_tracking LEFT JOIN can produce
+        // a NULL alert_id before the nightly backfill runs).
+        if (medicineId === null || medicineId === undefined ||
+            medicineId === '' || isNaN(Number(medicineId))) {
+            console.warn('[ExpiryAlerts] openDetailModal called with invalid medicineId:', medicineId);
             if (window.PharmaSync && PharmaSync.Toast) {
                 PharmaSync.Toast.show(
-                    'No alert record for this medicine yet. Try refreshing the page.',
+                    'Could not open details for this medicine. Try refreshing the page.',
                     'warning'
                 );
             }
             return;
         }
-        alertId = Number(alertId);
+        medicineId = Number(medicineId);
 
         var backdrop = document.getElementById('modalDetailBackdrop');
         if (!backdrop) return;
@@ -273,15 +275,15 @@ PharmaSync.ExpiryAlerts = (function () {
 
         var row = null;
         for (var i = 0; i < _alertData.length; i++) {
-            if (_alertData[i].alertId === alertId ||
-                _alertData[i].alertId === String(alertId)) {
+            if (_alertData[i].medicineId === medicineId ||
+                _alertData[i].medicineId === String(medicineId)) {
                 row = _alertData[i];
                 break;
             }
         }
 
         if (!row) {
-            console.warn('[ExpiryAlerts] Alert id', alertId, 'not found in client data.');
+            console.warn('[ExpiryAlerts] Medicine id', medicineId, 'not found in client data.');
             return;
         }
 

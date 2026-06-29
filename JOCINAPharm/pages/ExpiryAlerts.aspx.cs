@@ -257,6 +257,9 @@ namespace JOCINAPharm.pages
                 {
                     // alertId as numeric null — JS modal checks for null before use.
                     alertId = r.AlertId.HasValue ? (object)r.AlertId.Value : null,
+                    // medicineId is the detail-modal lookup key (always present,
+                    // unlike the nullable alertId).
+                    medicineId = r.MedicineId,
                     medicineCode = r.MedicineCode,
                     medicineName = r.MedicineName,
                     category = r.Category,

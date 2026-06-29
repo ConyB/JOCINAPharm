@@ -157,14 +157,54 @@
     <%-- ── Customer Card Grid View ─────────────────────────────────── --%>
     <div id="custCardView" class="cust-card-grid">
 
-        <%-- ============================================================
-             Customer cards removed during hardcoded-data cleanup.
-             TODO: Bind customer cards from the database (server-side
-             Repeater or client-side render). Each card must keep the
-             same markup and data-* attributes the static cards used so
-             pharmacist-customers.js (search, view/edit/history) works:
-               data-customer-id, data-name, data-status, data-gender
-             ============================================================ --%>
+        <asp:Repeater ID="rptCards" runat="server">
+            <ItemTemplate>
+                <div class="cust-card"
+                     data-customer-id='<%# Eval("customer_id") %>'
+                     data-name='<%# Eval("full_name") %>'
+                     data-status="active"
+                     data-gender='<%# (Eval("gender") as string ?? "").ToLower() %>'>
+                    <div class="cust-card-header">
+                        <div class="cust-avatar <%# GetAvatarClass(Container.ItemIndex) %>">
+                            <%# GetInitials(Eval("full_name") as string) %>
+                        </div>
+                        <div class="cust-card-meta">
+                            <h3 class="cust-card-name"><%# Eval("full_name") %></h3>
+                            <span class="cust-card-id"><%# Eval("customer_code") %> &bull; <%# Eval("gender") %></span>
+                        </div>
+                        <%# HasAllergy(Eval("known_allergies"))
+                              ? "<span class=\"ps-badge ps-badge-danger cust-allergy-badge\">Allergy</span>"
+                              : "<span class=\"ps-badge ps-badge-success\">Active</span>" %>
+                    </div>
+                    <div class="cust-card-contact">
+                        <span><i class="fa-solid fa-phone" aria-hidden="true"></i> <%# Eval("phone") %></span>
+                        <span><i class="fa-regular fa-envelope" aria-hidden="true"></i> <%# Eval("email") %></span>
+                    </div>
+                    <div class="cust-card-footer">
+                        <span class="cust-card-visits">
+                            <i class="fa-regular fa-clock" aria-hidden="true"></i> <%# Eval("visit_count") %> visits
+                        </span>
+                        <span class="cust-card-last">Last: <%# FormatDate(Eval("last_visit")) %></span>
+                    </div>
+                    <div class="cust-card-actions">
+                        <button type="button" class="ps-btn ps-btn-outline ps-btn-sm cust-btn-view"
+                                data-id='<%# Eval("customer_id") %>'>
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i> View
+                        </button>
+                        <button type="button" class="ps-btn ps-btn-sm cust-btn-history"
+                                data-id='<%# Eval("customer_id") %>'
+                                style="background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-bg);">
+                            <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
+                        </button>
+                        <button type="button" class="ps-btn ps-btn-sm cust-btn-edit"
+                                data-id='<%# Eval("customer_id") %>'
+                                style="background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-bg);">
+                            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
 
     </div><%-- /#custCardView --%>
 
@@ -192,14 +232,44 @@
                     </tr>
                 </thead>
                 <tbody id="custTableBody">
-                    <%-- ============================================================
-                         Customer rows removed during hardcoded-data cleanup.
-                         TODO: Bind customer rows from the database (server-side
-                         Repeater or client-side render). Each <tr> must keep the
-                         same markup and data-* attributes the static rows used so
-                         pharmacist-customers.js (search, view/edit/history) works:
-                           data-customer-id, data-status, data-gender, data-name
-                         ============================================================ --%>
+                    <asp:Repeater ID="rptTable" runat="server">
+                        <ItemTemplate>
+                            <tr data-customer-id='<%# Eval("customer_id") %>'
+                                data-status="active"
+                                data-gender='<%# (Eval("gender") as string ?? "").ToLower() %>'
+                                data-name='<%# Eval("full_name") %>'>
+                                <td>
+                                    <div class="cust-table-customer">
+                                        <div class="cust-avatar cust-avatar--sm <%# GetAvatarClass(Container.ItemIndex) %>">
+                                            <%# GetInitials(Eval("full_name") as string) %>
+                                        </div>
+                                        <div>
+                                            <div class="cust-table-name"><%# Eval("full_name") %></div>
+                                            <div class="cust-table-id"><%# Eval("customer_code") %> &bull; <%# Eval("gender") %></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><%# Eval("phone") %></td>
+                                <td class="cust-hide-sm"><%# Eval("email") %></td>
+                                <td class="cust-hide-md">&mdash;</td>
+                                <td class="cust-hide-md">&mdash;</td>
+                                <td class="cust-hide-sm"><%# FormatDate(Eval("last_visit")) %></td>
+                                <td>
+                                    <%# HasAllergy(Eval("known_allergies"))
+                                          ? "<span class=\"ps-badge ps-badge-danger\">Allergy</span>"
+                                          : "<span class=\"ps-badge ps-badge-success\">Active</span>" %>
+                                </td>
+                                <td class="td-actions">
+                                    <button type="button" class="cust-btn-view" data-id='<%# Eval("customer_id") %>'
+                                            title="View customer"><i class="fa-regular fa-eye"></i></button>
+                                    <button type="button" class="cust-btn-history" data-id='<%# Eval("customer_id") %>'
+                                            title="Purchase history"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                                    <button type="button" class="cust-btn-edit" data-id='<%# Eval("customer_id") %>'
+                                            title="Edit customer"><i class="fa-regular fa-pen-to-square"></i></button>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </tbody>
             </table>
         </div>
@@ -622,6 +692,24 @@
             </div>
         </div>
     </div>
+
+    <%-- ============================================================
+         CRUD BRIDGE (hidden) — pharmacist-customers.js fills these from
+         the Add/Edit modal inputs and triggers lnkPharmCRUD via
+         __doPostBack so the server can persist via CustomerRepository.
+         No visible UI; mirrors the Admin/Cashier hidden-field approach.
+    ============================================================ --%>
+    <asp:HiddenField ID="hdnAction"     runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnCustomerId" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnFullName"   runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnPhone"      runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnEmail"      runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnDob"        runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnGender"     runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnAllergies"  runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnAddress"    runat="server" ClientIDMode="Static" />
+    <asp:LinkButton  ID="lnkPharmCRUD"  runat="server" ClientIDMode="Static"
+                     OnClick="lnkPharmCRUD_Click" style="display:none;" />
 
 </asp:Content>
 

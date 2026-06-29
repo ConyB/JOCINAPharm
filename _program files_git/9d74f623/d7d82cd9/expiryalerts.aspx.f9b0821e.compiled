@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/C:/Program Files/Git/pages/ExpiryAlerts.aspx" hash="ffffffef965fa287" filehash="6cff444b48bc7f86" flags="110000" assembly="App_Web_cjp0zihj" type="ASP.pages_expiryalerts_aspx">
+    <filedeps>
+        <filedep name="/C:/Program Files/Git/Dashboard.Master" />
+        <filedep name="/C:/Program Files/Git/pages/ExpiryAlerts.aspx" />
+    </filedeps>
+</preserve>

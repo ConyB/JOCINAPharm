@@ -206,6 +206,7 @@ namespace JOCINAPharm.pages.Pharmacist
                 list.Add(new
                 {
                     alertId = r.AlertId.HasValue ? (object)r.AlertId.Value : null,
+                    medicineId = r.MedicineId,
                     medicineCode = r.MedicineCode,
                     medicineName = r.MedicineName,
                     category = r.Category,

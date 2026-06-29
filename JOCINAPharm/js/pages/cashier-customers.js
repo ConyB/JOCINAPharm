@@ -262,6 +262,8 @@ window.Customers = window.Customers || {};
 
         if (signal === 'edit') {
             openModal(_editBackdrop);
+        } else if (signal === 'add') {
+            openModal(_addBackdrop);
         } else if (signal === 'add-success') {
             _showToast('Customer added successfully.', 'success');
         } else if (signal === 'edit-success') {

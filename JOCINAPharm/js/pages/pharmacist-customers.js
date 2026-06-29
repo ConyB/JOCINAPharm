@@ -73,6 +73,15 @@ PharmaSync.Customers = (function () {
     function init() {
         console.log('[Customers] Init starting...');
 
+        /* ── load server-emitted customer data (DB-backed) ─────────
+           The code-behind sets window.__CUSTOMER_DATA__ (a neutral global,
+           order-independent of when this IIFE defines PharmaSync.Customers).
+           Assigning here updates the closure `_data` that the View/Edit/
+           History populate functions actually read. */
+        if (window.__CUSTOMER_DATA__) {
+            _data = window.__CUSTOMER_DATA__;
+        }
+
         /* ── wire view toggle ──────────────────────────────– */
         PharmaSync.ViewToggle.init();
 
@@ -101,6 +110,10 @@ PharmaSync.Customers = (function () {
             _bindActionDelegation();
             console.log('[Customers] Event listeners bound successfully');
         }
+
+        /* Show any toast the server stashed after a CRUD postback. Runs here
+           (on boot) so app.js / PharmaSync.Toast are guaranteed loaded. */
+        flushToast();
     }
 
 
@@ -372,6 +385,27 @@ PharmaSync.Customers = (function () {
         }
     }
 
+    /* CRUD bridge — fills the server hidden fields and triggers the hidden
+       lnkPharmCRUD LinkButton so the code-behind persists via the repository. */
+    function _postCrud(action, fields) {
+        var trigger  = document.getElementById('lnkPharmCRUD');
+        var actionEl = document.getElementById('hdnAction');
+        if (!trigger || !actionEl) return false;
+
+        actionEl.value = action;
+        _setInput('hdnCustomerId', fields.id        || '');
+        _setInput('hdnFullName',   fields.name      || '');
+        _setInput('hdnPhone',      fields.phone     || '');
+        _setInput('hdnEmail',      fields.email     || '');
+        _setInput('hdnDob',        fields.dob       || '');
+        _setInput('hdnGender',     fields.gender    || '');
+        _setInput('hdnAllergies',  fields.allergies || '');
+        _setInput('hdnAddress',    fields.address   || '');
+
+        trigger.click();   // fires __doPostBack -> lnkPharmCRUD_Click
+        return true;
+    }
+
     function _handleAdd() {
         var name  = _val('addFullName');
         var phone = _val('addPhone');
@@ -380,8 +414,12 @@ PharmaSync.Customers = (function () {
         if (!name)  { _markInvalid('addFullName'); ok = false; }
         if (!phone) { _markInvalid('addPhone');    ok = false; }
         if (!ok) { _toast('Full Name and Phone are required.', 'warning'); return; }
-        _toast('Customer "' + name + '" added successfully.', 'success');
-        _closeModal('modalAddCustomer');
+
+        _postCrud('add', {
+            name: name, phone: phone, email: _val('addEmail'),
+            dob: _val('addDob'), gender: _val('addGender'),
+            allergies: _val('addAllergies'), address: _val('addAddress')
+        });
     }
 
     function _handleSave() {
@@ -392,8 +430,13 @@ PharmaSync.Customers = (function () {
         if (!name)  { _markInvalid('editFullName'); ok = false; }
         if (!phone) { _markInvalid('editPhone');    ok = false; }
         if (!ok) { _toast('Full Name and Phone are required.', 'warning'); return; }
-        _toast('Customer updated successfully.', 'success');
-        _closeModal('modalEditCustomer');
+
+        _postCrud('edit', {
+            id: _val('editCustomerId'), name: name, phone: phone,
+            email: _val('editEmail'), dob: _val('editDob'),
+            gender: _val('editGender'), allergies: _val('editAllergies'),
+            address: _val('editAddress')
+        });
     }
 
 
@@ -462,7 +505,24 @@ PharmaSync.Customers = (function () {
     function _clearInvalid()   { Array.from(arguments).forEach(function(id){ var e=document.getElementById(id); if(e) e.classList.remove('is-invalid'); }); }
     function _toast(msg,type)  { if(window.PharmaSync&&PharmaSync.Toast) PharmaSync.Toast.show(msg,type); }
 
-    return { init: init };
+    /* Re-reads server-emitted data into the closure _data. Called by the
+       code-behind's emit script in case it runs after init(). */
+    function refreshData() {
+        if (window.__CUSTOMER_DATA__) _data = window.__CUSTOMER_DATA__;
+    }
+
+    /* Shows a toast the server stashed in window.__CUSTOMER_TOAST__ after a
+       CRUD postback, then clears it so it fires once. Safe to call repeatedly;
+       does nothing until PharmaSync.Toast (app.js) is available. */
+    function flushToast() {
+        var t = window.__CUSTOMER_TOAST__;
+        if (t && window.PharmaSync && PharmaSync.Toast) {
+            PharmaSync.Toast.show(t.message, t.type);
+            window.__CUSTOMER_TOAST__ = null;
+        }
+    }
+
+    return { init: init, refreshData: refreshData, flushToast: flushToast };
 
 }());
 

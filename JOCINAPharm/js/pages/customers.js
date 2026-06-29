@@ -81,6 +81,29 @@ window.Customers = (function () {
         }, 80);
     }
 
+    /* ----------------------------------------------------------------
+       CRUD BRIDGE — fills the server-side hidden fields and triggers the
+       hidden lnkAdminCRUD LinkButton so the code-behind can persist via
+       CustomerRepository. Returns true if the postback was triggered.
+       ---------------------------------------------------------------- */
+    function _postCrud(action, fields) {
+        var trigger = document.getElementById('lnkAdminCRUD');
+        var actionEl = document.getElementById('hdnAction');
+        if (!trigger || !actionEl) return false;   // not the Admin page
+
+        actionEl.value = action;
+        _setVal('hdnCustomerId', fields.id        || '');
+        _setVal('hdnFullName',   fields.name      || '');
+        _setVal('hdnPhone',      fields.phone     || '');
+        _setVal('hdnEmail',      fields.email     || '');
+        _setVal('hdnDob',        fields.dob       || '');
+        _setVal('hdnGender',     fields.gender    || '');
+        _setVal('hdnAllergies',  fields.allergies || '');
+
+        trigger.click();   // fires __doPostBack -> lnkAdminCRUD_Click
+        return true;
+    }
+
     function submitAdd() {
         var name  = _val('addFullName');
         var phone = _val('addPhone');
@@ -95,9 +118,12 @@ window.Customers = (function () {
         if (email && !_isValidEmail(email)) { _shake('addEmail'); return; }
         if (dob   && _isFutureDate(dob))     { _shake('addDob');   return; }
 
-        /* TODO: Submit to the database (ASP.NET postback / AJAX), then
-                 reload the table and show a success toast on completion. */
-        closeModal('modalAddCustomer');
+        /* Submit to the server (ASP.NET postback) which persists via
+           CustomerRepository and reloads the grid + shows a toast. */
+        _postCrud('add', {
+            name: name, phone: phone, email: email,
+            dob: dob, gender: gender, allergies: _val('addAllergies')
+        });
     }
 
 
@@ -141,9 +167,12 @@ window.Customers = (function () {
         if (email && !_isValidEmail(email)) { _shake('editEmail'); return; }
         if (dob   && _isFutureDate(dob))     { _shake('editDob');   return; }
 
-        /* TODO: Submit to the database (ASP.NET postback / AJAX), then
-                 reload the table and show a success toast on completion. */
-        closeModal('modalEditCustomer');
+        /* Submit to the server (ASP.NET postback) which persists via
+           CustomerRepository and reloads the grid + shows a toast. */
+        _postCrud('edit', {
+            id: _val('editCustomerId'), name: name, phone: phone, email: email,
+            dob: dob, gender: _val('editGender'), allergies: _val('editAllergies')
+        });
     }
 
 
@@ -167,12 +196,13 @@ window.Customers = (function () {
     }
 
     function submitDelete() {
-        /* TODO: Delete from the database (ASP.NET postback / AJAX), then
-                 reload the table and show a success toast on completion.
-                 The previous client-side row removal was a UI-only preview
-                 and has been removed so nothing is faked without a backend. */
+        var id = _val('deleteCustomerId');
         _deleteRow = null;
-        closeModal('modalDeleteCustomer');
+
+        /* Soft delete on the server (sets is_active=0) via postback. */
+        if (!_postCrud('delete', { id: id })) {
+            closeModal('modalDeleteCustomer');
+        }
     }
 
 
@@ -367,6 +397,7 @@ window.Customers = (function () {
         openHistoryModal: openHistoryModal,
         _toggleModal:     _toggleModal,
         closeModal:       closeModal,
+        reopen:           openModal,
     };
 
 }());

@@ -59,8 +59,9 @@
                     <i class="fa-solid fa-users" aria-hidden="true"></i>
                     Customer List
                 </h2>
-                <%-- TODO: Set count from database --%>
-                <span class="cust-table-count" id="visibleCount">Showing 0 customers</span>
+                <span class="cust-table-count">
+                    Showing <asp:Label ID="lblShowingCount" runat="server" Text="0" /> customers
+                </span>
             </div>
 
             <div class="cust-table-wrap">
@@ -80,17 +81,62 @@
                     </thead>
                     <tbody id="custTableBody">
 
-                        <%-- ============================================================
-                             Customer rows removed during hardcoded-data cleanup.
-                             TODO: Bind customer rows from the database.
-                             Convert this <tbody> to an <asp:Repeater> (or GridView)
-                             that emits one <tr> per customer with the same markup and
-                             data-* attributes the static rows used, so customers.js
-                             (search/filter, view/edit/delete/history) keeps working:
-                               data-id, data-name, data-code, data-phone, data-email,
-                               data-gender, data-dob, data-allergies, data-visits,
-                               data-last, data-created
-                             ============================================================ --%>
+                        <asp:Repeater ID="rptCustomers" runat="server">
+                            <ItemTemplate>
+                                <tr data-id='<%# Eval("customer_id") %>'
+                                    data-name='<%# Eval("full_name") %>'
+                                    data-code='<%# Eval("customer_code") %>'
+                                    data-phone='<%# Eval("phone") %>'
+                                    data-email='<%# Eval("email") %>'
+                                    data-gender='<%# Eval("gender") %>'
+                                    data-dob='<%# FormatDate(Eval("date_of_birth")) %>'
+                                    data-allergies='<%# Eval("known_allergies") %>'
+                                    data-visits='<%# Eval("visit_count") %>'
+                                    data-last='<%# FormatDate(Eval("last_visit")) %>'
+                                    data-created='<%# FormatDate(Eval("created_at")) %>'>
+                                    <td>
+                                        <div class="cust-name-cell">
+                                            <div class="cust-avatar cust-avatar--sm"
+                                                 style='background:<%# GetAvatarColor(Eval("full_name") as string) %>'>
+                                                <%# GetInitials(Eval("full_name") as string) %>
+                                            </div>
+                                            <span class="cust-full-name"><%# Eval("full_name") %></span>
+                                        </div>
+                                    </td>
+                                    <td><span class="cust-code-badge"><%# Eval("customer_code") %></span></td>
+                                    <td><%# Eval("phone") %></td>
+                                    <td class="cust-email"><%# Eval("email") %></td>
+                                    <td><%# Eval("gender") %></td>
+                                    <td>
+                                        <%# HasAllergyMarkup(Eval("known_allergies")) %>
+                                    </td>
+                                    <td><%# Eval("visit_count") %></td>
+                                    <td><%# FormatDate(Eval("last_visit")) %></td>
+                                    <td class="cust-col-actions">
+                                        <div class="cust-row-actions">
+                                            <button type="button" class="cust-action-btn cust-action-btn--view"
+                                                    onclick="Customers.openViewModal(this)" title="View Details">
+                                                <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="cust-action-btn cust-action-btn--history"
+                                                    onclick="Customers.openHistoryModal(this)" title="Purchase History">
+                                                <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="cust-action-btn cust-action-btn--edit"
+                                                    onclick="Customers.openEditModal(this)" title="Update">
+                                                <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                                            </button>
+                                            <asp:PlaceHolder runat="server" Visible='<%# CanDeleteCustomers %>'>
+                                            <button type="button" class="cust-action-btn cust-action-btn--delete"
+                                                    onclick="Customers.openDeleteModal(this)" title="Delete">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                            </asp:PlaceHolder>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
 
                     </tbody>
                 </table>
@@ -413,6 +459,23 @@
             </div>
         </div>
     </div>
+
+    <%-- ============================================================
+         CRUD BRIDGE (hidden) — customers.js fills these from the modal
+         inputs and triggers lnkAdminCRUD via __doPostBack so the server
+         can persist via CustomerRepository. No visible UI; mirrors the
+         Cashier page's hidden-field/postback approach.
+    ============================================================ --%>
+    <asp:HiddenField ID="hdnAction"     runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnCustomerId" runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnFullName"   runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnPhone"      runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnEmail"      runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnDob"        runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnGender"     runat="server" ClientIDMode="Static" />
+    <asp:HiddenField ID="hdnAllergies"  runat="server" ClientIDMode="Static" />
+    <asp:LinkButton  ID="lnkAdminCRUD"  runat="server" ClientIDMode="Static"
+                     OnClick="lnkAdminCRUD_Click" style="display:none;" />
 
 </asp:Content>
 

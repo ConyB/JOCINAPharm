@@ -125,6 +125,7 @@
                         </asp:LinkButton>
                         <asp:LinkButton ID="lbtnDelete"
                                         runat="server"
+                                        Visible='<%# CanDeleteCustomers %>'
                                         CommandName="Delete"
                                         CommandArgument='<%# Eval("customer_id") %>'
                                         CssClass="ps-btn ps-btn-ghost ps-btn-sm cust-action-btn cust-action-btn--danger"

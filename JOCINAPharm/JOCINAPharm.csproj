@@ -178,8 +178,10 @@
     </Compile>
     <Compile Include="DAL\InventoryDAL.cs" />
     <Compile Include="Security\AuthHelper.cs" />
+    <Compile Include="Data\CustomerRepository.cs" />
     <Compile Include="Data\Db.cs" />
     <Compile Include="Data\SupplierRepository.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

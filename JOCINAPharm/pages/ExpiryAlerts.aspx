@@ -283,7 +283,7 @@
                                     <button type="button"
                                         class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
                                         title="View details"
-                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("MedicineId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
                                     </button>
                                     <asp:LinkButton
@@ -384,7 +384,7 @@
                                     <button type="button"
                                         class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
                                         title="View details"
-                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("MedicineId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
                                     </button>
                                     <asp:LinkButton
@@ -485,7 +485,7 @@
                                     <button type="button"
                                         class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
                                         title="View details"
-                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("MedicineId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
                                     </button>
                                     <asp:LinkButton
@@ -586,7 +586,7 @@
                                     <button type="button"
                                         class="ps-btn ps-btn-ghost ps-btn-sm ea-btn-details"
                                         title="View details"
-                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("AlertId") %>)">
+                                        onclick="PharmaSync.ExpiryAlerts.openDetailModal(<%# Eval("MedicineId") %>)">
                                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
                                     </button>
                                     <asp:LinkButton

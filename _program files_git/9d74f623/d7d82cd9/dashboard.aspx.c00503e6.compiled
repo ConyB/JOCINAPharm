@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/C:/Program Files/Git/pages/Pharmacist/Dashboard.aspx" hash="ffffffef965fa287" filehash="cfcbbb0de091ffcf" flags="110000" assembly="App_Web_r5ngyiun" type="ASP.pages_pharmacist_dashboard_aspx">
+    <filedeps>
+        <filedep name="/C:/Program Files/Git/Dashboard_Pharmacist.Master" />
+        <filedep name="/C:/Program Files/Git/pages/Pharmacist/Dashboard.aspx" />
+    </filedeps>
+</preserve>

@@ -58,5 +58,41 @@ namespace JOCINAPharm.pages.Pharmacist
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litTotalPurchases;
+
+        /// <summary>rptCards control (customer card grid view).</summary>
+        protected global::System.Web.UI.WebControls.Repeater rptCards;
+
+        /// <summary>rptTable control (customer table view).</summary>
+        protected global::System.Web.UI.WebControls.Repeater rptTable;
+
+        /// <summary>hdnAction control (CRUD bridge: add | edit).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnAction;
+
+        /// <summary>hdnCustomerId control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnCustomerId;
+
+        /// <summary>hdnFullName control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnFullName;
+
+        /// <summary>hdnPhone control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnPhone;
+
+        /// <summary>hdnEmail control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnEmail;
+
+        /// <summary>hdnDob control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnDob;
+
+        /// <summary>hdnGender control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnGender;
+
+        /// <summary>hdnAllergies control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnAllergies;
+
+        /// <summary>hdnAddress control (CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hdnAddress;
+
+        /// <summary>lnkPharmCRUD control (hidden postback trigger for CRUD bridge).</summary>
+        protected global::System.Web.UI.WebControls.LinkButton lnkPharmCRUD;
     }
 }

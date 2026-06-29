@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/C:/Program Files/Git/pages/Dashboard.aspx" hash="ffffffef965fa287" filehash="6cff680d1a8a0a07" flags="110000" assembly="App_Web_cjp0zihj" type="ASP.pages_dashboard_aspx">
+    <filedeps>
+        <filedep name="/C:/Program Files/Git/Dashboard.Master" />
+        <filedep name="/C:/Program Files/Git/pages/Dashboard.aspx" />
+    </filedeps>
+</preserve>
