@@ -19,7 +19,8 @@
         <div class="page-header-left">
             <h2 class="page-section-title">Customers</h2>
             <p class="page-section-sub" id="customerCountSub">
-                <asp:Literal ID="litCustomerCount" runat="server">5 registered patients</asp:Literal>
+                <%-- TODO: Set count from database --%>
+                <asp:Literal ID="litCustomerCount" runat="server">0 registered patients</asp:Literal>
             </p>
         </div>
         <div class="page-header-actions">
@@ -45,11 +46,13 @@
                 <div class="kpi-card-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
             </div>
             <p class="kpi-card-value">
-                <asp:Literal ID="litTotalCustomers" runat="server">248</asp:Literal>
+                <%-- TODO: Load value from database --%>
+                <asp:Literal ID="litTotalCustomers" runat="server">0</asp:Literal>
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
-                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +12
+                    <%-- TODO: Load trend from database --%>
+                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +0
                 </span>
                 <span>this month</span>
             </div>
@@ -61,11 +64,13 @@
                 <div class="kpi-card-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></div>
             </div>
             <p class="kpi-card-value">
-                <asp:Literal ID="litActiveCustomers" runat="server">183</asp:Literal>
+                <%-- TODO: Load value from database --%>
+                <asp:Literal ID="litActiveCustomers" runat="server">0</asp:Literal>
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
-                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> 73.8%
+                    <%-- TODO: Load percentage from database --%>
+                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> 0%
                 </span>
                 <span>of total</span>
             </div>
@@ -77,11 +82,13 @@
                 <div class="kpi-card-icon"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></div>
             </div>
             <p class="kpi-card-value">
-                <asp:Literal ID="litNewCustomers" runat="server">12</asp:Literal>
+                <%-- TODO: Load value from database --%>
+                <asp:Literal ID="litNewCustomers" runat="server">0</asp:Literal>
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
-                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +3
+                    <%-- TODO: Load trend from database --%>
+                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +0
                 </span>
                 <span>vs last month</span>
             </div>
@@ -93,11 +100,13 @@
                 <div class="kpi-card-icon"><i class="fa-solid fa-receipt" aria-hidden="true"></i></div>
             </div>
             <p class="kpi-card-value cust-kpi-ugx">
-                <asp:Literal ID="litTotalPurchases" runat="server">UGX 48.5M</asp:Literal>
+                <%-- TODO: Load value from database --%>
+                <asp:Literal ID="litTotalPurchases" runat="server">UGX 0</asp:Literal>
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
-                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +8.4%
+                    <%-- TODO: Load trend from database --%>
+                    <i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> +0%
                 </span>
                 <span>vs last month</span>
             </div>
@@ -148,200 +157,14 @@
     <%-- ── Customer Card Grid View ─────────────────────────────────── --%>
     <div id="custCardView" class="cust-card-grid">
 
-        <%-- Customer Card: Kwame Asante --%>
-        <div class="cust-card" data-customer-id="CUS-001" data-name="Kwame Asante"
-             data-status="active" data-gender="male">
-            <div class="cust-card-header">
-                <div class="cust-avatar cust-avatar--teal">KA</div>
-                <div class="cust-card-meta">
-                    <h3 class="cust-card-name">Kwame Asante</h3>
-                    <span class="cust-card-id">CUS-001 &bull; Male</span>
-                </div>
-                <span class="ps-badge ps-badge-danger cust-allergy-badge">Allergy</span>
-            </div>
-            <div class="cust-card-contact">
-                <span><i class="fa-solid fa-phone" aria-hidden="true"></i> 0244-100-200</span>
-                <span><i class="fa-regular fa-envelope" aria-hidden="true"></i> kwame@gmail.com</span>
-            </div>
-            <div class="cust-card-footer">
-                <span class="cust-card-visits">
-                    <i class="fa-regular fa-clock" aria-hidden="true"></i> 12 visits
-                </span>
-                <span class="cust-card-last">Last: 2025-05-01</span>
-            </div>
-            <div class="cust-card-actions">
-                <button type="button" class="ps-btn ps-btn-outline ps-btn-sm cust-btn-view"
-                        data-id="CUS-001" aria-label="View Kwame Asante">
-                    <i class="fa-regular fa-eye" aria-hidden="true"></i> View
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-history"
-                        data-id="CUS-001" aria-label="Purchase history for Kwame Asante"
-                        style="background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-bg);">
-                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-edit"
-                        data-id="CUS-001" aria-label="Edit Kwame Asante"
-                        style="background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-bg);">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-
-        <%-- Customer Card: Abena Mensah --%>
-        <div class="cust-card" data-customer-id="CUS-002" data-name="Abena Mensah"
-             data-status="active" data-gender="female">
-            <div class="cust-card-header">
-                <div class="cust-avatar cust-avatar--green">AM</div>
-                <div class="cust-card-meta">
-                    <h3 class="cust-card-name">Abena Mensah</h3>
-                    <span class="cust-card-id">CUS-002 &bull; Female</span>
-                </div>
-                <span class="ps-badge ps-badge-success">Active</span>
-            </div>
-            <div class="cust-card-contact">
-                <span><i class="fa-solid fa-phone" aria-hidden="true"></i> 0200-300-400</span>
-                <span><i class="fa-regular fa-envelope" aria-hidden="true"></i> abena@yahoo.com</span>
-            </div>
-            <div class="cust-card-footer">
-                <span class="cust-card-visits">
-                    <i class="fa-regular fa-clock" aria-hidden="true"></i> 8 visits
-                </span>
-                <span class="cust-card-last">Last: 2025-04-30</span>
-            </div>
-            <div class="cust-card-actions">
-                <button type="button" class="ps-btn ps-btn-outline ps-btn-sm cust-btn-view"
-                        data-id="CUS-002" aria-label="View Abena Mensah">
-                    <i class="fa-regular fa-eye" aria-hidden="true"></i> View
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-history"
-                        data-id="CUS-002"
-                        style="background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-bg);">
-                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-edit"
-                        data-id="CUS-002"
-                        style="background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-bg);">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-
-        <%-- Customer Card: John Boateng --%>
-        <div class="cust-card" data-customer-id="CUS-003" data-name="John Boateng"
-             data-status="frequent" data-gender="male">
-            <div class="cust-card-header">
-                <div class="cust-avatar cust-avatar--blue">JB</div>
-                <div class="cust-card-meta">
-                    <h3 class="cust-card-name">John Boateng</h3>
-                    <span class="cust-card-id">CUS-003 &bull; Male</span>
-                </div>
-                <span class="ps-badge ps-badge-danger cust-allergy-badge">Allergy</span>
-            </div>
-            <div class="cust-card-contact">
-                <span><i class="fa-solid fa-phone" aria-hidden="true"></i> 0557-500-600</span>
-                <span><i class="fa-regular fa-envelope" aria-hidden="true"></i> john.b@gmail.com</span>
-            </div>
-            <div class="cust-card-footer">
-                <span class="cust-card-visits">
-                    <i class="fa-regular fa-clock" aria-hidden="true"></i> 20 visits
-                </span>
-                <span class="cust-card-last">Last: 2025-04-29</span>
-            </div>
-            <div class="cust-card-actions">
-                <button type="button" class="ps-btn ps-btn-outline ps-btn-sm cust-btn-view"
-                        data-id="CUS-003">
-                    <i class="fa-regular fa-eye" aria-hidden="true"></i> View
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-history"
-                        data-id="CUS-003"
-                        style="background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-bg);">
-                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-edit"
-                        data-id="CUS-003"
-                        style="background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-bg);">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-
-        <%-- Customer Card: Ama Darko --%>
-        <div class="cust-card" data-customer-id="CUS-004" data-name="Ama Darko"
-             data-status="new" data-gender="female">
-            <div class="cust-card-header">
-                <div class="cust-avatar cust-avatar--purple">AD</div>
-                <div class="cust-card-meta">
-                    <h3 class="cust-card-name">Ama Darko</h3>
-                    <span class="cust-card-id">CUS-004 &bull; Female</span>
-                </div>
-                <span class="ps-badge" style="background:#e8f5e9;color:#2e7d32;">New</span>
-            </div>
-            <div class="cust-card-contact">
-                <span><i class="fa-solid fa-phone" aria-hidden="true"></i> 0244-700-800</span>
-                <span><i class="fa-regular fa-envelope" aria-hidden="true"></i> ama.d@gmail.com</span>
-            </div>
-            <div class="cust-card-footer">
-                <span class="cust-card-visits">
-                    <i class="fa-regular fa-clock" aria-hidden="true"></i> 2 visits
-                </span>
-                <span class="cust-card-last">Last: 2025-05-03</span>
-            </div>
-            <div class="cust-card-actions">
-                <button type="button" class="ps-btn ps-btn-outline ps-btn-sm cust-btn-view"
-                        data-id="CUS-004">
-                    <i class="fa-regular fa-eye" aria-hidden="true"></i> View
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-history"
-                        data-id="CUS-004"
-                        style="background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-bg);">
-                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-edit"
-                        data-id="CUS-004"
-                        style="background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-bg);">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
-
-        <%-- Customer Card: Kofi Mensah --%>
-        <div class="cust-card" data-customer-id="CUS-005" data-name="Kofi Mensah"
-             data-status="returning" data-gender="male">
-            <div class="cust-card-header">
-                <div class="cust-avatar cust-avatar--orange">KM</div>
-                <div class="cust-card-meta">
-                    <h3 class="cust-card-name">Kofi Mensah</h3>
-                    <span class="cust-card-id">CUS-005 &bull; Male</span>
-                </div>
-                <span class="ps-badge" style="background:#e1f5fe;color:#0277bd;">Returning</span>
-            </div>
-            <div class="cust-card-contact">
-                <span><i class="fa-solid fa-phone" aria-hidden="true"></i> 0557-900-100</span>
-                <span><i class="fa-regular fa-envelope" aria-hidden="true"></i> kofi.m@outlook.com</span>
-            </div>
-            <div class="cust-card-footer">
-                <span class="cust-card-visits">
-                    <i class="fa-regular fa-clock" aria-hidden="true"></i> 6 visits
-                </span>
-                <span class="cust-card-last">Last: 2025-04-20</span>
-            </div>
-            <div class="cust-card-actions">
-                <button type="button" class="ps-btn ps-btn-outline ps-btn-sm cust-btn-view"
-                        data-id="CUS-005">
-                    <i class="fa-regular fa-eye" aria-hidden="true"></i> View
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-history"
-                        data-id="CUS-005"
-                        style="background:var(--color-info-bg);color:var(--color-info);border-color:var(--color-info-bg);">
-                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> History
-                </button>
-                <button type="button" class="ps-btn ps-btn-sm cust-btn-edit"
-                        data-id="CUS-005"
-                        style="background:var(--color-warning-bg);color:var(--color-warning);border-color:var(--color-warning-bg);">
-                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-                </button>
-            </div>
-        </div>
+        <%-- ============================================================
+             Customer cards removed during hardcoded-data cleanup.
+             TODO: Bind customer cards from the database (server-side
+             Repeater or client-side render). Each card must keep the
+             same markup and data-* attributes the static cards used so
+             pharmacist-customers.js (search, view/edit/history) works:
+               data-customer-id, data-name, data-status, data-gender
+             ============================================================ --%>
 
     </div><%-- /#custCardView --%>
 
@@ -369,136 +192,21 @@
                     </tr>
                 </thead>
                 <tbody id="custTableBody">
-                    <tr data-customer-id="CUS-001" data-status="active" data-gender="male"
-                        data-name="Kwame Asante">
-                        <td>
-                            <div class="cust-table-customer">
-                                <div class="cust-avatar cust-avatar--sm cust-avatar--teal">KA</div>
-                                <div>
-                                    <div class="cust-table-name">Kwame Asante</div>
-                                    <div class="cust-table-id">CUS-001 &bull; Male</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>0244-100-200</td>
-                        <td class="cust-hide-sm">kwame@gmail.com</td>
-                        <td class="cust-hide-md">2024-08-15</td>
-                        <td class="cust-hide-md">UGX 340,000</td>
-                        <td class="cust-hide-sm">2025-05-01</td>
-                        <td><span class="ps-badge ps-badge-danger">Allergy</span></td>
-                        <td class="td-actions">
-                            <button type="button" class="cust-btn-view" data-id="CUS-001"
-                                    title="View customer" aria-label="View Kwame Asante">
-                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                            </button>
-                            <button type="button" class="cust-btn-history" data-id="CUS-001"
-                                    title="Purchase history" aria-label="Purchase history for Kwame Asante">
-                                <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
-                            </button>
-                            <button type="button" class="cust-btn-edit" data-id="CUS-001"
-                                    title="Edit customer" aria-label="Edit Kwame Asante">
-                                <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr data-customer-id="CUS-002" data-status="active" data-gender="female"
-                        data-name="Abena Mensah">
-                        <td>
-                            <div class="cust-table-customer">
-                                <div class="cust-avatar cust-avatar--sm cust-avatar--green">AM</div>
-                                <div>
-                                    <div class="cust-table-name">Abena Mensah</div>
-                                    <div class="cust-table-id">CUS-002 &bull; Female</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>0200-300-400</td>
-                        <td class="cust-hide-sm">abena@yahoo.com</td>
-                        <td class="cust-hide-md">2024-09-03</td>
-                        <td class="cust-hide-md">UGX 195,000</td>
-                        <td class="cust-hide-sm">2025-04-30</td>
-                        <td><span class="ps-badge ps-badge-success">Active</span></td>
-                        <td class="td-actions">
-                            <button type="button" class="cust-btn-view" data-id="CUS-002" title="View customer"><i class="fa-regular fa-eye"></i></button>
-                            <button type="button" class="cust-btn-history" data-id="CUS-002" title="Purchase history"><i class="fa-solid fa-clock-rotate-left"></i></button>
-                            <button type="button" class="cust-btn-edit" data-id="CUS-002" title="Edit customer"><i class="fa-regular fa-pen-to-square"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-customer-id="CUS-003" data-status="frequent" data-gender="male"
-                        data-name="John Boateng">
-                        <td>
-                            <div class="cust-table-customer">
-                                <div class="cust-avatar cust-avatar--sm cust-avatar--blue">JB</div>
-                                <div>
-                                    <div class="cust-table-name">John Boateng</div>
-                                    <div class="cust-table-id">CUS-003 &bull; Male</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>0557-500-600</td>
-                        <td class="cust-hide-sm">john.b@gmail.com</td>
-                        <td class="cust-hide-md">2024-06-20</td>
-                        <td class="cust-hide-md">UGX 1,250,000</td>
-                        <td class="cust-hide-sm">2025-04-29</td>
-                        <td><span class="ps-badge" style="background:#fff3e0;color:#e65100;">Frequent</span></td>
-                        <td class="td-actions">
-                            <button type="button" class="cust-btn-view" data-id="CUS-003" title="View customer"><i class="fa-regular fa-eye"></i></button>
-                            <button type="button" class="cust-btn-history" data-id="CUS-003" title="Purchase history"><i class="fa-solid fa-clock-rotate-left"></i></button>
-                            <button type="button" class="cust-btn-edit" data-id="CUS-003" title="Edit customer"><i class="fa-regular fa-pen-to-square"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-customer-id="CUS-004" data-status="new" data-gender="female"
-                        data-name="Ama Darko">
-                        <td>
-                            <div class="cust-table-customer">
-                                <div class="cust-avatar cust-avatar--sm cust-avatar--purple">AD</div>
-                                <div>
-                                    <div class="cust-table-name">Ama Darko</div>
-                                    <div class="cust-table-id">CUS-004 &bull; Female</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>0244-700-800</td>
-                        <td class="cust-hide-sm">ama.d@gmail.com</td>
-                        <td class="cust-hide-md">2025-05-01</td>
-                        <td class="cust-hide-md">UGX 35,000</td>
-                        <td class="cust-hide-sm">2025-05-03</td>
-                        <td><span class="ps-badge ps-badge-success">New</span></td>
-                        <td class="td-actions">
-                            <button type="button" class="cust-btn-view" data-id="CUS-004" title="View customer"><i class="fa-regular fa-eye"></i></button>
-                            <button type="button" class="cust-btn-history" data-id="CUS-004" title="Purchase history"><i class="fa-solid fa-clock-rotate-left"></i></button>
-                            <button type="button" class="cust-btn-edit" data-id="CUS-004" title="Edit customer"><i class="fa-regular fa-pen-to-square"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-customer-id="CUS-005" data-status="returning" data-gender="male"
-                        data-name="Kofi Mensah">
-                        <td>
-                            <div class="cust-table-customer">
-                                <div class="cust-avatar cust-avatar--sm cust-avatar--orange">KM</div>
-                                <div>
-                                    <div class="cust-table-name">Kofi Mensah</div>
-                                    <div class="cust-table-id">CUS-005 &bull; Male</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>0557-900-100</td>
-                        <td class="cust-hide-sm">kofi.m@outlook.com</td>
-                        <td class="cust-hide-md">2024-11-12</td>
-                        <td class="cust-hide-md">UGX 480,000</td>
-                        <td class="cust-hide-sm">2025-04-20</td>
-                        <td><span class="ps-badge ps-badge-info">Returning</span></td>
-                        <td class="td-actions">
-                            <button type="button" class="cust-btn-view" data-id="CUS-005" title="View customer"><i class="fa-regular fa-eye"></i></button>
-                            <button type="button" class="cust-btn-history" data-id="CUS-005" title="Purchase history"><i class="fa-solid fa-clock-rotate-left"></i></button>
-                            <button type="button" class="cust-btn-edit" data-id="CUS-005" title="Edit customer"><i class="fa-regular fa-pen-to-square"></i></button>
-                        </td>
-                    </tr>
+                    <%-- ============================================================
+                         Customer rows removed during hardcoded-data cleanup.
+                         TODO: Bind customer rows from the database (server-side
+                         Repeater or client-side render). Each <tr> must keep the
+                         same markup and data-* attributes the static rows used so
+                         pharmacist-customers.js (search, view/edit/history) works:
+                           data-customer-id, data-status, data-gender, data-name
+                         ============================================================ --%>
                 </tbody>
             </table>
         </div>
         <div class="ps-card-footer">
             <nav class="ps-pagination" aria-label="Customer list pagination">
-                <span class="ps-pagination-info">Showing 1–5 of 5 customers</span>
+                <%-- TODO: Set pagination info from database --%>
+                <span class="ps-pagination-info">Showing 0 of 0 customers</span>
                 <div class="ps-pagination-pages">
                     <button type="button" class="ps-page-btn" disabled aria-label="Previous page">
                         <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
@@ -641,27 +349,28 @@
             <div class="ps-modal-body cust-profile-body">
 
                 <%-- Profile Header --%>
+                <%-- Values populated by pharmacist-customers.js from DB-bound data --%>
                 <div class="cust-profile-header">
-                    <div class="cust-avatar cust-avatar--lg cust-avatar--teal" id="viewAvatar">KA</div>
+                    <div class="cust-avatar cust-avatar--lg cust-avatar--teal" id="viewAvatar"></div>
                     <div class="cust-profile-info">
-                        <h4 class="cust-profile-name" id="viewName">Kwame Asante</h4>
-                        <span class="cust-profile-id" id="viewIdGender">CUS-001 &bull; Male</span>
+                        <h4 class="cust-profile-name" id="viewName">—</h4>
+                        <span class="cust-profile-id" id="viewIdGender">—</span>
                         <div class="cust-profile-badges">
-                            <span class="ps-badge ps-badge-danger" id="viewAllergyBadge">Allergy</span>
-                            <span class="ps-badge ps-badge-success" id="viewStatusBadge">Active</span>
+                            <span class="ps-badge ps-badge-danger" id="viewAllergyBadge" style="display:none;">Allergy</span>
+                            <span class="ps-badge ps-badge-success" id="viewStatusBadge">—</span>
                         </div>
                     </div>
                     <div class="cust-profile-stat-row">
                         <div class="cust-profile-stat">
-                            <span class="cust-profile-stat-value" id="viewTotalVisits">12</span>
+                            <span class="cust-profile-stat-value" id="viewTotalVisits">0</span>
                             <span class="cust-profile-stat-label">Total Visits</span>
                         </div>
                         <div class="cust-profile-stat">
-                            <span class="cust-profile-stat-value" id="viewTotalSpend">UGX 340,000</span>
+                            <span class="cust-profile-stat-value" id="viewTotalSpend">—</span>
                             <span class="cust-profile-stat-label">Total Spent</span>
                         </div>
                         <div class="cust-profile-stat">
-                            <span class="cust-profile-stat-value" id="viewLastVisit">2025-05-01</span>
+                            <span class="cust-profile-stat-value" id="viewLastVisit">—</span>
                             <span class="cust-profile-stat-label">Last Visit</span>
                         </div>
                     </div>
@@ -677,23 +386,23 @@
                         </h5>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Phone</span>
-                            <span class="cust-detail-value" id="viewPhone">0244-100-200</span>
+                            <span class="cust-detail-value" id="viewPhone">—</span>
                         </div>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Email</span>
-                            <span class="cust-detail-value" id="viewEmail">kwame@gmail.com</span>
+                            <span class="cust-detail-value" id="viewEmail">—</span>
                         </div>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Address</span>
-                            <span class="cust-detail-value" id="viewAddress">Accra, Ghana</span>
+                            <span class="cust-detail-value" id="viewAddress">—</span>
                         </div>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Date of Birth</span>
-                            <span class="cust-detail-value" id="viewDob">1985-03-22</span>
+                            <span class="cust-detail-value" id="viewDob">—</span>
                         </div>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Registered</span>
-                            <span class="cust-detail-value" id="viewRegistered">2024-08-15</span>
+                            <span class="cust-detail-value" id="viewRegistered">—</span>
                         </div>
                     </div>
 
@@ -704,15 +413,11 @@
                         </h5>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Allergies</span>
-                            <span class="cust-detail-value cust-allergy-text" id="viewAllergies">
-                                Penicillin, Sulfa drugs
-                            </span>
+                            <span class="cust-detail-value cust-allergy-text" id="viewAllergies">—</span>
                         </div>
                         <div class="cust-detail-row">
                             <span class="cust-detail-label">Notes</span>
-                            <span class="cust-detail-value" id="viewNotes">
-                                Hypertensive patient. Prefers morning dispensing.
-                            </span>
+                            <span class="cust-detail-value" id="viewNotes">—</span>
                         </div>
                     </div>
 
@@ -736,28 +441,9 @@
                                     <th>Rx No.</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2025-05-01</td>
-                                    <td>Amlodipine 5mg</td>
-                                    <td>30</td>
-                                    <td>UGX 45,000</td>
-                                    <td>RX-0341</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-04-12</td>
-                                    <td>Losartan 50mg</td>
-                                    <td>60</td>
-                                    <td>UGX 72,000</td>
-                                    <td>RX-0318</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-03-28</td>
-                                    <td>Metformin 500mg</td>
-                                    <td>90</td>
-                                    <td>UGX 54,000</td>
-                                    <td>RX-0295</td>
-                                </tr>
+                            <tbody id="viewPurchaseTableBody">
+                                <%-- TODO: Bind recent purchases from the database
+                                     (sales / sale_items) for the selected customer. --%>
                             </tbody>
                         </table>
                     </div>
@@ -874,7 +560,7 @@
                     <h3 class="ps-modal-title" id="modalHistoryTitle">Purchase History</h3>
                     <p class="ps-card-subtitle" id="historyCustomerName"
                        style="margin:2px 0 0;font-size:12px;color:var(--color-text-muted);">
-                        Kwame Asante &bull; CUS-001
+                        —
                     </p>
                 </div>
                 <button type="button" class="ps-modal-close" id="btnCloseHistory"
@@ -885,21 +571,22 @@
             <div class="ps-modal-body" style="padding-top:0;">
 
                 <%-- History KPIs --%>
+                <%-- Values populated by pharmacist-customers.js from DB-bound data --%>
                 <div class="cust-history-kpis">
                     <div class="cust-history-kpi">
-                        <span class="cust-history-kpi-value" id="histTotalPurchases">UGX 340,000</span>
+                        <span class="cust-history-kpi-value" id="histTotalPurchases">—</span>
                         <span class="cust-history-kpi-label">Total Spent</span>
                     </div>
                     <div class="cust-history-kpi">
-                        <span class="cust-history-kpi-value" id="histTotalOrders">12</span>
+                        <span class="cust-history-kpi-value" id="histTotalOrders">0</span>
                         <span class="cust-history-kpi-label">Total Orders</span>
                     </div>
                     <div class="cust-history-kpi">
-                        <span class="cust-history-kpi-value" id="histAvgOrder">UGX 28,333</span>
+                        <span class="cust-history-kpi-value" id="histAvgOrder">—</span>
                         <span class="cust-history-kpi-label">Avg. Order</span>
                     </div>
                     <div class="cust-history-kpi">
-                        <span class="cust-history-kpi-value" id="histFreqMed">Amlodipine</span>
+                        <span class="cust-history-kpi-value" id="histFreqMed">—</span>
                         <span class="cust-history-kpi-label">Most Purchased</span>
                     </div>
                 </div>
@@ -917,31 +604,9 @@
                                 <th>Dispensed By</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>2025-05-01</td><td>RX-0341</td><td>Amlodipine 5mg</td>
-                                <td>30</td><td>UGX 1,500</td><td>UGX 45,000</td><td>Dr. Ama Kusi</td>
-                            </tr>
-                            <tr>
-                                <td>2025-04-12</td><td>RX-0318</td><td>Losartan 50mg</td>
-                                <td>60</td><td>UGX 1,200</td><td>UGX 72,000</td><td>Dr. Ama Kusi</td>
-                            </tr>
-                            <tr>
-                                <td>2025-03-28</td><td>RX-0295</td><td>Metformin 500mg</td>
-                                <td>90</td><td>UGX 600</td><td>UGX 54,000</td><td>Dr. Kofi Brew</td>
-                            </tr>
-                            <tr>
-                                <td>2025-03-05</td><td>RX-0270</td><td>Atorvastatin 20mg</td>
-                                <td>30</td><td>UGX 1,800</td><td>UGX 54,000</td><td>Dr. Kofi Brew</td>
-                            </tr>
-                            <tr>
-                                <td>2025-02-14</td><td>RX-0248</td><td>Amlodipine 5mg</td>
-                                <td>30</td><td>UGX 1,500</td><td>UGX 45,000</td><td>Dr. Ama Kusi</td>
-                            </tr>
-                            <tr>
-                                <td>2025-01-20</td><td>RX-0221</td><td>Losartan 50mg</td>
-                                <td>60</td><td>UGX 1,200</td><td>UGX 72,000</td><td>Dr. Ama Kusi</td>
-                            </tr>
+                        <tbody id="historyTableBody">
+                            <%-- TODO: Bind full purchase history from the database
+                                 (sales / sale_items) for the selected customer. --%>
                         </tbody>
                     </table>
                 </div>

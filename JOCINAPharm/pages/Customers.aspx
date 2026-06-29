@@ -17,7 +17,8 @@
             <div class="page-header-left">
                 <h1 class="page-section-title">Customers</h1>
                 <p class="page-section-sub">
-                    <asp:Label ID="lblCustomerCount" runat="server" Text="5" /> registered patients
+                    <%-- TODO: Set count from database --%>
+                    <asp:Label ID="lblCustomerCount" runat="server" Text="0" /> registered patients
                 </p>
             </div>
             <div class="page-header-actions">
@@ -58,7 +59,8 @@
                     <i class="fa-solid fa-users" aria-hidden="true"></i>
                     Customer List
                 </h2>
-                <span class="cust-table-count" id="visibleCount">Showing 5 customers</span>
+                <%-- TODO: Set count from database --%>
+                <span class="cust-table-count" id="visibleCount">Showing 0 customers</span>
             </div>
 
             <div class="cust-table-wrap">
@@ -78,207 +80,17 @@
                     </thead>
                     <tbody id="custTableBody">
 
-                        <%-- ── Sample rows — replace with asp:Repeater / GridView ── --%>
-
-                        <tr data-id="1" data-name="Kwame Asante" data-code="CUS-001"
-                            data-phone="0244-100-200" data-email="kwame@gmail.com"
-                            data-gender="Male" data-dob="1985-03-14"
-                            data-allergies="Penicillin" data-visits="12" data-last="2025-05-01"
-                            data-created="2024-01-15">
-                            <td>
-                                <div class="cust-name-cell">
-                                    <div class="cust-avatar cust-avatar--sm" style="background:#2e7d32">KA</div>
-                                    <span class="cust-full-name">Kwame Asante</span>
-                                </div>
-                            </td>
-                            <td><span class="cust-code-badge">CUS-001</span></td>
-                            <td>0244-100-200</td>
-                            <td class="cust-email">kwame@gmail.com</td>
-                            <td>Male</td>
-                            <td><span class="cust-allergy-badge">Penicillin</span></td>
-                            <td>12</td>
-                            <td>2025-05-01</td>
-                            <td class="cust-col-actions">
-                                <div class="cust-row-actions">
-                                    <button type="button" class="cust-action-btn cust-action-btn--view"
-                                            onclick="Customers.openViewModal(this)" title="View Details">
-                                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--history"
-                                            onclick="Customers.openHistoryModal(this)" title="Purchase History">
-                                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--edit"
-                                            onclick="Customers.openEditModal(this)" title="Update">
-                                        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--delete"
-                                            onclick="Customers.openDeleteModal(this)" title="Delete">
-                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr data-id="2" data-name="Abena Mensah" data-code="CUS-002"
-                            data-phone="0200-300-400" data-email="abena@yahoo.com"
-                            data-gender="Female" data-dob="1992-07-22"
-                            data-allergies="" data-visits="8" data-last="2025-04-30"
-                            data-created="2024-02-10">
-                            <td>
-                                <div class="cust-name-cell">
-                                    <div class="cust-avatar cust-avatar--sm" style="background:#1565c0">AM</div>
-                                    <span class="cust-full-name">Abena Mensah</span>
-                                </div>
-                            </td>
-                            <td><span class="cust-code-badge">CUS-002</span></td>
-                            <td>0200-300-400</td>
-                            <td class="cust-email">abena@yahoo.com</td>
-                            <td>Female</td>
-                            <td><span class="cust-no-allergy">None</span></td>
-                            <td>8</td>
-                            <td>2025-04-30</td>
-                            <td class="cust-col-actions">
-                                <div class="cust-row-actions">
-                                    <button type="button" class="cust-action-btn cust-action-btn--view"
-                                            onclick="Customers.openViewModal(this)" title="View Details">
-                                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--history"
-                                            onclick="Customers.openHistoryModal(this)" title="Purchase History">
-                                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--edit"
-                                            onclick="Customers.openEditModal(this)" title="Update">
-                                        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--delete"
-                                            onclick="Customers.openDeleteModal(this)" title="Delete">
-                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr data-id="3" data-name="John Boateng" data-code="CUS-003"
-                            data-phone="0557-500-600" data-email="john.b@gmail.com"
-                            data-gender="Male" data-dob="1978-11-05"
-                            data-allergies="Sulfa" data-visits="20" data-last="2025-04-29"
-                            data-created="2024-01-20">
-                            <td>
-                                <div class="cust-name-cell">
-                                    <div class="cust-avatar cust-avatar--sm" style="background:#6a1b9a">JB</div>
-                                    <span class="cust-full-name">John Boateng</span>
-                                </div>
-                            </td>
-                            <td><span class="cust-code-badge">CUS-003</span></td>
-                            <td>0557-500-600</td>
-                            <td class="cust-email">john.b@gmail.com</td>
-                            <td>Male</td>
-                            <td><span class="cust-allergy-badge">Sulfa</span></td>
-                            <td>20</td>
-                            <td>2025-04-29</td>
-                            <td class="cust-col-actions">
-                                <div class="cust-row-actions">
-                                    <button type="button" class="cust-action-btn cust-action-btn--view"
-                                            onclick="Customers.openViewModal(this)" title="View Details">
-                                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--history"
-                                            onclick="Customers.openHistoryModal(this)" title="Purchase History">
-                                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--edit"
-                                            onclick="Customers.openEditModal(this)" title="Update">
-                                        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--delete"
-                                            onclick="Customers.openDeleteModal(this)" title="Delete">
-                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr data-id="4" data-name="Mary Osei" data-code="CUS-004"
-                            data-phone="0244-700-800" data-email="mary.o@gmail.com"
-                            data-gender="Female" data-dob="2000-01-30"
-                            data-allergies="" data-visits="3" data-last="2025-05-10"
-                            data-created="2024-03-05">
-                            <td>
-                                <div class="cust-name-cell">
-                                    <div class="cust-avatar cust-avatar--sm" style="background:#00695c">MO</div>
-                                    <span class="cust-full-name">Mary Osei</span>
-                                </div>
-                            </td>
-                            <td><span class="cust-code-badge">CUS-004</span></td>
-                            <td>0244-700-800</td>
-                            <td class="cust-email">mary.o@gmail.com</td>
-                            <td>Female</td>
-                            <td><span class="cust-no-allergy">None</span></td>
-                            <td>3</td>
-                            <td>2025-05-10</td>
-                            <td class="cust-col-actions">
-                                <div class="cust-row-actions">
-                                    <button type="button" class="cust-action-btn cust-action-btn--view"
-                                            onclick="Customers.openViewModal(this)" title="View Details">
-                                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--history"
-                                            onclick="Customers.openHistoryModal(this)" title="Purchase History">
-                                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--edit"
-                                            onclick="Customers.openEditModal(this)" title="Update">
-                                        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--delete"
-                                            onclick="Customers.openDeleteModal(this)" title="Delete">
-                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr data-id="5" data-name="Samuel Darko" data-code="CUS-005"
-                            data-phone="0200-900-100" data-email="sam.d@yahoo.com"
-                            data-gender="Male" data-dob="1965-06-18"
-                            data-allergies="" data-visits="15" data-last="2025-04-27"
-                            data-created="2023-12-01">
-                            <td>
-                                <div class="cust-name-cell">
-                                    <div class="cust-avatar cust-avatar--sm" style="background:#ad1457">SD</div>
-                                    <span class="cust-full-name">Samuel Darko</span>
-                                </div>
-                            </td>
-                            <td><span class="cust-code-badge">CUS-005</span></td>
-                            <td>0200-900-100</td>
-                            <td class="cust-email">sam.d@yahoo.com</td>
-                            <td>Male</td>
-                            <td><span class="cust-no-allergy">None</span></td>
-                            <td>15</td>
-                            <td>2025-04-27</td>
-                            <td class="cust-col-actions">
-                                <div class="cust-row-actions">
-                                    <button type="button" class="cust-action-btn cust-action-btn--view"
-                                            onclick="Customers.openViewModal(this)" title="View Details">
-                                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--history"
-                                            onclick="Customers.openHistoryModal(this)" title="Purchase History">
-                                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--edit"
-                                            onclick="Customers.openEditModal(this)" title="Update">
-                                        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="cust-action-btn cust-action-btn--delete"
-                                            onclick="Customers.openDeleteModal(this)" title="Delete">
-                                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <%-- ============================================================
+                             Customer rows removed during hardcoded-data cleanup.
+                             TODO: Bind customer rows from the database.
+                             Convert this <tbody> to an <asp:Repeater> (or GridView)
+                             that emits one <tr> per customer with the same markup and
+                             data-* attributes the static rows used, so customers.js
+                             (search/filter, view/edit/delete/history) keeps working:
+                               data-id, data-name, data-code, data-phone, data-email,
+                               data-gender, data-dob, data-allergies, data-visits,
+                               data-last, data-created
+                             ============================================================ --%>
 
                     </tbody>
                 </table>

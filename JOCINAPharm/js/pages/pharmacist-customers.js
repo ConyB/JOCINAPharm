@@ -2,8 +2,11 @@
  * ================================================================
  * PharmaSync — customers.js
  * Customers module: search, view toggle, modals.
- * 
- * DEBUG: Console logging enabled to diagnose modal issues
+ *
+ * NOTE: Diagnostic console logging is present for development; it is
+ *       inert and can be stripped before production. No sample/mock
+ *       customer data remains in this file — _data is populated from
+ *       the database during backend integration.
  * ================================================================
  */
 
@@ -395,35 +398,15 @@ PharmaSync.Customers = (function () {
 
 
     /* ==============================================================
-       PLACEHOLDER DATA
+       CUSTOMER DATA
+       TODO: Populate from the database (server-side render into the
+       cards/rows, or a fetch/PageMethod keyed by customer id). Each
+       entry should match the shape the populate functions below read:
+         { name, idGender, avatar, avatarClass, phone, email, address,
+           dob, registered, allergies, hasAllergy, notes, visits, spend,
+           lastVisit, status, gender }
        ============================================================== */
-    var _data = {
-        'CUS-001': { name:'Kwame Asante',  idGender:'CUS-001 \u2022 Male',   avatar:'KA', avatarClass:'cust-avatar--teal',
-                     phone:'0244-100-200', email:'kwame@gmail.com',      address:'Accra, Ghana',    dob:'1985-03-22',
-                     registered:'2024-08-15', allergies:'Penicillin, Sulfa drugs', hasAllergy:true,
-                     notes:'Hypertensive patient. Prefers morning dispensing.',
-                     visits:'12', spend:'UGX 340,000', lastVisit:'2025-05-01', status:'Active',   gender:'male'   },
-        'CUS-002': { name:'Abena Mensah',  idGender:'CUS-002 \u2022 Female', avatar:'AM', avatarClass:'cust-avatar--green',
-                     phone:'0200-300-400', email:'abena@yahoo.com',      address:'Kumasi, Ghana',   dob:'1992-07-15',
-                     registered:'2024-09-03', allergies:'None known',          hasAllergy:false,
-                     notes:'',
-                     visits:'8',  spend:'UGX 195,000', lastVisit:'2025-04-30', status:'Active',   gender:'female' },
-        'CUS-003': { name:'John Boateng',  idGender:'CUS-003 \u2022 Male',   avatar:'JB', avatarClass:'cust-avatar--blue',
-                     phone:'0557-500-600', email:'john.b@gmail.com',     address:'Takoradi, Ghana', dob:'1978-11-02',
-                     registered:'2024-06-20', allergies:'Aspirin',             hasAllergy:true,
-                     notes:'Diabetic. Requires counselling on every visit.',
-                     visits:'20', spend:'UGX 1,250,000',lastVisit:'2025-04-29', status:'Frequent', gender:'male'  },
-        'CUS-004': { name:'Ama Darko',     idGender:'CUS-004 \u2022 Female', avatar:'AD', avatarClass:'cust-avatar--purple',
-                     phone:'0244-700-800', email:'ama.d@gmail.com',      address:'Cape Coast, Ghana',dob:'2000-04-18',
-                     registered:'2025-05-01', allergies:'None',                hasAllergy:false,
-                     notes:'First-time patient.',
-                     visites:'2',  spend:'UGX 35,000',  lastVisit:'2025-05-03', status:'New',      gender:'female' },
-        'CUS-005': { name:'Kofi Mensah',   idGender:'CUS-005 \u2022 Male',   avatar:'KM', avatarClass:'cust-avatar--orange',
-                     phone:'0557-900-100', email:'kofi.m@outlook.com',   address:'Tema, Ghana',     dob:'1988-09-30',
-                     registered:'2024-11-12', allergies:'None',                hasAllergy:false,
-                     notes:'',
-                     visits:'6',  spend:'UGX 480,000', lastVisit:'2025-04-20', status:'Returning',gender:'male'   }
-    };
+    var _data = {};
 
 
     /* ==============================================================
@@ -463,7 +446,8 @@ PharmaSync.Customers = (function () {
         var n = document.getElementById('historyCustomerName');
         if (n) n.textContent = c.name + ' \u2022 ' + id;
         _setText('histTotalPurchases',c.spend); _setText('histTotalOrders',c.visits);
-        _setText('histAvgOrder','UGX 28,333');  _setText('histFreqMed','Amlodipine');
+        /* TODO: Load avg order value and most-purchased medicine from the database */
+        _setText('histAvgOrder','—');           _setText('histFreqMed','—');
     }
 
 

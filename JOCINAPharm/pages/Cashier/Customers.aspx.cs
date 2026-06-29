@@ -32,85 +32,17 @@ namespace JOCINAPharm.pages.Cashier
         }
         private void LoadCustomers()
         {
-            // TODO: Replace with actual database call, e.g.:
+            // TODO: Bind customer list from the database, e.g.:
             //   var customers = CustomerData.GetAll();
             //   rptCustomers.DataSource = customers;
-            //   lblCustomerCount.Text = customers.Count.ToString();
-            //   pnlNoRecords.Visible  = customers.Count == 0;
+            //   lblCustomerCount.Text  = customers.Count.ToString();
+            //   pnlNoRecords.Visible   = customers.Count == 0;
             //   rptCustomers.DataBind();
 
-            var data = GetSampleCustomers();
-            rptCustomers.DataSource = data;
-            lblCustomerCount.Text = data.Length.ToString();
-            pnlNoRecords.Visible = data.Length == 0;
+            rptCustomers.DataSource = null;
+            lblCustomerCount.Text = "0";
+            pnlNoRecords.Visible = true;
             rptCustomers.DataBind();
-        }
-
-        private dynamic[] GetSampleCustomers()
-        {
-            return new dynamic[]
-            {
-                new {
-                    customer_id   = 1,
-                    customer_code = "CUS-001",
-                    full_name     = "Kwame Asante",
-                    phone         = "0244-100-200",
-                    email         = "kwame@gmail.com",
-                    date_of_birth = (DateTime?)new DateTime(1985, 3, 12),
-                    gender        = "Male",
-                    known_allergies = "Penicillin",
-                    visit_count   = 12,
-                    last_visit    = (DateTime?)new DateTime(2025, 5, 1)
-                },
-                new {
-                    customer_id   = 2,
-                    customer_code = "CUS-002",
-                    full_name     = "Abena Mensah",
-                    phone         = "0200-300-400",
-                    email         = "abena@yahoo.com",
-                    date_of_birth = (DateTime?)new DateTime(1990, 7, 22),
-                    gender        = "Female",
-                    known_allergies = (string)null,
-                    visit_count   = 8,
-                    last_visit    = (DateTime?)new DateTime(2025, 4, 30)
-                },
-                new {
-                    customer_id   = 3,
-                    customer_code = "CUS-003",
-                    full_name     = "John Boateng",
-                    phone         = "0557-500-600",
-                    email         = "john.b@gmail.com",
-                    date_of_birth = (DateTime?)new DateTime(1978, 11, 5),
-                    gender        = "Male",
-                    known_allergies = "Aspirin",
-                    visit_count   = 20,
-                    last_visit    = (DateTime?)new DateTime(2025, 4, 29)
-                },
-                new {
-                    customer_id   = 4,
-                    customer_code = "CUS-004",
-                    full_name     = "Ama Owusu",
-                    phone         = "0501-700-800",
-                    email         = (string)null,
-                    date_of_birth = (DateTime?)null,
-                    gender        = "Female",
-                    known_allergies = (string)null,
-                    visit_count   = 3,
-                    last_visit    = (DateTime?)new DateTime(2025, 4, 15)
-                },
-                new {
-                    customer_id   = 5,
-                    customer_code = "CUS-005",
-                    full_name     = "Kofi Darkwah",
-                    phone         = "0244-900-100",
-                    email         = "kofi.d@outlook.com",
-                    date_of_birth = (DateTime?)new DateTime(1995, 1, 30),
-                    gender        = "Male",
-                    known_allergies = (string)null,
-                    visit_count   = 5,
-                    last_visit    = (DateTime?)new DateTime(2025, 4, 10)
-                },
-            };
         }
         protected void rptCustomers_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -176,19 +108,19 @@ namespace JOCINAPharm.pages.Cashier
         }
         private void LoadCustomerForEdit(int customerId)
         {
-            // TODO: Replace sample lookup with: var c = CustomerData.GetById(customerId);
-            var c = GetSampleCustomers().FirstOrDefault(x => x.customer_id == customerId);
-            if (c == null) return;
+            // TODO: Load the customer from the database and populate the Edit
+            // modal fields, e.g.:
+            //   var c = CustomerData.GetById(customerId);
+            //   if (c == null) return;
+            //   hdnEditCustomerId.Value     = c.customer_id.ToString();
+            //   txtEditFullName.Text        = c.full_name;
+            //   txtEditPhone.Text           = c.phone;
+            //   txtEditEmail.Text           = c.email ?? string.Empty;
+            //   txtEditDob.Text             = c.date_of_birth?.ToString("yyyy-MM-dd") ?? string.Empty;
+            //   ddlEditGender.SelectedValue = c.gender ?? string.Empty;
+            //   txtEditAllergies.Text       = c.known_allergies ?? string.Empty;
 
-            DateTime? dob = (DateTime?)c.date_of_birth;
-
-            hdnEditCustomerId.Value      = customerId.ToString();
-            txtEditFullName.Text         = c.full_name;
-            txtEditPhone.Text            = c.phone;
-            txtEditEmail.Text            = c.email ?? string.Empty;
-            txtEditDob.Text              = dob.HasValue ? dob.Value.ToString("yyyy-MM-dd") : string.Empty;
-            ddlEditGender.SelectedValue  = c.gender ?? string.Empty;
-            txtEditAllergies.Text        = c.known_allergies ?? string.Empty;
+            hdnEditCustomerId.Value = customerId.ToString();
         }
         private void ReopenModalIfRequired()
         {

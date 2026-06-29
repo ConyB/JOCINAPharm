@@ -95,8 +95,8 @@ window.Customers = (function () {
         if (email && !_isValidEmail(email)) { _shake('addEmail'); return; }
         if (dob   && _isFutureDate(dob))     { _shake('addDob');   return; }
 
-        /* TODO: wire to ASP.NET postback / AJAX */
-        PharmaSync.Toast.show('Customer "' + name + '" added successfully.', 'success');
+        /* TODO: Submit to the database (ASP.NET postback / AJAX), then
+                 reload the table and show a success toast on completion. */
         closeModal('modalAddCustomer');
     }
 
@@ -141,8 +141,8 @@ window.Customers = (function () {
         if (email && !_isValidEmail(email)) { _shake('editEmail'); return; }
         if (dob   && _isFutureDate(dob))     { _shake('editDob');   return; }
 
-        /* TODO: wire to ASP.NET postback / AJAX */
-        PharmaSync.Toast.show('Customer "' + name + '" updated successfully.', 'success');
+        /* TODO: Submit to the database (ASP.NET postback / AJAX), then
+                 reload the table and show a success toast on completion. */
         closeModal('modalEditCustomer');
     }
 
@@ -167,23 +167,11 @@ window.Customers = (function () {
     }
 
     function submitDelete() {
-        var name = _deleteRow ? (_deleteRow.dataset.name || 'Customer') : 'Customer';
-
-        /* Remove the row from the table (client-side preview) */
-        if (_deleteRow) {
-            _deleteRow.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            _deleteRow.style.opacity    = '0';
-            _deleteRow.style.transform  = 'translateX(16px)';
-            setTimeout(function () {
-                if (_deleteRow && _deleteRow.parentNode)
-                    _deleteRow.parentNode.removeChild(_deleteRow);
-                _updateCount();
-                _deleteRow = null;
-            }, 300);
-        }
-
-        /* TODO: wire to ASP.NET postback / AJAX */
-        PharmaSync.Toast.show('"' + name + '" deleted.', 'success');
+        /* TODO: Delete from the database (ASP.NET postback / AJAX), then
+                 reload the table and show a success toast on completion.
+                 The previous client-side row removal was a UI-only preview
+                 and has been removed so nothing is faked without a backend. */
+        _deleteRow = null;
         closeModal('modalDeleteCustomer');
     }
 

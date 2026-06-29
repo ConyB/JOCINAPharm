@@ -308,22 +308,18 @@ window.Customers = window.Customers || {};
 
         // Simulate async load — replace with actual fetch / PageMethod / UpdatePanel
         setTimeout(function () {
-            // ── SAMPLE DATA (UI preview only) ──────────────────
-            var sampleHistory = [
-                { invoice: 'INV-0041', date: '2025-05-01', items: 'Amoxicillin, Paracetamol', payment: 'Cash',      total: 'UGX 42.00', status: 'paid'    },
-                { invoice: 'INV-0038', date: '2025-04-20', items: 'Ibuprofen 400mg',           payment: 'MoMo',      total: 'UGX 15.50', status: 'paid'    },
-                { invoice: 'INV-0031', date: '2025-04-02', items: 'Vitamin C, Zinc Tablets',   payment: 'Cash',      total: 'UGX 28.00', status: 'paid'    },
-                { invoice: 'INV-0022', date: '2025-03-15', items: 'Metformin 500mg',            payment: 'Insurance', total: 'UGX 60.00', status: 'pending' },
-            ];
+            // TODO: Load purchase history for `customerId` from the database
+            //       (sales / sale_items) and populate `history` below.
+            var history = [];
 
-            if (sampleHistory.length === 0) {
+            if (history.length === 0) {
                 tbody.innerHTML = '';
                 if (table)      table.style.display      = 'none';
                 if (emptyState) emptyState.style.display = 'flex';
                 return;
             }
 
-            var rows = sampleHistory.map(function (row) {
+            var rows = history.map(function (row) {
                 var statusClass = 'cust-status-' + row.status;
                 return [
                     '<tr>',
