@@ -21,18 +21,10 @@ PharmaSync.Rx = (function () {
     /* ── DOM refs (populated in init) ─────────────────────── */
     var _dom = {};
 
-    /* ── Medicine catalogue (matches seed data; replace with AJAX
-           call to /api/medicines once backend is wired) ──────── */
-    var MEDICINES = [
-        { id: 1, code: 'MED-001', name: 'Paracetamol 500mg',   unit: 'Tabs' },
-        { id: 2, code: 'MED-002', name: 'Amoxicillin 500mg',   unit: 'Caps' },
-        { id: 3, code: 'MED-003', name: 'Ibuprofen 400mg',     unit: 'Tabs' },
-        { id: 4, code: 'MED-004', name: 'Metformin 850mg',     unit: 'Tabs' },
-        { id: 5, code: 'MED-005', name: 'Lisinopril 10mg',     unit: 'Tabs' },
-        { id: 6, code: 'MED-006', name: 'Omeprazole 20mg',     unit: 'Caps' },
-        { id: 7, code: 'MED-007', name: 'Atorvastatin 20mg',   unit: 'Tabs' },
-        { id: 8, code: 'MED-008', name: 'Ciprofloxacin 500mg', unit: 'Tabs' }
-    ];
+    /* ── Medicine catalogue ────────────────────────────────────
+           TODO: Load medicines dynamically from the backend
+           (e.g. AJAX call to /api/medicines) once it is wired. ── */
+    var MEDICINES = [];
 
     /* ── Today's date as YYYY-MM-DD for default date field ─── */
     function _todayISO() {

@@ -22,7 +22,8 @@
         <div class="page-header-left">
             <h2 class="page-section-title">Prescriptions</h2>
             <p class="page-section-sub" id="rxPendingSubtitle">
-                <asp:Literal ID="litPendingCount" runat="server" Text="2" /> pending dispensation
+<%-- TODO: Load value from database --%>
+                <asp:Literal ID="litPendingCount" runat="server" Text="0" /> pending dispensation
             </p>
         </div>
         <div class="page-header-actions">
@@ -112,7 +113,8 @@
                         <h3 class="ps-card-title">Prescription Records</h3>
                         <p class="ps-card-subtitle">
                             Showing
-                            <asp:Literal ID="litShowing" runat="server" Text="21" />
+                            <%-- TODO: Load value from database --%>
+                            <asp:Literal ID="litShowing" runat="server" Text="0" />
                             prescriptions
                         </p>
                     </div>
@@ -152,205 +154,9 @@
                             </thead>
                             <tbody id="rxTableBody">
 
-                                <%-- ── Placeholder rows (replace with GridView / Repeater bound to DB) ── --%>
-
-                                <tr class="rx-row" data-rxid="RX-0021" data-status="Pending" data-notes="" data-items='[{"name":"Amoxicillin 500mg","qty":10,"dosage":"Take 1 capsule every 8 hours"},{"name":"Paracetamol 500mg","qty":20,"dosage":"Take 1-2 tablets as needed"}]'>
-                                    <td class="rx-col-id">
-                                        <span class="rx-id-chip">RX-0021</span>
-                                    </td>
-                                    <td class="rx-col-patient">
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">KA</div>
-                                            <span class="rx-patient-name">Kwame Asante</span>
-                                        </div>
-                                    </td>
-                                    <td class="rx-col-doctor">Dr. Osei</td>
-                                    <td class="rx-col-meds">
-                                        <span class="rx-med-text">Amoxicillin 500mg x10, Paracetamol 500mg x20</span>
-                                    </td>
-                                    <td class="rx-col-date">2025-05-01</td>
-                                    <td class="rx-col-status">
-                                        <span class="ps-badge ps-badge-warning">
-                                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-btn-view"
-                                                title="View prescription"
-                                                data-rxid="RX-0021"
-                                                aria-label="View RX-0021">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr class="rx-row" data-rxid="RX-0020" data-status="Dispensed" data-notes="" data-items='[{"name":"Metformin 850mg","qty":30,"dosage":"Take 1 tablet with meals, twice daily"}]'>
-                                    <td class="rx-col-id">
-                                        <span class="rx-id-chip">RX-0020</span>
-                                    </td>
-                                    <td class="rx-col-patient">
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">AM</div>
-                                            <span class="rx-patient-name">Abena Mensah</span>
-                                        </div>
-                                    </td>
-                                    <td class="rx-col-doctor">Dr. Antwi</td>
-                                    <td class="rx-col-meds">
-                                        <span class="rx-med-text">Metformin 850mg x30</span>
-                                    </td>
-                                    <td class="rx-col-date">2025-04-30</td>
-                                    <td class="rx-col-status">
-                                        <span class="ps-badge ps-badge-success">
-                                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-                                            Dispensed
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-btn-view"
-                                                title="View prescription"
-                                                data-rxid="RX-0020"
-                                                aria-label="View RX-0020">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr class="rx-row" data-rxid="RX-0019" data-status="Dispensed" data-notes="" data-items='[{"name":"Lisinopril 10mg","qty":30,"dosage":"Take 1 tablet daily in the morning"},{"name":"Atorvastatin 20mg","qty":30,"dosage":"Take 1 tablet at night"}]'>
-                                    <td class="rx-col-id">
-                                        <span class="rx-id-chip">RX-0019</span>
-                                    </td>
-                                    <td class="rx-col-patient">
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">SD</div>
-                                            <span class="rx-patient-name">Samuel Darko</span>
-                                        </div>
-                                    </td>
-                                    <td class="rx-col-doctor">Dr. Asare</td>
-                                    <td class="rx-col-meds">
-                                        <span class="rx-med-text">Lisinopril 10mg x30, Atorvastatin 20mg x30</span>
-                                    </td>
-                                    <td class="rx-col-date">2025-04-29</td>
-                                    <td class="rx-col-status">
-                                        <span class="ps-badge ps-badge-success">
-                                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-                                            Dispensed
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-btn-view"
-                                                title="View prescription"
-                                                data-rxid="RX-0019"
-                                                aria-label="View RX-0019">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr class="rx-row" data-rxid="RX-0018" data-status="Pending" data-notes="" data-items='[{"name":"Omeprazole 20mg","qty":14,"dosage":"Take 1 capsule 30 minutes before breakfast"}]'>
-                                    <td class="rx-col-id">
-                                        <span class="rx-id-chip">RX-0018</span>
-                                    </td>
-                                    <td class="rx-col-patient">
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">MO</div>
-                                            <span class="rx-patient-name">Mary Osei</span>
-                                        </div>
-                                    </td>
-                                    <td class="rx-col-doctor">Dr. Mensah</td>
-                                    <td class="rx-col-meds">
-                                        <span class="rx-med-text">Omeprazole 20mg x14</span>
-                                    </td>
-                                    <td class="rx-col-date">2025-04-28</td>
-                                    <td class="rx-col-status">
-                                        <span class="ps-badge ps-badge-warning">
-                                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-btn-view"
-                                                title="View prescription"
-                                                data-rxid="RX-0018"
-                                                aria-label="View RX-0018">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr class="rx-row" data-rxid="RX-0017" data-status="Cancelled" data-notes="Patient did not collect." data-items='[{"name":"Amoxicillin 250mg","qty":21,"dosage":"Take 1 tablet every 8 hours for 7 days"},{"name":"Ibuprofen 400mg","qty":15,"dosage":"Take with food every 6-8 hours as needed"}]'>
-                                    <td class="rx-col-id">
-                                        <span class="rx-id-chip">RX-0017</span>
-                                    </td>
-                                    <td class="rx-col-patient">
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">JA</div>
-                                            <span class="rx-patient-name">James Acheampong</span>
-                                        </div>
-                                    </td>
-                                    <td class="rx-col-doctor">Dr. Boateng</td>
-                                    <td class="rx-col-meds">
-                                        <span class="rx-med-text">Amoxicillin 250mg x21, Ibuprofen 400mg x15</span>
-                                    </td>
-                                    <td class="rx-col-date">2025-04-27</td>
-                                    <td class="rx-col-status">
-                                        <span class="ps-badge ps-badge-danger">
-                                            <i class="fa-solid fa-ban" aria-hidden="true"></i>
-                                            Cancelled
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-btn-view"
-                                                title="View prescription"
-                                                data-rxid="RX-0017"
-                                                aria-label="View RX-0017">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr class="rx-row" data-rxid="RX-0016" data-status="Dispensed" data-notes="" data-items='[{"name":"Metformin 500mg","qty":60,"dosage":"Take 1 tablet twice daily with food"},{"name":"Amlodipine 5mg","qty":30,"dosage":"Take 1 tablet daily"}]'>
-                                    <td class="rx-col-id">
-                                        <span class="rx-id-chip">RX-0016</span>
-                                    </td>
-                                    <td class="rx-col-patient">
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">FA</div>
-                                            <span class="rx-patient-name">Fatima Abdullahi</span>
-                                        </div>
-                                    </td>
-                                    <td class="rx-col-doctor">Dr. Osei</td>
-                                    <td class="rx-col-meds">
-                                        <span class="rx-med-text">Metformin 500mg x60, Amlodipine 5mg x30</span>
-                                    </td>
-                                    <td class="rx-col-date">2025-04-26</td>
-                                    <td class="rx-col-status">
-                                        <span class="ps-badge ps-badge-success">
-                                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-                                            Dispensed
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-btn-view"
-                                                title="View prescription"
-                                                data-rxid="RX-0016"
-                                                aria-label="View RX-0016">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
+                                <%-- TODO: Bind rows from database (GridView / Repeater
+                                     bound to the prescriptions table). The previous
+                                     sample/placeholder rows have been removed. --%>
 
                             </tbody>
                         </table>
@@ -369,18 +175,17 @@
 
                 <%-- PAGINATION --%>
                 <div class="ps-pagination" id="rxPagination">
+                    <%-- Pagination text/buttons are rebuilt client-side by
+                         pharmacist-prescriptions.js (_renderPage) from the bound rows. --%>
                     <span class="ps-pagination-info">
-                        Showing <strong>1–6</strong> of <strong>21</strong> prescriptions
+                        Showing <strong>0</strong> of <strong>0</strong> prescriptions
                     </span>
                     <div class="ps-pagination-controls" role="navigation" aria-label="Prescription pagination">
                         <button class="ps-page-btn" id="rxPrevPage" title="Previous page" disabled aria-label="Previous page">
                             <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                         </button>
                         <button class="ps-page-btn active" aria-current="page" aria-label="Page 1">1</button>
-                        <button class="ps-page-btn" aria-label="Page 2">2</button>
-                        <button class="ps-page-btn" aria-label="Page 3">3</button>
-                        <button class="ps-page-btn" aria-label="Page 4">4</button>
-                        <button class="ps-page-btn" id="rxNextPage" title="Next page" aria-label="Next page">
+                        <button class="ps-page-btn" id="rxNextPage" title="Next page" disabled aria-label="Next page">
                             <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -619,7 +424,7 @@
                     <h4 class="ps-modal-title" id="modalViewRxTitle">
                         Prescription Details
                     </h4>
-                    <span class="rx-detail-id" id="viewRxId">RX-0021</span>
+                    <span class="rx-detail-id" id="viewRxId"><%-- populated by JS on open --%></span>
                 </div>
                 <div class="rx-detail-header-right">
                     <span class="ps-badge ps-badge-warning" id="viewRxStatusBadge">
@@ -646,7 +451,7 @@
                             <i class="fa-solid fa-user" aria-hidden="true"></i>
                             Patient
                         </span>
-                        <span class="rx-detail-meta-value" id="viewRxPatient">Kwame Asante</span>
+                        <span class="rx-detail-meta-value" id="viewRxPatient"><%-- populated by JS on open --%></span>
                     </div>
 
                     <div class="rx-detail-meta-card">
@@ -654,7 +459,7 @@
                             <i class="fa-solid fa-user-doctor" aria-hidden="true"></i>
                             Prescribing Doctor
                         </span>
-                        <span class="rx-detail-meta-value" id="viewRxDoctor">Dr. Osei</span>
+                        <span class="rx-detail-meta-value" id="viewRxDoctor"><%-- populated by JS on open --%></span>
                     </div>
 
                     <div class="rx-detail-meta-card">
@@ -662,7 +467,7 @@
                             <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                             Prescription Date
                         </span>
-                        <span class="rx-detail-meta-value" id="viewRxDate">2025-05-01</span>
+                        <span class="rx-detail-meta-value" id="viewRxDate"><%-- populated by JS on open --%></span>
                     </div>
 
                 </div>
@@ -674,15 +479,7 @@
                         Medicines Prescribed
                     </h5>
                     <div class="rx-detail-meds-list" id="viewRxMedsList">
-                        <%-- Populated by JS --%>
-                        <div class="rx-med-item">
-                            <span class="rx-med-name">Amoxicillin 500mg</span>
-                            <span class="rx-med-qty">x10</span>
-                        </div>
-                        <div class="rx-med-item">
-                            <span class="rx-med-name">Paracetamol 500mg</span>
-                            <span class="rx-med-qty">x20</span>
-                        </div>
+                        <%-- populated by JS on open --%>
                     </div>
                 </div>
 

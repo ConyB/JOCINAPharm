@@ -15,7 +15,8 @@ namespace JOCINAPharm.pages.Pharmacist
                 // Issue 9: compute the next Rx ID client-side via JS using this seed value.
                 // When DB is wired: replace with SELECT MAX(...) + 1 from prescriptions.
                 // The hidden span is read by pharmacist-prescriptions.js _generateNextRxId().
-                ViewState["NextRxSeed"] = 22; // seed = last known rx_id number + 1
+                // TODO: Load from database — SELECT MAX(rx_id number) + 1 FROM prescriptions.
+                ViewState["NextRxSeed"] = 1; // safe default seed until DB is wired
 
                 // Issue 2: seed placeholder for registered customer dropdown.
                 // When DB is wired: populate ddlRxCustomer from customers table here.

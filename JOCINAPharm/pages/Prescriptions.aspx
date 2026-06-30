@@ -32,7 +32,8 @@
                 </div>
             </div>
             <p class="kpi-card-value">
-                <asp:Label ID="lblTotalRx" runat="server" Text="21" />
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblTotalRx" runat="server" Text="0" />
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
@@ -51,7 +52,8 @@
                 </div>
             </div>
             <p class="kpi-card-value">
-                <asp:Label ID="lblPendingRx" runat="server" Text="2" />
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblPendingRx" runat="server" Text="0" />
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--flat">
@@ -70,7 +72,8 @@
                 </div>
             </div>
             <p class="kpi-card-value">
-                <asp:Label ID="lblDispensedRx" runat="server" Text="17" />
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblDispensedRx" runat="server" Text="0" />
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
@@ -89,7 +92,8 @@
                 </div>
             </div>
             <p class="kpi-card-value">
-                <asp:Label ID="lblCancelledRx" runat="server" Text="2" />
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblCancelledRx" runat="server" Text="0" />
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--down">
@@ -108,7 +112,8 @@
                 </div>
             </div>
             <p class="kpi-card-value">
-                <asp:Label ID="lblTodayRx" runat="server" Text="3" />
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblTodayRx" runat="server" Text="0" />
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
@@ -127,7 +132,8 @@
                 </div>
             </div>
             <p class="kpi-card-value">
-                <asp:Label ID="lblUniquePatientsRx" runat="server" Text="14" />
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblUniquePatientsRx" runat="server" Text="0" />
             </p>
             <div class="kpi-card-footer">
                 <span class="kpi-trend kpi-trend--up">
@@ -148,7 +154,8 @@
         <div class="page-header-left">
             <h1 class="page-section-title">Prescriptions</h1>
             <p class="page-section-sub" id="rxPendingSubtitle">
-                <asp:Label ID="lblPendingCount" runat="server" Text="2" /> pending dispensation
+<%-- TODO: Load value from database --%>
+                <asp:Label ID="lblPendingCount" runat="server" Text="0" /> pending dispensation
             </p>
         </div>
         <div class="page-header-actions">
@@ -237,7 +244,7 @@
             <div>
                 <h2 class="ps-card-title">Prescription Records</h2>
                 <p class="ps-card-subtitle">
-                    Showing <asp:Label ID="lblRowCount" runat="server" Text="21" /> records
+                    Showing <%-- TODO: Load value from database --%><asp:Label ID="lblRowCount" runat="server" Text="0" /> records
                 </p>
             </div>
             <div class="ps-card-header-actions">
@@ -278,200 +285,9 @@
                             </thead>
                             <tbody id="rxTableBody">
 
-                                <%-- ── SAMPLE / PLACEHOLDER ROWS ─────────────────────
-                                     Remove these and replace with Repeater / GridView
-                                     bound to your code-behind DataSource.
-                                     ─────────────────────────────────────────────── --%>
-
-                                <tr>
-                                    <td><span class="rx-id-badge">RX-0021</span></td>
-                                    <td>
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">KA</div>
-                                            <span class="rx-patient-name">Kwame Asante</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="rx-doctor">Dr. Osei</span></td>
-                                    <td class="rx-medicines-cell">
-                                        <span class="rx-med-pill">Amoxicillin 500mg x10</span>
-                                        <span class="rx-med-pill">Paracetamol 500mg x20</span>
-                                    </td>
-                                    <td><span class="rx-date">2025-05-01</span></td>
-                                    <td>
-                                        <span class="ps-badge ps-badge-warning rx-status-badge">
-                                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-action-view"
-                                                title="View prescription RX-0021"
-                                                data-rxid="RX-0021"
-                                                data-patient="Kwame Asante"
-                                                data-customer="CUS-001"
-                                                data-doctor="Dr. Osei"
-                                                data-date="2025-05-01"
-                                                data-status="Pending"
-                                                data-notes=""
-                                                aria-label="View RX-0021">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            <span>View</span>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="rx-id-badge">RX-0020</span></td>
-                                    <td>
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">AM</div>
-                                            <span class="rx-patient-name">Abena Mensah</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="rx-doctor">Dr. Antwi</span></td>
-                                    <td class="rx-medicines-cell">
-                                        <span class="rx-med-pill">Metformin 850mg x30</span>
-                                    </td>
-                                    <td><span class="rx-date">2025-04-30</span></td>
-                                    <td>
-                                        <span class="ps-badge ps-badge-success rx-status-badge">
-                                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-                                            Dispensed
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-action-view"
-                                                title="View prescription RX-0020"
-                                                data-rxid="RX-0020"
-                                                data-patient="Abena Mensah"
-                                                data-customer="CUS-002"
-                                                data-doctor="Dr. Antwi"
-                                                data-date="2025-04-30"
-                                                data-status="Dispensed"
-                                                data-notes=""
-                                                aria-label="View RX-0020">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            <span>View</span>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="rx-id-badge">RX-0019</span></td>
-                                    <td>
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">SD</div>
-                                            <span class="rx-patient-name">Samuel Darko</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="rx-doctor">Dr. Asare</span></td>
-                                    <td class="rx-medicines-cell">
-                                        <span class="rx-med-pill">Lisinopril 10mg x30</span>
-                                        <span class="rx-med-pill">Atorvastatin 20mg x30</span>
-                                    </td>
-                                    <td><span class="rx-date">2025-04-29</span></td>
-                                    <td>
-                                        <span class="ps-badge ps-badge-success rx-status-badge">
-                                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-                                            Dispensed
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-action-view"
-                                                title="View prescription RX-0019"
-                                                data-rxid="RX-0019"
-                                                data-patient="Samuel Darko"
-                                                data-customer="CUS-005"
-                                                data-doctor="Dr. Asare"
-                                                data-date="2025-04-29"
-                                                data-status="Dispensed"
-                                                data-notes=""
-                                                aria-label="View RX-0019">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            <span>View</span>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="rx-id-badge">RX-0018</span></td>
-                                    <td>
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">MO</div>
-                                            <span class="rx-patient-name">Mary Osei</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="rx-doctor">Dr. Mensah</span></td>
-                                    <td class="rx-medicines-cell">
-                                        <span class="rx-med-pill">Omeprazole 20mg x14</span>
-                                    </td>
-                                    <td><span class="rx-date">2025-04-28</span></td>
-                                    <td>
-                                        <span class="ps-badge ps-badge-warning rx-status-badge">
-                                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-action-view"
-                                                title="View prescription RX-0018"
-                                                data-rxid="RX-0018"
-                                                data-patient="Mary Osei"
-                                                data-customer="CUS-004"
-                                                data-doctor="Dr. Mensah"
-                                                data-date="2025-04-28"
-                                                data-status="Pending"
-                                                data-notes=""
-                                                aria-label="View RX-0018">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            <span>View</span>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="rx-id-badge">RX-0017</span></td>
-                                    <td>
-                                        <div class="rx-patient-cell">
-                                            <div class="rx-patient-avatar" aria-hidden="true">JB</div>
-                                            <span class="rx-patient-name">John Boateng</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="rx-doctor">Dr. Kwaku</span></td>
-                                    <td class="rx-medicines-cell">
-                                        <span class="rx-med-pill">Ciprofloxacin 500mg x10</span>
-                                        <span class="rx-med-pill">Ibuprofen 400mg x15</span>
-                                    </td>
-                                    <td><span class="rx-date">2025-04-27</span></td>
-                                    <td>
-                                        <span class="ps-badge rx-badge-cancelled rx-status-badge">
-                                            <i class="fa-solid fa-ban" aria-hidden="true"></i>
-                                            Cancelled
-                                        </span>
-                                    </td>
-                                    <td class="td-actions">
-                                        <button type="button"
-                                                class="rx-action-btn rx-action-view"
-                                                title="View prescription RX-0017"
-                                                data-rxid="RX-0017"
-                                                data-patient="John Boateng"
-                                                data-customer="CUS-003"
-                                                data-doctor="Dr. Kwaku"
-                                                data-date="2025-04-27"
-                                                data-status="Cancelled"
-                                                data-notes=""
-                                                aria-label="View RX-0017">
-                                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-                                            <span>View</span>
-                                        </button>
-                                    </td>
-                                </tr>
-
-                                <%-- /END PLACEHOLDER ROWS --%>
+                                <%-- TODO: Bind rows from database (Repeater / GridView
+                                     bound to the prescriptions table). The previous
+                                     sample/placeholder rows have been removed. --%>
 
                             </tbody>
                         </table>
@@ -486,19 +302,16 @@
         <%-- Pagination --%>
         <div class="ps-card-footer">
             <div class="ps-pagination rx-pagination">
+                <%-- TODO: Render pagination info/controls from database-backed paging --%>
                 <span class="ps-pagination-info">
-                    Showing <strong>1–5</strong> of <strong>21</strong> prescriptions
+                    Showing <strong>0</strong> of <strong>0</strong> prescriptions
                 </span>
                 <div class="ps-pagination-controls">
                     <button type="button" class="ps-page-btn" aria-label="Previous page" disabled>
                         <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
                     </button>
                     <button type="button" class="ps-page-btn ps-page-btn--active" aria-current="page">1</button>
-                    <button type="button" class="ps-page-btn">2</button>
-                    <button type="button" class="ps-page-btn">3</button>
-                    <span class="ps-page-ellipsis">…</span>
-                    <button type="button" class="ps-page-btn">5</button>
-                    <button type="button" class="ps-page-btn" aria-label="Next page">
+                    <button type="button" class="ps-page-btn" aria-label="Next page" disabled>
                         <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -582,12 +395,8 @@
                             ClientIDMode="Static"
                             CssClass="ps-form-control"
                             aria-label="Link to existing customer">
+                            <%-- TODO: Populate customer options from the customers table --%>
                             <asp:ListItem Value="">— Walk-in / not linked —</asp:ListItem>
-                            <asp:ListItem Value="1">CUS-001 — Kwame Asante</asp:ListItem>
-                            <asp:ListItem Value="2">CUS-002 — Abena Mensah</asp:ListItem>
-                            <asp:ListItem Value="3">CUS-003 — John Boateng</asp:ListItem>
-                            <asp:ListItem Value="4">CUS-004 — Mary Osei</asp:ListItem>
-                            <asp:ListItem Value="5">CUS-005 — Samuel Darko</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </div>
@@ -728,7 +537,7 @@
                 <h2 class="ps-modal-title" id="modalViewRxTitle">
                     <i class="fa-solid fa-receipt rx-modal-title-icon" aria-hidden="true"></i>
                     Prescription Details
-                    <span class="rx-modal-id-tag" id="viewRxIdTag">RX-0021</span>
+                    <span class="rx-modal-id-tag" id="viewRxIdTag"><%-- populated by JS on open --%></span>
                 </h2>
                 <button type="button"
                         class="ps-modal-close"
@@ -768,9 +577,9 @@
                         </h3>
                         <dl class="rx-detail-list">
                             <dt>Patient Name</dt>
-                            <dd id="viewPatientName">Kwame Asante</dd>
+                            <dd id="viewPatientName"><%-- populated by JS on open --%></dd>
                             <dt>Customer ID</dt>
-                            <dd id="viewCustomerId">CUS-001</dd>
+                            <dd id="viewCustomerId"><%-- populated by JS on open --%></dd>
                         </dl>
                     </div>
 
@@ -781,9 +590,9 @@
                         </h3>
                         <dl class="rx-detail-list">
                             <dt>Doctor</dt>
-                            <dd id="viewDoctor">Dr. Osei</dd>
+                            <dd id="viewDoctor"><%-- populated by JS on open --%></dd>
                             <dt>Prescription Date</dt>
-                            <dd id="viewPrescriptionDate">2025-05-01</dd>
+                            <dd id="viewPrescriptionDate"><%-- populated by JS on open --%></dd>
                         </dl>
                     </div>
 
@@ -793,14 +602,7 @@
                             Medicines Prescribed
                         </h3>
                         <div class="rx-medicines-detail" id="viewMedicines">
-                            <div class="rx-medicine-item">
-                                <span class="rx-medicine-name">Amoxicillin 500mg</span>
-                                <span class="rx-medicine-qty">x10 Caps</span>
-                            </div>
-                            <div class="rx-medicine-item">
-                                <span class="rx-medicine-name">Paracetamol 500mg</span>
-                                <span class="rx-medicine-qty">x20 Tabs</span>
-                            </div>
+                            <%-- populated by JS on open --%>
                         </div>
                     </div>
 
@@ -809,9 +611,7 @@
                             <i class="fa-solid fa-note-sticky" aria-hidden="true"></i>
                             Notes
                         </h3>
-                        <p class="rx-detail-notes" id="viewNotes">
-                            Take with food. Complete the full course of antibiotics.
-                        </p>
+                        <p class="rx-detail-notes" id="viewNotes"><%-- populated by JS on open --%></p>
                     </div>
 
                 </div>
@@ -880,7 +680,7 @@
                 <h2 class="ps-modal-title" id="modalEditRxTitle">
                     <i class="fa-solid fa-pen-to-square rx-modal-title-icon" aria-hidden="true"></i>
                     Edit Prescription
-                    <span class="rx-modal-id-tag" id="editRxIdTag">RX-0021</span>
+                    <span class="rx-modal-id-tag" id="editRxIdTag"><%-- populated by JS on open --%></span>
                 </h2>
                 <button type="button"
                         class="ps-modal-close"
@@ -931,12 +731,8 @@
                         <select id="ddlEditCustomer"
                                 class="ps-form-control"
                                 aria-label="Link to existing customer">
+                            <%-- TODO: Populate customer options from the customers table --%>
                             <option value="">— Walk-in / not linked —</option>
-                            <option value="1">CUS-001 — Kwame Asante</option>
-                            <option value="2">CUS-002 — Abena Mensah</option>
-                            <option value="3">CUS-003 — John Boateng</option>
-                            <option value="4">CUS-004 — Mary Osei</option>
-                            <option value="5">CUS-005 — Samuel Darko</option>
                         </select>
                     </div>
                 </div>
