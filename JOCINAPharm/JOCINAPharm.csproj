@@ -180,8 +180,11 @@
     <Compile Include="Security\AuthHelper.cs" />
     <Compile Include="Data\CustomerRepository.cs" />
     <Compile Include="Data\Db.cs" />
+    <Compile Include="Data\PrescriptionRepository.cs" />
     <Compile Include="Data\SupplierRepository.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Prescription.cs" />
+    <Compile Include="Models\PrescriptionItem.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

@@ -16,14 +16,17 @@ PharmaSync.Rx = (function () {
 
     /* ── Private state ─────────────────────────────────────── */
     var _currentRxId   = null;
+    var _currentRxPid  = null;   // server prescription_id of the open Rx
     var _editRxId      = null;
+    var _editRxPid     = null;   // server prescription_id being edited
 
     /* ── DOM refs (populated in init) ─────────────────────── */
     var _dom = {};
 
     /* ── Medicine catalogue ────────────────────────────────────
-           TODO: Load medicines dynamically from the backend
-           (e.g. AJAX call to /api/medicines) once it is wired. ── */
+           Populated server-side: the code-behind emits
+           window.__rxMedicines from the medicines table (see
+           BindMedicineCatalogue). Falls back to an empty list. ── */
     var MEDICINES = [];
 
     /* ── Today's date as YYYY-MM-DD for default date field ─── */
@@ -262,6 +265,7 @@ PharmaSync.Rx = (function () {
         // Pre-fill from data-* attributes on the view button
         var btn = document.querySelector('[data-rxid="' + _editRxId + '"]');
 
+        _editRxPid = btn ? (btn.getAttribute('data-pid') || '') : '';
         var patient  = btn ? (btn.getAttribute('data-patient')  || '') : '';
         var doctor   = btn ? (btn.getAttribute('data-doctor')   || '') : '';
         var date     = btn ? (btn.getAttribute('data-date')     || '') : '';
@@ -359,9 +363,33 @@ PharmaSync.Rx = (function () {
 
     function _onSaveEdit() {
         if (!validateEditForm()) return;
-        // TODO: POST to server with _editRxId + form values + _collectMedItems('rxEditMedRows')
-        PharmaSync.Toast.show('Prescription ' + _editRxId + ' updated successfully.', 'success');
-        _closeEditModal();
+
+        // Mirror the Edit-modal fields into the server hidden fields, then
+        // post back (BtnServerEditSave_Click → repository Update).
+        function _set(id, val) { var el = document.getElementById(id); if (el) el.value = val; }
+
+        _set('hfEditId',       _editRxPid || '');
+        _set('hfEditPatient',  (document.getElementById('txtEditPatientName') || {}).value || '');
+        _set('hfEditDoctor',   (document.getElementById('txtEditDoctor')      || {}).value || '');
+        _set('hfEditCustomer', (document.getElementById('ddlEditCustomer')    || {}).value || '');
+        _set('hfEditStatus',   (document.getElementById('ddlEditStatus')      || {}).value || '');
+        _set('hfEditDate',     (document.getElementById('txtEditDate')        || {}).value || '');
+        _set('hfEditNotes',    (document.getElementById('txtEditNotes')       || {}).value || '');
+        _set('hfEditItems',    JSON.stringify(_collectMedItems('rxEditMedRows')));
+
+        var btn = document.getElementById('btnServerEditSave');
+        if (btn) btn.click();   // LinkButton → __doPostBack → server Update
+    }
+
+    /* Delete the open prescription via server postback (Admin only). */
+    function _onDelete() {
+        if (!_currentRxId) return;
+        PharmaSync.Confirm.show(
+            'Delete prescription ' + _currentRxId + '? This cannot be undone.',
+            function () {
+                _triggerServerAction('btnServerDelete');
+            }
+        );
     }
 
 
@@ -462,6 +490,7 @@ PharmaSync.Rx = (function () {
 
         var btn = document.querySelector('[data-rxid="' + rxId + '"]');
         if (btn) {
+            _currentRxPid = btn.getAttribute('data-pid') || null;
             _setViewField('viewPatientName', btn.getAttribute('data-patient') || '—');
             _setViewField('viewCustomerId',  btn.getAttribute('data-customer') || '—');
             _setViewField('viewDoctor',      btn.getAttribute('data-doctor') || '—');
@@ -562,13 +591,21 @@ PharmaSync.Rx = (function () {
        Real logic is handled in code-behind via server-side postback.
        ================================================================ */
 
+    /** Set the hidden action id and click a server LinkButton to post back. */
+    function _triggerServerAction(buttonId) {
+        var hf = document.getElementById('hfActionId');
+        if (hf) hf.value = _currentRxPid || '';
+        var btn = document.getElementById(buttonId);
+        if (btn) btn.click();   // LinkButton → __doPostBack → server handler
+    }
+
     function _onDispense() {
         if (!_currentRxId) return;
         PharmaSync.Confirm.show(
             'Mark prescription ' + _currentRxId + ' as Dispensed?',
             function () {
-                PharmaSync.Toast.show('Marked as Dispensed: ' + _currentRxId, 'success');
-                _closeViewModal();
+                // Persist via server postback (BtnServerDispense_Click → SetStatus).
+                _triggerServerAction('btnServerDispense');
             }
         );
     }
@@ -578,8 +615,8 @@ PharmaSync.Rx = (function () {
         PharmaSync.Confirm.show(
             'Cancel prescription ' + _currentRxId + '? This cannot be undone.',
             function () {
-                PharmaSync.Toast.show('Prescription cancelled: ' + _currentRxId, 'error');
-                _closeViewModal();
+                // Persist via server postback (BtnServerCancel_Click → SetStatus).
+                _triggerServerAction('btnServerCancel');
             }
         );
     }
@@ -702,6 +739,11 @@ PharmaSync.Rx = (function () {
 
     function init() {
 
+        /* -- Load the server-provided medicine catalogue ------------- */
+        if (window.__rxMedicines && window.__rxMedicines.length) {
+            MEDICINES = window.__rxMedicines;
+        }
+
         /* -- Add Prescription button --------------------------------- */
         var btnOpen = document.getElementById('btnOpenAddRx');
         if (btnOpen) {
@@ -734,6 +776,11 @@ PharmaSync.Rx = (function () {
         var btnCancelRx = document.getElementById('btnCancelRx');
         if (btnCancelRx) {
             btnCancelRx.addEventListener('click', _onCancel);
+        }
+
+        var btnDeleteRx = document.getElementById('btnDeleteRx');
+        if (btnDeleteRx) {
+            btnDeleteRx.addEventListener('click', _onDelete);
         }
 
         var btnPrintRx = document.getElementById('btnPrintRx');

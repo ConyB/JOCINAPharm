@@ -694,3 +694,40 @@ IF NOT EXISTS (SELECT 1 FROM sys.indexes
                  AND object_id = OBJECT_ID('dbo.customers'))
     CREATE INDEX idx_customers_active_name ON dbo.customers(is_active, full_name);
 GO
+
+-- ============================================================
+-- MIGRATION (Phase 4 — Prescriptions backend)
+-- Additive, idempotent. Adds a soft-delete flag to prescriptions
+-- (aligning it with the customers / medicines / users / suppliers
+-- is_active convention) and FK-supporting indexes used by the
+-- PrescriptionRepository read/filter paths. No columns are renamed;
+-- all existing FKs, constraints, indexes and triggers are preserved.
+-- ============================================================
+
+-- Soft-delete flag — required by PrescriptionRepository.SoftDelete()
+-- and the WHERE is_active = 1 guard on every read/update query.
+IF NOT EXISTS (SELECT 1 FROM sys.columns
+               WHERE object_id = OBJECT_ID('dbo.prescriptions') AND name = 'is_active')
+    ALTER TABLE dbo.prescriptions
+        ADD is_active BIT NOT NULL CONSTRAINT df_prescriptions_is_active DEFAULT 1;
+GO
+
+-- Index the customer FK (filter-by-patient + customer joins).
+IF NOT EXISTS (SELECT 1 FROM sys.indexes
+               WHERE name = 'idx_prescriptions_customer'
+                 AND object_id = OBJECT_ID('dbo.prescriptions'))
+    CREATE INDEX idx_prescriptions_customer ON dbo.prescriptions(customer_id);
+GO
+
+-- Index the line-item FKs (GetItems lookup + medicine joins).
+IF NOT EXISTS (SELECT 1 FROM sys.indexes
+               WHERE name = 'idx_rx_items_prescription'
+                 AND object_id = OBJECT_ID('dbo.prescription_items'))
+    CREATE INDEX idx_rx_items_prescription ON dbo.prescription_items(prescription_id);
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes
+               WHERE name = 'idx_rx_items_medicine'
+                 AND object_id = OBJECT_ID('dbo.prescription_items'))
+    CREATE INDEX idx_rx_items_medicine ON dbo.prescription_items(medicine_id);
+GO

@@ -163,6 +163,12 @@
     outline-offset: 2px;
 }
 
+/* Center the View action within the Actions column
+   (overrides the shared .ps-table td.td-actions right-align) */
+.ps-table.rx-table td.td-actions {
+    text-align: center;
+}
+
 
 /* ================================================================
    3. NEW PRESCRIPTION MODAL

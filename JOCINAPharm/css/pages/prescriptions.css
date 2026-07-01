@@ -279,6 +279,12 @@
     transform: scale(0.96);
 }
 
+/* Center the View action within the Actions column
+   (overrides the shared .ps-table td.td-actions right-align) */
+.ps-table.rx-table td.td-actions {
+    text-align: center;
+}
+
 
 /* ================================================================
    5. PAGINATION

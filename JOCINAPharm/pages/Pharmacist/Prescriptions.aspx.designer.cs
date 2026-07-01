@@ -140,5 +140,26 @@ namespace JOCINAPharm.pages.Pharmacist
         /// hfMedicineItems control — JSON-serialised prescription line items.
         /// </summary>
         protected global::System.Web.UI.WebControls.HiddenField hfMedicineItems;
+
+        /// <summary>rptRx control — prescriptions grid.</summary>
+        protected global::System.Web.UI.WebControls.Repeater rptRx;
+
+        /// <summary>hfActionId control — status-change target id.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfActionId;
+
+        /// <summary>hfEditId control — edit target id.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditId;
+
+        /// <summary>btnServerCreate control.</summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerCreate;
+
+        /// <summary>btnServerEditSave control.</summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerEditSave;
+
+        /// <summary>btnServerDispense control.</summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerDispense;
+
+        /// <summary>btnServerCancel control.</summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerCancel;
     }
 }

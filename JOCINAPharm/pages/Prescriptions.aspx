@@ -285,9 +285,41 @@
                             </thead>
                             <tbody id="rxTableBody">
 
-                                <%-- TODO: Bind rows from database (Repeater / GridView
-                                     bound to the prescriptions table). The previous
-                                     sample/placeholder rows have been removed. --%>
+                                <%-- Rows bound from the prescriptions table via the
+                                     PrescriptionRepository (code-behind BindGrid). --%>
+                                <asp:Repeater ID="rptRx" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td><span class="rx-id-badge"><%# Enc(Eval("rx_id")) %></span></td>
+                                            <td>
+                                                <div class="rx-patient-cell">
+                                                    <div class="rx-patient-avatar" aria-hidden="true"><%# Enc(Initials(Eval("patient_name"))) %></div>
+                                                    <span class="rx-patient-name"><%# Enc(Eval("patient_name")) %></span>
+                                                </div>
+                                            </td>
+                                            <td><span class="rx-doctor"><%# Enc(Eval("doctor")) %></span></td>
+                                            <td class="rx-medicines-cell"><%# MedPillsHtml(Eval("medicines_text")) %></td>
+                                            <td><span class="rx-date"><%# FormatDate(Eval("prescription_date")) %></span></td>
+                                            <td><%# StatusBadgeHtml(Eval("status")) %></td>
+                                            <td class="td-actions">
+                                                <button type="button"
+                                                        class="rx-action-btn rx-action-view"
+                                                        title="View prescription"
+                                                        data-pid="<%# Eval("prescription_id") %>"
+                                                        data-rxid="<%# Enc(Eval("rx_id")) %>"
+                                                        data-patient="<%# Enc(Eval("patient_name")) %>"
+                                                        data-customer=""
+                                                        data-doctor="<%# Enc(Eval("doctor")) %>"
+                                                        data-date="<%# FormatDate(Eval("prescription_date")) %>"
+                                                        data-status="<%# Enc(Eval("status")) %>"
+                                                        data-notes="<%# Enc(Eval("notes")) %>">
+                                                    <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                                    <span>View</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
 
                             </tbody>
                         </table>
@@ -652,6 +684,13 @@
                         <i class="fa-solid fa-ban" aria-hidden="true"></i>
                         Cancel
                     </button>
+                    <button type="button"
+                            class="ps-btn ps-btn-danger ps-btn-sm"
+                            id="btnDeleteRx"
+                            title="Delete this prescription">
+                        <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                        Delete
+                    </button>
                 </div>
             </div>
 
@@ -832,16 +871,34 @@
 
 
     <%-- ============================================================
-         JS-ONLY STATUS ACTION WIRING
-         Plain hidden inputs + invisible buttons — no server postback.
-         JS reads/writes these and clicks btnServerDispense/Cancel
-         after the user confirms the action dialog.
+         SERVER ACTION WIRING
+         Hidden field carries the target prescription_id; JS sets it and
+         clicks the matching hidden LinkButton after the user confirms the
+         action dialog, triggering a server postback (SetStatus / SoftDelete).
+         Wrapped in a display:none container (no CSS file change).
          ============================================================ --%>
-    <input type="hidden" id="hdnActionRxId" value="" />
-    <input type="hidden" id="hdnActionType" value="" />
+    <div style="display:none" aria-hidden="true">
+        <asp:HiddenField ID="hfActionId" runat="server" ClientIDMode="Static" />
+        <asp:LinkButton ID="btnServerDispense" runat="server"
+            ClientIDMode="Static" OnClick="BtnServerDispense_Click">Dispense</asp:LinkButton>
+        <asp:LinkButton ID="btnServerCancel" runat="server"
+            ClientIDMode="Static" OnClick="BtnServerCancel_Click">Cancel</asp:LinkButton>
+        <asp:LinkButton ID="btnServerDelete" runat="server"
+            ClientIDMode="Static" OnClick="BtnServerDelete_Click">Delete</asp:LinkButton>
 
-    <button type="button" id="btnServerDispense" style="display:none" aria-hidden="true"></button>
-    <button type="button" id="btnServerCancel"   style="display:none" aria-hidden="true"></button>
+        <%-- Edit save: JS mirrors the Edit-modal fields into these hidden
+             fields then clicks btnServerEditSave to post back (Update). --%>
+        <asp:HiddenField ID="hfEditId"       runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditPatient"  runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditDoctor"   runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditCustomer" runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditStatus"   runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditDate"     runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditNotes"    runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hfEditItems"    runat="server" ClientIDMode="Static" />
+        <asp:LinkButton ID="btnServerEditSave" runat="server"
+            ClientIDMode="Static" OnClick="BtnServerEditSave_Click">EditSave</asp:LinkButton>
+    </div>
 
 </asp:Content>
 <%-- /MainContent --%>

@@ -105,6 +105,15 @@ namespace JOCINAPharm.pages
         protected global::System.Web.UI.UpdatePanel upRxTable;
 
         /// <summary>
+        /// rptRx control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptRx;
+
+        /// <summary>
         /// txtAddPatientName control.
         /// </summary>
         /// <remarks>
@@ -175,5 +184,68 @@ namespace JOCINAPharm.pages
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnSaveAddRx;
+
+        /// <summary>
+        /// hfActionId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfActionId;
+
+        /// <summary>
+        /// btnServerDispense control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerDispense;
+
+        /// <summary>
+        /// btnServerCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerCancel;
+
+        /// <summary>
+        /// btnServerDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerDelete;
+
+        /// <summary>hfEditId control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditId;
+
+        /// <summary>hfEditPatient control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditPatient;
+
+        /// <summary>hfEditDoctor control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditDoctor;
+
+        /// <summary>hfEditCustomer control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditCustomer;
+
+        /// <summary>hfEditStatus control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditStatus;
+
+        /// <summary>hfEditDate control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditDate;
+
+        /// <summary>hfEditNotes control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditNotes;
+
+        /// <summary>hfEditItems control.</summary>
+        protected global::System.Web.UI.WebControls.HiddenField hfEditItems;
+
+        /// <summary>btnServerEditSave control.</summary>
+        protected global::System.Web.UI.WebControls.LinkButton btnServerEditSave;
     }
 }

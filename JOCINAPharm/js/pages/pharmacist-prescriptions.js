@@ -43,6 +43,9 @@ PharmaSync.Prescriptions = (function () {
     /* ── Master data (populated from table rows on init) ─────────── */
     var _allRows = [];
 
+    /* ── Server prescription_id of the currently open Rx ──────────── */
+    var _currentPid = null;
+
 
     /* ==============================================================
        INITIALISATION
@@ -477,6 +480,7 @@ PharmaSync.Prescriptions = (function () {
         }
         if (_dom.btnSubmitNew) {
             delete _dom.btnSubmitNew.dataset.editRxid;
+            delete _dom.btnSubmitNew.dataset.editPid;
             _dom.btnSubmitNew.innerHTML =
                 '<i class="fa-solid fa-plus" aria-hidden="true"></i> Add Prescription';
         }
@@ -537,12 +541,18 @@ PharmaSync.Prescriptions = (function () {
                 .join(', ');
         }
 
-        /* ── Replace with actual ASP.NET server-side postback / AJAX call ── */
-        /* Simulate success for UI preview */
-        _closeNewModal();
-        PharmaSync.Toast.show('Prescription added successfully.', 'success');
-
-        /* In production: trigger __doPostBack() or UpdatePanel trigger here */
+        /* Persist via server postback: Update when editing, else Insert.
+           The server rebinds the grid + shows a toast and closes the modal. */
+        var editPid = _dom.btnSubmitNew ? _dom.btnSubmitNew.dataset.editPid : '';
+        if (editPid) {
+            var hfe = document.getElementById('hfEditId');
+            if (hfe) hfe.value = editPid;
+            var btnEdit = document.getElementById('btnServerEditSave');
+            if (btnEdit) btnEdit.click();
+        } else {
+            var btnCreate = document.getElementById('btnServerCreate');
+            if (btnCreate) btnCreate.click();
+        }
     }
 
 
@@ -616,6 +626,9 @@ PharmaSync.Prescriptions = (function () {
         /* Find row data */
         var row = _allRows.find(function (r) { return r.rxid === rxid.toLowerCase(); });
         if (!row) return;
+
+        /* Remember the server id for status/edit postbacks */
+        _currentPid = row.el.dataset.pid || null;
 
         /* Populate modal fields */
         var statusRaw = row.status; /* 'pending' | 'dispensed' | 'cancelled' */
@@ -714,6 +727,14 @@ PharmaSync.Prescriptions = (function () {
         document.body.classList.remove('modal-open');
     }
 
+    /* Set the hidden action id and click a server LinkButton to post back. */
+    function _triggerServerAction(buttonId) {
+        var hf = document.getElementById('hfActionId');
+        if (hf) hf.value = _currentPid || '';
+        var btn = document.getElementById(buttonId);
+        if (btn) btn.click();   // LinkButton → __doPostBack → server handler
+    }
+
     function _updateTimeline(status) {
         if (!_dom.viewRxTimeline) return;
 
@@ -761,23 +782,8 @@ PharmaSync.Prescriptions = (function () {
             PharmaSync.Confirm.show(
                 'Mark prescription ' + rxid + ' as dispensed?',
                 function () {
-                    /* ── Replace with actual postback / AJAX ── */
-                    /* Update the row in our snapshot */
-                    var row = _allRows.find(function (r) {
-                        return r.el.dataset.rxid === rxid;
-                    });
-                    if (row) {
-                        row.status = 'dispensed';
-                        row.el.dataset.status = 'Dispensed';
-                        var badgeEl = row.el.querySelector('.ps-badge');
-                        if (badgeEl) {
-                            badgeEl.className = 'ps-badge ps-badge-success';
-                            badgeEl.innerHTML =
-                                '<i class="fa-solid fa-circle-check" aria-hidden="true"></i> Dispensed';
-                        }
-                    }
-                    _closeViewModal();
-                    PharmaSync.Toast.show(rxid + ' marked as dispensed.', 'success');
+                    /* Persist via server postback (BtnServerDispense_Click → SetStatus). */
+                    _triggerServerAction('btnServerDispense');
                 }
             );
         });
@@ -958,9 +964,10 @@ PharmaSync.Prescriptions = (function () {
                     ' Edit Prescription';
             }
 
-            /* Switch submit button to Save Changes, store the target rx_id */
+            /* Switch submit button to Save Changes, store the target rx_id + pid */
             if (_dom.btnSubmitNew) {
                 _dom.btnSubmitNew.dataset.editRxid = rxid;
+                _dom.btnSubmitNew.dataset.editPid = row.el.dataset.pid || '';
                 _dom.btnSubmitNew.innerHTML =
                     '<i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Changes';
             }
@@ -1020,22 +1027,8 @@ PharmaSync.Prescriptions = (function () {
             PharmaSync.Confirm.show(
                 'Cancel prescription ' + rxid + '? This cannot be undone.',
                 function () {
-                    /* ── Replace with actual postback / AJAX ── */
-                    var row = _allRows.find(function (r) {
-                        return r.el.dataset.rxid === rxid;
-                    });
-                    if (row) {
-                        row.status = 'cancelled';
-                        row.el.dataset.status = 'Cancelled';
-                        var badgeEl = row.el.querySelector('.ps-badge');
-                        if (badgeEl) {
-                            badgeEl.className = 'ps-badge ps-badge-danger';
-                            badgeEl.innerHTML =
-                                '<i class="fa-solid fa-ban" aria-hidden="true"></i> Cancelled';
-                        }
-                    }
-                    _closeViewModal();
-                    PharmaSync.Toast.show(rxid + ' has been cancelled.', 'warning');
+                    /* Persist via server postback (BtnServerCancel_Click → SetStatus). */
+                    _triggerServerAction('btnServerCancel');
                 }
             );
         });
