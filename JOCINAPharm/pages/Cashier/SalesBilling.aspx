@@ -62,51 +62,11 @@
                 <%-- Medicine grid --%>
                 <div class="pos-medicine-grid" id="medicineGrid">
 
-                    <%-- Sample medicine tiles (replaced by data-bound repeater in backend) --%>
-                    <%-- Each tile: data-medicine-id, data-name, data-price, data-stock, data-status --%>
-                    <div class="pos-med-tile" data-medicine-id="1" data-name="Paracetamol 500mg" data-price="3.00" data-stock="450" data-status="In Stock" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Paracetamol 500mg</span>
-                        <span class="pos-med-price">UGX 3.00</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="2" data-name="Amoxicillin 500mg" data-price="13.00" data-stock="12" data-status="Low" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Amoxicillin 500mg</span>
-                        <span class="pos-med-price">UGX 13.00</span>
-                        <span class="pos-med-stock-badge pos-stock-low">Low Stock</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="3" data-name="Ibuprofen 400mg" data-price="4.00" data-stock="200" data-status="In Stock" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Ibuprofen 400mg</span>
-                        <span class="pos-med-price">UGX 4.00</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="4" data-name="Metformin 850mg" data-price="10.00" data-stock="8" data-status="Critical" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Metformin 850mg</span>
-                        <span class="pos-med-price">UGX 10.00</span>
-                        <span class="pos-med-stock-badge pos-stock-critical">Critical</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="5" data-name="Lisinopril 10mg" data-price="12.00" data-stock="5" data-status="Critical" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Lisinopril 10mg</span>
-                        <span class="pos-med-price">UGX 12.00</span>
-                        <span class="pos-med-stock-badge pos-stock-critical">Critical</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="6" data-name="Omeprazole 20mg" data-price="8.00" data-stock="120" data-status="In Stock" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Omeprazole 20mg</span>
-                        <span class="pos-med-price">UGX 8.00</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="7" data-name="Atorvastatin 20mg" data-price="14.00" data-stock="15" data-status="Low" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Atorvastatin 20mg</span>
-                        <span class="pos-med-price">UGX 14.00</span>
-                        <span class="pos-med-stock-badge pos-stock-low">Low Stock</span>
-                    </div>
-
-                    <div class="pos-med-tile" data-medicine-id="8" data-name="Ciprofloxacin 500mg" data-price="18.00" data-stock="80" data-status="In Stock" onclick="SalesPOS.addToCart(this)">
-                        <span class="pos-med-name">Ciprofloxacin 500mg</span>
-                        <span class="pos-med-price">UGX 18.00</span>
-                    </div>
+                    <%-- TODO: Render medicine tiles from database (medicines table)
+                         via a data-bound Repeater. Each tile requires:
+                         data-medicine-id, data-name, data-price, data-stock,
+                         data-status, plus a pos-stock-low / pos-stock-critical
+                         badge based on stock_quantity vs. reorder thresholds. --%>
 
                     <%-- Empty state (shown when search returns nothing) --%>
                     <div class="pos-medicine-empty" id="medicineEmptyState" style="display:none;">
@@ -152,66 +112,13 @@
                             </tr>
                         </thead>
                         <tbody id="todaysSalesTbody">
-                            <%-- Sample rows — replaced by GridView/Repeater in backend --%>
-                            <tr>
-                                <td><span class="pos-inv-code">INV-0041</span></td>
-                                <td>Kwame Asante</td>
-                                <td class="text-center">3</td>
-                                <td class="text-right"><strong>UGX 120.50</strong></td>
-                                <td class="pos-time-cell">09:12 AM</td>
-                                <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
-                                <td><span class="ps-badge ps-badge-success">paid</span></td>
-                                <td class="td-actions">
-                                    <button type="button" class="ps-tbl-action-btn" title="View Receipt" onclick="SalesPOS.viewReceipt('INV-0041')">
-                                        <i class="fa-solid fa-receipt"></i>
-                                    </button>
-                                    <button type="button" class="ps-tbl-action-btn" title="Print" onclick="SalesPOS.printInvoice('INV-0041')">
-                                        <i class="fa-solid fa-print"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-inv-code">INV-0040</span></td>
-                                <td>Abena Mensah</td>
-                                <td class="text-center">1</td>
-                                <td class="text-right"><strong>UGX 45.00</strong></td>
-                                <td class="pos-time-cell">08:54 AM</td>
-                                <td><span class="sb-pay-method sb-pay-method--momo">MoMo</span></td>
-                                <td><span class="ps-badge ps-badge-success">paid</span></td>
-                                <td class="td-actions">
-                                    <button type="button" class="ps-tbl-action-btn" title="View Receipt" onclick="SalesPOS.viewReceipt('INV-0040')">
-                                        <i class="fa-solid fa-receipt"></i>
-                                    </button>
-                                    <button type="button" class="ps-tbl-action-btn" title="Print" onclick="SalesPOS.printInvoice('INV-0040')">
-                                        <i class="fa-solid fa-print"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="pos-inv-code">INV-0039</span></td>
-                                <td>John Boateng</td>
-                                <td class="text-center">5</td>
-                                <td class="text-right"><strong>UGX 320.00</strong></td>
-                                <td class="pos-time-cell">08:18 AM</td>
-                                <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
-                                <td><span class="ps-badge ps-badge-warning">pending</span></td>
-                                <td class="td-actions">
-                                    <button type="button" class="ps-tbl-action-btn ps-tbl-action-btn--primary" title="Complete Payment" onclick="SalesPOS.completePayment('INV-0039')">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </button>
-                                    <button type="button" class="ps-tbl-action-btn" title="View Receipt" onclick="SalesPOS.viewReceipt('INV-0039')">
-                                        <i class="fa-solid fa-receipt"></i>
-                                    </button>
-                                    <button type="button" class="ps-tbl-action-btn ps-tbl-action-btn--danger" title="Cancel Sale" onclick="SalesPOS.cancelSale('INV-0039')">
-                                        <i class="fa-solid fa-ban"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <%-- TODO: Render today's sales rows from database (sales table)
+                                 via a data-bound GridView/Repeater. --%>
                         </tbody>
                     </table>
 
-                    <%-- Empty state --%>
-                    <div class="ps-empty" id="noSalesState" style="display:none;">
+                    <%-- Empty state — shown until sales rows are bound from the database --%>
+                    <div class="ps-empty" id="noSalesState">
                         <div class="ps-empty-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                         <p class="ps-empty-title">No sales today yet</p>
                         <p class="ps-empty-text">Complete a transaction to see it here.</p>
@@ -453,25 +360,27 @@
                         </div>
                         <h2 class="pos-receipt-pharmacy-name">PharmaSync</h2>
                         <p class="pos-receipt-pharmacy-tagline">Management System</p>
-                        <p class="pos-receipt-pharmacy-info">Tel: 0244-000-000 | Accra, Ghana</p>
+                        <%-- TODO: Load pharmacy contact details from configuration/database --%>
+                        <p class="pos-receipt-pharmacy-info"></p>
                     </div>
 
                     <%-- Receipt meta --%>
+                    <%-- Receipt meta populated by SalesPOS._populateReceiptModal() --%>
                     <div class="pos-receipt-meta">
                         <div class="pos-receipt-meta-row">
-                            <span>Invoice:</span><span id="rcptInvoiceNo">INV-0041</span>
+                            <span>Invoice:</span><span id="rcptInvoiceNo">—</span>
                         </div>
                         <div class="pos-receipt-meta-row">
-                            <span>Date:</span><span id="rcptDate">27/05/2026</span>
+                            <span>Date:</span><span id="rcptDate">—</span>
                         </div>
                         <div class="pos-receipt-meta-row">
-                            <span>Time:</span><span id="rcptTime">09:12 AM</span>
+                            <span>Time:</span><span id="rcptTime">—</span>
                         </div>
                         <div class="pos-receipt-meta-row">
-                            <span>Customer:</span><span id="rcptCustomer">Walk-in Customer</span>
+                            <span>Customer:</span><span id="rcptCustomer">—</span>
                         </div>
                         <div class="pos-receipt-meta-row">
-                            <span>Cashier:</span><span id="rcptCashier">AD</span>
+                            <span>Cashier:</span><span id="rcptCashier">—</span>
                         </div>
                     </div>
 

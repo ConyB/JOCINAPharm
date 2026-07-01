@@ -22,56 +22,13 @@ window.SB = window.SB || {};
     var _cart        = [];          // { id, code, name, price, qty, stock, unit }
     var _invoiceNum  = null;        // currently-viewed invoice number
     var _lastInvoice = null;        // last processed sale object (for print)
-    var _nextInvNum  = 42;          // simulated next invoice counter (INV-0042…)
+    // TODO: Replace this client-side counter with a server-generated invoice
+    //       number (MAX(invoice_number)+1) once the database is connected.
+    var _nextInvNum  = 1;           // next invoice counter (INV-0001…)
 
-    /* Demo invoice data (mirrors DB seed rows for INV-0039–0041) */
-    var _demoInvoices = {
-        'INV-0041': {
-            invoiceNumber: 'INV-0041',
-            customer:      'Kwame Asante',
-            paymentMethod: 'Cash',
-            date:          '24 May 2026',
-            time:          '09:12 AM',
-            status:        'paid',
-            items: [
-                { name: 'Paracetamol 500mg',   qty: 2, unitPrice: 3.00,  lineTotal: 6.00  },
-                { name: 'Ibuprofen 400mg',      qty: 1, unitPrice: 4.00,  lineTotal: 4.00  },
-                { name: 'Omeprazole 20mg',      qty: 1, unitPrice: 8.00,  lineTotal: 8.00  },
-            ],
-            subtotal:    120.50,
-            totalAmount: 120.50,
-        },
-        'INV-0040': {
-            invoiceNumber: 'INV-0040',
-            customer:      'Abena Mensah',
-            paymentMethod: 'Mobile Money (MoMo)',
-            date:          '24 May 2026',
-            time:          '08:54 AM',
-            status:        'paid',
-            items: [
-                { name: 'Ciprofloxacin 500mg', qty: 1, unitPrice: 18.00, lineTotal: 18.00 },
-            ],
-            subtotal:    45.00,
-            totalAmount: 45.00,
-        },
-        'INV-0039': {
-            invoiceNumber: 'INV-0039',
-            customer:      'John Boateng',
-            paymentMethod: 'Cash',
-            date:          '24 May 2026',
-            time:          '08:18 AM',
-            status:        'pending',
-            items: [
-                { name: 'Amoxicillin 500mg',   qty: 2, unitPrice: 13.00, lineTotal: 26.00 },
-                { name: 'Metformin 850mg',      qty: 1, unitPrice: 10.00, lineTotal: 10.00 },
-                { name: 'Lisinopril 10mg',      qty: 1, unitPrice: 12.00, lineTotal: 12.00 },
-                { name: 'Atorvastatin 20mg',    qty: 1, unitPrice: 14.00, lineTotal: 14.00 },
-                { name: 'Paracetamol 500mg',    qty: 2, unitPrice: 3.00,  lineTotal: 6.00  },
-            ],
-            subtotal:    320.00,
-            totalAmount: 320.00,
-        },
-    };
+    // TODO: Load invoice details from the database (sales / sale_items).
+    //       Populated at runtime as sales are processed in this session.
+    var _demoInvoices = {};
 
 
     /* ============================================================

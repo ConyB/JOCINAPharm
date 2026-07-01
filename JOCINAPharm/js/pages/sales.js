@@ -434,20 +434,18 @@ var SalesPOS = (function () {
        VIEW RECEIPT — show receipt modal for an existing invoice
        ================================================================ */
     function viewReceipt(invoiceNo) {
-        /* In production: populate receipt from AJAX/server data.
-           For UI preview: use _lastInvoice or placeholder data. */
+        /* TODO: Load receipt data for invoiceNo from the database (AJAX/server).
+           Falls back to an empty receipt shell until DB integration lands;
+           _lastInvoice holds the most recent sale processed this session. */
 
         var data = _lastInvoice || {
-            invoiceNo:   invoiceNo,
-            customerName: 'Walk-in Customer',
-            payMethod:   'Cash',
-            items:       [
-                { name: 'Paracetamol 500mg',   unitPrice: 3.00,  qty: 2, lineTotal: 6.00  },
-                { name: 'Amoxicillin 500mg',   unitPrice: 13.00, qty: 1, lineTotal: 13.00 },
-            ],
-            subtotal:     19.00,
-            total:        19.00,
-            cashReceived: 20.00,
+            invoiceNo:    invoiceNo,
+            customerName: '',
+            payMethod:    'Cash',
+            items:        [],
+            subtotal:     0,
+            total:        0,
+            cashReceived: 0,
             date:         _today(),
             time:         _nowTime(),
         };
@@ -496,9 +494,9 @@ var SalesPOS = (function () {
             tbody.appendChild(tr);
         });
 
-        /* Cashier initials from session */
+        /* Cashier initials from the logged-in session (topnav avatar) */
         var initials = document.querySelector('.topnav-avatar-initials');
-        document.getElementById('rcptCashier').textContent = initials ? initials.textContent.trim() : 'AD';
+        document.getElementById('rcptCashier').textContent = initials ? initials.textContent.trim() : '';
     }
 
 

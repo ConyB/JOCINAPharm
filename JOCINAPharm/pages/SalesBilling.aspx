@@ -49,11 +49,11 @@
             </div>
             <div class="sb-stat-body">
                 <span class="sb-stat-label">Today's Sales</span>
-                <span class="sb-stat-value" id="statTodaySales">Ugx 485.50</span>
+                <%-- TODO: Load today's sales total from database --%>
+                <span class="sb-stat-value" id="statTodaySales">Ugx 0.00</span>
             </div>
-            <span class="sb-stat-trend sb-stat-trend--up">
-                <i class="fa-solid fa-arrow-trend-up"></i> +12%
-            </span>
+            <%-- TODO: Load trend indicator from database --%>
+            <span class="sb-stat-trend sb-stat-trend--up" id="statTodaySalesTrend"></span>
         </div>
 
         <div class="sb-stat-card">
@@ -62,11 +62,11 @@
             </div>
             <div class="sb-stat-body">
                 <span class="sb-stat-label">Total Invoices Today</span>
-                <span class="sb-stat-value" id="statTodayInvoices">3</span>
+                <%-- TODO: Load today's invoice count from database --%>
+                <span class="sb-stat-value" id="statTodayInvoices">0</span>
             </div>
-            <span class="sb-stat-trend sb-stat-trend--up">
-                <i class="fa-solid fa-arrow-trend-up"></i> +2
-            </span>
+            <%-- TODO: Load trend indicator from database --%>
+            <span class="sb-stat-trend sb-stat-trend--up" id="statTodayInvoicesTrend"></span>
         </div>
 
         <div class="sb-stat-card">
@@ -75,7 +75,8 @@
             </div>
             <div class="sb-stat-body">
                 <span class="sb-stat-label">Pending Payments</span>
-                <span class="sb-stat-value" id="statPending">1</span>
+                <%-- TODO: Load pending payment count from database --%>
+                <span class="sb-stat-value" id="statPending">0</span>
             </div>
             <span class="ps-badge ps-badge-warning" style="font-size:10px;">Action needed</span>
         </div>
@@ -86,7 +87,8 @@
             </div>
             <div class="sb-stat-body">
                 <span class="sb-stat-label">Completed Sales</span>
-                <span class="sb-stat-value" id="statCompleted">2</span>
+                <%-- TODO: Load completed sales count from database --%>
+                <span class="sb-stat-value" id="statCompleted">0</span>
             </div>
             <span class="ps-badge ps-badge-success" style="font-size:10px;">Paid</span>
         </div>
@@ -120,12 +122,7 @@
                      once the database is connected; hardcoded here to match seed data. --%>
                 <div class="sb-category-pills" id="categoryPills">
                     <button type="button" class="sb-cat-pill sb-cat-pill--active" data-cat="all">All</button>
-                    <button type="button" class="sb-cat-pill" data-cat="Analgesics">Analgesics</button>
-                    <button type="button" class="sb-cat-pill" data-cat="Antibiotics">Antibiotics</button>
-                    <button type="button" class="sb-cat-pill" data-cat="Diabetes">Diabetes</button>
-                    <button type="button" class="sb-cat-pill" data-cat="Cardiac">Cardiac</button>
-                    <button type="button" class="sb-cat-pill" data-cat="Gastro">Gastro</button>
-                    <button type="button" class="sb-cat-pill" data-cat="Cholesterol">Cholesterol</button>
+                    <%-- TODO: Render DISTINCT medicine categories from database as additional pills --%>
                 </div>
 
                 <%-- Search --%>
@@ -141,136 +138,11 @@
 
                 <%-- Medicine Grid --%>
                 <div class="sb-medicine-grid" id="medicineGrid">
-                    <%-- Populated by JS from SB.medicines data (mirrors DB seed) --%>
-
-                    <%-- === DB seed: MED-001 Paracetamol 500mg — Analgesics — Ugx 3.00 === --%>
-                    <button type="button"
-                            class="sb-medicine-tile"
-                            data-id="1"
-                            data-code="MED-001"
-                            data-name="Paracetamol 500mg"
-                            data-price="3.00"
-                            data-stock="450"
-                            data-unit="Tabs"
-                            data-cat="Analgesics"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Paracetamol 500mg</span>
-                        <span class="sb-tile-price">Ugx 3.00</span>
-                        <span class="sb-tile-stock">450 Tabs</span>
-                    </button>
-
-                    <%-- MED-002 Amoxicillin 500mg — Antibiotics — Ugx 13.00 — stock 12 (Low) --%>
-                    <button type="button"
-                            class="sb-medicine-tile sb-medicine-tile--low"
-                            data-id="2"
-                            data-code="MED-002"
-                            data-name="Amoxicillin 500mg"
-                            data-price="13.00"
-                            data-stock="12"
-                            data-unit="Caps"
-                            data-cat="Antibiotics"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Amoxicillin 500mg</span>
-                        <span class="sb-tile-price">Ugx 13.00</span>
-                        <span class="sb-tile-stock sb-tile-stock--low">12 Caps ⚠</span>
-                    </button>
-
-                    <%-- MED-003 Ibuprofen 400mg — Analgesics — Ugx 4.00 --%>
-                    <button type="button"
-                            class="sb-medicine-tile"
-                            data-id="3"
-                            data-code="MED-003"
-                            data-name="Ibuprofen 400mg"
-                            data-price="4.00"
-                            data-stock="200"
-                            data-unit="Tabs"
-                            data-cat="Analgesics"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Ibuprofen 400mg</span>
-                        <span class="sb-tile-price">Ugx 4.00</span>
-                        <span class="sb-tile-stock">200 Tabs</span>
-                    </button>
-
-                    <%-- MED-004 Metformin 850mg — Diabetes — Ugx 10.00 — stock 8 (Critical) --%>
-                    <button type="button"
-                            class="sb-medicine-tile sb-medicine-tile--critical"
-                            data-id="4"
-                            data-code="MED-004"
-                            data-name="Metformin 850mg"
-                            data-price="10.00"
-                            data-stock="8"
-                            data-unit="Tabs"
-                            data-cat="Diabetes"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Metformin 850mg</span>
-                        <span class="sb-tile-price">Ugx 10.00</span>
-                        <span class="sb-tile-stock sb-tile-stock--critical">8 Tabs ⚠</span>
-                    </button>
-
-                    <%-- MED-005 Lisinopril 10mg — Cardiac — Ugx 12.00 — stock 5 (Critical) --%>
-                    <button type="button"
-                            class="sb-medicine-tile sb-medicine-tile--critical"
-                            data-id="5"
-                            data-code="MED-005"
-                            data-name="Lisinopril 10mg"
-                            data-price="12.00"
-                            data-stock="5"
-                            data-unit="Tabs"
-                            data-cat="Cardiac"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Lisinopril 10mg</span>
-                        <span class="sb-tile-price">Ugx 12.00</span>
-                        <span class="sb-tile-stock sb-tile-stock--critical">5 Tabs ⚠</span>
-                    </button>
-
-                    <%-- MED-006 Omeprazole 20mg — Gastro — Ugx 8.00 --%>
-                    <button type="button"
-                            class="sb-medicine-tile"
-                            data-id="6"
-                            data-code="MED-006"
-                            data-name="Omeprazole 20mg"
-                            data-price="8.00"
-                            data-stock="120"
-                            data-unit="Caps"
-                            data-cat="Gastro"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Omeprazole 20mg</span>
-                        <span class="sb-tile-price">Ugx 8.00</span>
-                        <span class="sb-tile-stock">120 Caps</span>
-                    </button>
-
-                    <%-- MED-007 Atorvastatin 20mg — Cholesterol — Ugx 14.00 — stock 15 --%>
-                    <button type="button"
-                            class="sb-medicine-tile sb-medicine-tile--low"
-                            data-id="7"
-                            data-code="MED-007"
-                            data-name="Atorvastatin 20mg"
-                            data-price="14.00"
-                            data-stock="15"
-                            data-unit="Tabs"
-                            data-cat="Cholesterol"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Atorvastatin 20mg</span>
-                        <span class="sb-tile-price">Ugx 14.00</span>
-                        <span class="sb-tile-stock sb-tile-stock--low">15 Tabs ⚠</span>
-                    </button>
-
-                    <%-- MED-008 Ciprofloxacin 500mg — Antibiotics — Ugx 18.00 --%>
-                    <button type="button"
-                            class="sb-medicine-tile"
-                            data-id="8"
-                            data-code="MED-008"
-                            data-name="Ciprofloxacin 500mg"
-                            data-price="18.00"
-                            data-stock="80"
-                            data-unit="Tabs"
-                            data-cat="Antibiotics"
-                            onclick="SB.addToCart(this)">
-                        <span class="sb-tile-name">Ciprofloxacin 500mg</span>
-                        <span class="sb-tile-price">Ugx 18.00</span>
-                        <span class="sb-tile-stock">80 Tabs</span>
-                    </button>
-
+                    <%-- TODO: Render medicine tiles from database (medicines table).
+                         Each tile requires: data-id, data-code, data-name,
+                         data-price, data-stock, data-unit, data-cat, and a
+                         --low / --critical / --outofstock class modifier based
+                         on stock_quantity vs. reorder thresholds. --%>
                 </div>
                 <%-- /sb-medicine-grid --%>
             </div>
@@ -333,89 +205,7 @@
                             </tr>
                         </thead>
                         <tbody id="todaySalesTbody">
-                            <%-- Seed rows (mirrors DB seed data) --%>
-                            <tr data-status="paid">
-                                <td><span class="sb-invoice-num">INV-0041</span></td>
-                                <td>Kwame Asante</td>
-                                <td>3</td>
-                                <td class="text-end fw-semibold">Ugx 120.50</td>
-                                <td class="sb-time-col">09:12 AM</td>
-                                <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
-                                <td><span class="ps-badge ps-badge-success">paid</span></td>
-                                <td class="text-center">
-                                    <div class="sb-action-group">
-                                        <button type="button"
-                                                class="ps-btn ps-btn-icon ps-btn-outline"
-                                                title="View invoice"
-                                                onclick="SB.viewInvoice('INV-0041')">
-                                            <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                        </button>
-                                        <button type="button"
-                                                class="ps-btn ps-btn-icon ps-btn-outline"
-                                                title="Print receipt"
-                                                onclick="SB.printInvoice('INV-0041')">
-                                            <i class="fa-solid fa-print" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr data-status="paid">
-                                <td><span class="sb-invoice-num">INV-0040</span></td>
-                                <td>Abena Mensah</td>
-                                <td>1</td>
-                                <td class="text-end fw-semibold">Ugx 45.00</td>
-                                <td class="sb-time-col">08:54 AM</td>
-                                <td><span class="sb-pay-method sb-pay-method--momo">MoMo</span></td>
-                                <td><span class="ps-badge ps-badge-success">paid</span></td>
-                                <td class="text-center">
-                                    <div class="sb-action-group">
-                                        <button type="button"
-                                                class="ps-btn ps-btn-icon ps-btn-outline"
-                                                title="View invoice"
-                                                onclick="SB.viewInvoice('INV-0040')">
-                                            <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                        </button>
-                                        <button type="button"
-                                                class="ps-btn ps-btn-icon ps-btn-outline"
-                                                title="Print receipt"
-                                                onclick="SB.printInvoice('INV-0040')">
-                                            <i class="fa-solid fa-print" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr data-status="pending">
-                                <td><span class="sb-invoice-num">INV-0039</span></td>
-                                <td>John Boateng</td>
-                                <td>5</td>
-                                <td class="text-end fw-semibold">Ugx 320.00</td>
-                                <td class="sb-time-col">08:18 AM</td>
-                                <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
-                                <td><span class="ps-badge ps-badge-warning">pending</span></td>
-                                <td class="text-center">
-                                    <div class="sb-action-group">
-                                        <button type="button"
-                                                class="ps-btn ps-btn-icon ps-btn-outline"
-                                                title="View invoice"
-                                                onclick="SB.viewInvoice('INV-0039')">
-                                            <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                        </button>
-                                        <button type="button"
-                                                class="ps-btn ps-btn-primary ps-btn-sm"
-                                                title="Mark as paid"
-                                                onclick="SB.markPaid('INV-0039', this)">
-                                            <i class="fa-solid fa-check" aria-hidden="true"></i>
-                                            Mark Paid
-                                        </button>
-                                        <button type="button"
-                                                class="ps-btn ps-btn-icon ps-btn-outline sb-btn-cancel"
-                                                title="Cancel sale"
-                                                onclick="SB.cancelSale('INV-0039', this)">
-                                            <i class="fa-solid fa-ban" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <%-- TODO: Render today's sales rows from database (sales table). --%>
                         </tbody>
                     </table>
                 </div>
@@ -465,12 +255,8 @@
                          If the typed name has no matching option, customer_id stays
                          empty -> sales.customer_id = NULL (walk-in), per schema default. --%>
                     <datalist id="customerSuggestions">
-                        <%-- DB seed customers (customers table) --%>
-                        <option value="Kwame Asante" data-customer-id="1" />
-                        <option value="Abena Mensah" data-customer-id="2" />
-                        <option value="John Boateng" data-customer-id="3" />
-                        <option value="Mary Osei" data-customer-id="4" />
-                        <option value="Samuel Darko" data-customer-id="5" />
+                        <%-- TODO: Render customer suggestions from database (customers table)
+                             as <option value="full_name" data-customer-id="customer_id" />. --%>
                     </datalist>
                     <input type="hidden" id="customerIdHidden" value="" />
                 </div>
@@ -754,55 +540,8 @@
                             </tr>
                         </thead>
                         <tbody id="historyTbody">
-                            <%-- Populated by JS / postback --%>
-                            <tr data-status="paid">
-                                <td><span class="sb-invoice-num">INV-0041</span></td>
-                                <td>Kwame Asante</td>
-                                <td>3</td>
-                                <td class="text-end">Ugx 120.50</td>
-                                <td class="text-end fw-semibold">Ugx 120.50</td>
-                                <td>24 May 2026</td>
-                                <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
-                                <td><span class="ps-badge ps-badge-success">paid</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="ps-btn ps-btn-icon ps-btn-outline"
-                                            title="View" onclick="SB.viewInvoice('INV-0041')">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr data-status="paid">
-                                <td><span class="sb-invoice-num">INV-0040</span></td>
-                                <td>Abena Mensah</td>
-                                <td>1</td>
-                                <td class="text-end">Ugx 45.00</td>
-                                <td class="text-end fw-semibold">Ugx 45.00</td>
-                                <td>24 May 2026</td>
-                                <td><span class="sb-pay-method sb-pay-method--momo">MoMo</span></td>
-                                <td><span class="ps-badge ps-badge-success">paid</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="ps-btn ps-btn-icon ps-btn-outline"
-                                            title="View" onclick="SB.viewInvoice('INV-0040')">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr data-status="pending">
-                                <td><span class="sb-invoice-num">INV-0039</span></td>
-                                <td>John Boateng</td>
-                                <td>5</td>
-                                <td class="text-end">Ugx 320.00</td>
-                                <td class="text-end fw-semibold">Ugx 320.00</td>
-                                <td>24 May 2026</td>
-                                <td><span class="sb-pay-method sb-pay-method--cash">Cash</span></td>
-                                <td><span class="ps-badge ps-badge-warning">pending</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="ps-btn ps-btn-icon ps-btn-outline"
-                                            title="View" onclick="SB.viewInvoice('INV-0039')">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <%-- TODO: Render sales history rows from database (sales table),
+                                 filtered by the selected date range / status and paged server-side. --%>
                         </tbody>
                     </table>
                 </div>
